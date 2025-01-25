@@ -1,0 +1,21 @@
+{
+  "name": "asta-mietportal",
+  "version": "1.0.0",
+  "description": "Mietportal für AStA HKA",
+  "author": "Kai Weigelt",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "laravel-vite-plugin": "^1.2.0",
+    "sass": "1.77.6",
+    "vite": "^6.0.11"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.3"
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  }
+}
