@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="15a82e4c-bcb1-4b94-97a4-b9a48a3c9e28" name="Local PHP8.4 Deployment" url="https://asta-mietportal.dev.localhost/">
+        <fileTransfer accessType="LOCAL" port="0" />
+      </webServer>
+    </option>
+  </component>
+</project>
