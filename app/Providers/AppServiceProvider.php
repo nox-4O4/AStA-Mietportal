@@ -2,9 +2,9 @@
 
 	namespace App\Providers;
 
+	use Auth;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
-	use Livewire\Livewire;
 
 	class AppServiceProvider extends ServiceProvider {
 		/**
@@ -18,8 +18,7 @@
 		 * Bootstrap any application services.
 		 */
 		public function boot(): void {
-			Livewire::forceAssetInjection(); // TODO remove once login and password reset pages are livewire components
-
+			Auth::provider('app', fn($app, array $config) => $app->make(UserProvider::class, ['model' => $config['model']]));
 			Password::defaults(Password::default()->rules('not_regex:/asta/i'));
 		}
 	}

@@ -13,7 +13,7 @@
 		|
 		*/
 
-		'class_namespace' => 'App\\Livewire',
+		'class_namespace' => 'App\\Http\\Components',
 
 		/*
 		|---------------------------------------------------------------------------
@@ -26,7 +26,7 @@
 		|
 		*/
 
-		'view_path' => resource_path('views'),
+		'view_path' => resource_path('views/components'),
 
 		/*
 		|---------------------------------------------------------------------------

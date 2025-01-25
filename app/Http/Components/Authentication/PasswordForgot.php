@@ -1,0 +1,34 @@
+<?php
+
+	namespace App\Http\Components\Authentication;
+
+	use Illuminate\Support\Facades\Password;
+	use Livewire\Attributes\Layout;
+	use Livewire\Attributes\Validate;
+	use Livewire\Component;
+
+	#[Layout('layouts.login')]
+	class PasswordForgot extends Component {
+		#[Validate('required|string|email:strict')]
+		public string $email = '';
+
+		/**
+		 * Send a password reset link to the provided email address.
+		 */
+		public function sendPasswordResetLink(): void {
+			$this->validate();
+
+			$status = Password::sendResetLink($this->only('email'));
+
+			switch($status) {
+				case Password::RESET_LINK_SENT:
+				case Password::INVALID_USER: // same message for successfull password reset and invalid user to prevent e-mail address disclosure of registered users (only prevents trivial case; they can still exploit the throttle mechanism or use a timing attack)
+					session()->flash('status', __(Password::RESET_LINK_SENT));
+					$this->redirectRoute('login', navigate: true);
+					break;
+
+				default:
+					$this->addError('email', __($status));
+			}
+		}
+	}

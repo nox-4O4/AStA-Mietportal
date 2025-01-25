@@ -11,6 +11,7 @@ Das Mietportal für den AStA HKA.
 * Composer-Pakete installieren: `composer install`
 * Frontend-Assets generieren: `npm ci && npm run build`
 * Datenbank initialisieren `php artisan migrate`
+* Cronjob einrichten: `* * * * * php artisan schedule:run`
 
 ### Aktualisierung
 
@@ -25,8 +26,8 @@ Weitere Optionen sind hier beschrieben: https://laravel.com/docs/11.x/configurat
 
 ## Entwicklung
 
-* Composer-Pakete installieren: `composer install`
-* npm-Pakete installieren: `npm i`
+* Lokale Datenbank (MariaDB, MySQL) muss vorhanden sein
+* Anleitung fürs initiale Deployment befolgen
 * Zum Ausführen und Debuggen bevorzugt einen lokalen Apache-Webserver nutzen. Quick & Dirty-Alternative: `php artisan serve` (nutzt den PHP-Build-In Webserver)
 
 ### Assets generieren

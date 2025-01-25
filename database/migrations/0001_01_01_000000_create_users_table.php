@@ -19,6 +19,7 @@
 				$table->string('password');
 				$table->integer('role')->default(UserRole::OPERATOR);
 				$table->boolean('enabled')->default(true);
+				$table->timestamp('last_login')->nullable();
 				$table->rememberToken();
 				$table->timestamps();
 			});

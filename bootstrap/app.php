@@ -11,7 +11,7 @@
 		                  health:   '/up',
 	                  )
 	                  ->withMiddleware(function (Middleware $middleware) {
-		                  //
+		                  $middleware->trustHosts(); // defaults to trusting host specified in app.url config
 	                  })
 	                  ->withExceptions(function (Exceptions $exceptions) {
 		                  //
