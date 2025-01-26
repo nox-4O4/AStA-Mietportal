@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Http\Components;
+	namespace App\Http\Components\Dashboard;
 
 	use Livewire\Attributes\Computed;
 	use Livewire\Component;

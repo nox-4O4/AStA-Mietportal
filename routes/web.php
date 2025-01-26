@@ -3,8 +3,8 @@
 	use App\Http\Components\Authentication\Login;
 	use App\Http\Components\Authentication\PasswordForgot;
 	use App\Http\Components\Authentication\PasswordReset;
-	use App\Http\Components\Orders;
-	use App\Http\Components\Profile;
+	use App\Http\Components\Dashboard\Orders;
+	use App\Http\Components\Dashboard\Profile;
 	use App\Http\Controllers\Logout;
 	use Illuminate\Support\Facades\Route;
 

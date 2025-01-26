@@ -11,7 +11,7 @@
                 <li>
                     <a href="/orders" class="p-2 d-flex justify-content-between align-items-baseline" wire:navigate wire:current="active">
                         <span><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</span>
-                        <livewire:order-count-badge />
+                        <livewire:dashboard.order-count-badge />
                     </a>
                 </li>
                 <li><a href="/items" class="p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-box"></i>&nbsp;Artikel</a></li>
