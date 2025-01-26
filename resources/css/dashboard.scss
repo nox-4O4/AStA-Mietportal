@@ -14,10 +14,18 @@ html, body {
 
 $breadcrumb-divider: quote(">");
 
-/* same width for mobile and desktop sidebar */
+/* sidebar fixed */
 $offcanvas-horizontal-width: 300px;
-.offcanvas-start {
-  width: var(--bs-offcanvas-width);
+.sidebar {
+  width: var(--bs-offcanvas-width); // same width for mobile and desktop sidebar
+  z-index: 100; // sidebar shadow should be above top bar in desktop view
+
+  &.show {
+    z-index: var(--bs-offcanvas-zindex); // reset zindex to bootstrap value when sidebar is visible in mobile view
+  }
+}
+.topbar {
+  z-index: 50; // otherwise form inputs are above shadow
 }
 
 .dashboard-content {
@@ -32,12 +40,16 @@ $offcanvas-horizontal-width: 300px;
   }
 
   li {
-    + li, ul {
+    + li, ul, &.border-top {
       border-top: var(--bs-border-width) solid var(--bs-border-color);
     }
 
     a:hover, a.active {
       background: #f2f2f2;
+    }
+
+    a.active {
+      font-weight: 500;
     }
 
     a i {
