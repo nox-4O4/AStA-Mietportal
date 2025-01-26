@@ -190,14 +190,15 @@
 		*/
 
 		'attributes' => [
-			'username'              => 'Benutzername',
-			'email'                 => 'E-Mail-Adresse',
-			'rememberme'            => 'Eingeloggt bleiben',
-			'forename'              => 'Vorname',
-			'surname'               => 'Nachname',
-			'password'              => 'Passwort',
-			'password_confirmation' => 'Passwortbestätigung',
-			'password_current'      => 'Aktuelles Passwort',
-			'role'                  => 'Rolle',
+			'username'                => 'Benutzername',
+			'email'                   => 'E-Mail-Adresse',
+			'rememberme'              => 'Eingeloggt bleiben',
+			'forename'                => 'Vorname',
+			'surname'                 => 'Nachname',
+			'password'                => 'Passwort',
+			'currentPassword'         => 'Aktuelles Passwort',
+			'newPassword'             => 'Neues Passwort',
+			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
+			'role'                    => 'Rolle',
 		]
 	];
