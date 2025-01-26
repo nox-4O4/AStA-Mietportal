@@ -33,14 +33,5 @@
 
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
-
-			/* TODO currently needed for dashboard
-			 * possible fixes:
-			 * a) make dashboard a livewire component
-			 * b) inject scripts only on dashboard
-			 * c) change dashboard to not use livewire directives
-			 * this might by resolved automatically when only livewire components use dashboard component
-			 */
-			\Livewire\Livewire::forceAssetInjection();
 		}
 	}

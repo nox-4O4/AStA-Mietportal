@@ -1,8 +1,8 @@
-<x-dashboard>
-    <x-slot:breadcrumbs>
-        <li class="breadcrumb-item"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</li>
-        <li class="breadcrumb-item">Übersicht</li>
-    </x-slot:breadcrumbs>
+<x-slot:breadcrumbs>
+    <li class="breadcrumb-item"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</li>
+    <li class="breadcrumb-item">Übersicht</li>
+</x-slot:breadcrumbs>
 
+<div>
     Hier sind Bestellungen.
-</x-dashboard>
+</div>
