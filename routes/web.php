@@ -9,12 +9,14 @@
 	Route::group(['middleware' => 'guest'], function () {
 		Route::get('/login', Login::class)->name('login');
 		Route::get('/reset-password', PasswordForgot::class)->name('password.forgot');
-		Route::get('/reset-password/{token}', PasswordReset::class)->name('password.reset'); // route name is used for password link generation
+		Route::get('/reset-password/{token}', PasswordReset::class)->name('password.reset');
 	});
 
 	// logout route is outside of auth middleware to prevent users from being redirected to logout route on login when they called /logout while not authenticated
 	Route::get('logout', [Logout::class, 'action'])->name('logout');
 
 	Route::group(['middleware' => 'auth'], function () {
-		Route::get('/', fn() => "<a href=/logout>Logout</a>")->name('dashboard');
+		Route::get('/orders', fn() => view('components.orders'))->name('orders');
 	});
+
+	Route::get('/', fn() => 'Das hier ist der Shop. <a href="' . route('login') . '">Zum Dashboard</a>')->name('shop');

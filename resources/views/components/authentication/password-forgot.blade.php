@@ -11,6 +11,6 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100 mb-2">Absenden</button>
-        <a href="/login" class="btn btn-outline-secondary w-100" wire:navigate>Zurück zum Login</a>
+        <a href="{{route('login')}}" class="btn btn-outline-secondary w-100" wire:navigate>Zurück zum Login</a>
     </form>
 </div>

@@ -4,9 +4,11 @@
 
 	use Illuminate\Support\Facades\Password;
 	use Livewire\Attributes\Layout;
+	use Livewire\Attributes\Title;
 	use Livewire\Attributes\Validate;
 	use Livewire\Component;
 
+	#[Title('Passwort vergessen')]
 	#[Layout('layouts.login')]
 	class PasswordForgot extends Component {
 		#[Validate('required|string|email:strict')]

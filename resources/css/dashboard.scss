@@ -1,0 +1,54 @@
+/* common */
+
+html, body {
+  height: 100%;
+}
+
+/* login forms */
+
+.login-container {
+  max-width: 500px;
+}
+
+/* dashboard view */
+
+$breadcrumb-divider: quote(">");
+
+/* same width for mobile and desktop sidebar */
+$offcanvas-horizontal-width: 300px;
+.offcanvas-start {
+  width: var(--bs-offcanvas-width);
+}
+
+.dashboard-content {
+  max-width: 1400px;
+}
+
+/* navitem styling */
+.side-nav {
+  a {
+    color: var(--bs-body-color);
+    text-decoration: none;
+  }
+
+  li {
+    + li, ul {
+      border-top: var(--bs-border-width) solid var(--bs-border-color);
+    }
+
+    a:hover, a.active {
+      background: #f2f2f2;
+    }
+
+    a i {
+      width: 25px;
+      text-align: center;
+    }
+  }
+}
+
+/* enlarge toggle button to make easier to touch on mobile */
+.sidebar-toggler {
+  font-size: 1.5rem;
+  line-height: 0;
+}

@@ -121,4 +121,7 @@
 			'store'  => env('APP_MAINTENANCE_STORE', 'database'),
 		],
 
+		'dashboard' => [
+			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'orders'),
+		],
 	];

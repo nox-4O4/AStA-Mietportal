@@ -2,7 +2,11 @@
 
 	namespace App\Providers;
 
+	use App\Enums\UserRole;
+	use App\Models\User;
 	use Auth;
+	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
 
@@ -18,7 +22,25 @@
 		 * Bootstrap any application services.
 		 */
 		public function boot(): void {
+			// register custom auth provider
 			Auth::provider('app', fn($app, array $config) => $app->make(UserProvider::class, ['model' => $config['model']]));
+
+			// adjust password defaults
 			Password::defaults(Password::default()->rules('not_regex:/asta/i'));
+
+			// register auth policies and gates
+			Gate::define('manage-users', fn(User $user) => $user->role == UserRole::ADMIN);
+
+			// default routes for authenticated / unauthenticated requests
+			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
+
+			/* TODO currently needed for dashboard
+			 * possible fixes:
+			 * a) make dashboard a livewire component
+			 * b) inject scripts only on dashboard
+			 * c) change dashboard to not use livewire directives
+			 * this might by resolved automatically when only livewire components use dashboard component
+			 */
+			\Livewire\Livewire::forceAssetInjection();
 		}
 	}

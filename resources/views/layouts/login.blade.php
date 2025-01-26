@@ -1,4 +1,4 @@
-@extends('layouts.default')
+@extends('layouts.base')
 
 @section('content')
     <div class="min-vh-100 d-flex justify-content-center align-items-center">

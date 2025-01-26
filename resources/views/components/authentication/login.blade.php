@@ -29,6 +29,6 @@
         @error('form.login')<p class="text-danger small">{{ $message }}</p>@enderror
 
         <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
-        <a href="/reset-password" class="btn btn-outline-danger w-100" wire:navigate>Passwort vergessen?</a>
+        <a href="{{route('password.forgot')}}" class="btn btn-outline-danger w-100" wire:navigate>Passwort vergessen?</a>
     </form>
 </div>

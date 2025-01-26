@@ -9,10 +9,12 @@
 	use Illuminate\Validation\Rules\Password as PasswordRule;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
+	use Livewire\Attributes\Title;
 	use Livewire\Attributes\Url;
 	use Livewire\Attributes\Validate;
 	use Livewire\Component;
 
+	#[Title('Passwort zurücksetzen')]
 	#[Layout('layouts.login')]
 	class PasswordReset extends Component {
 

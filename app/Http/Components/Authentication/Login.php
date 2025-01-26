@@ -5,8 +5,10 @@
 	use App\Http\Forms\LoginForm;
 	use Illuminate\Support\Facades\Session;
 	use Livewire\Attributes\Layout;
+	use Livewire\Attributes\Title;
 	use Livewire\Component;
 
+	#[Title('Login')]
 	#[Layout('layouts.login')]
 	class Login extends Component {
 		public LoginForm $form;
@@ -18,6 +20,6 @@
 
 			Session::regenerate();
 
-			$this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+			$this->redirectIntended(default: route(config('app.dashboard.defaultRoute'), absolute: false), navigate: true);
 		}
 	}
