@@ -10,7 +10,7 @@
         <div class="row mb-3">
             <label for="forename" class="col-sm-3 col-xl-2 col-form-label">Vorname</label>
             <div class="col">
-                <input class="form-control @error('forename')is-invalid @enderror" id="forename" wire:model="forename">
+                <input class="form-control @error('forename')is-invalid @enderror" id="forename" wire:model="forename" required>
                 @error('forename')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -19,7 +19,7 @@
         <div class="row mb-3">
             <label for="surname" class="col-sm-3 col-xl-2 col-form-label">Nachname</label>
             <div class="col">
-                <input class="form-control @error('surname')is-invalid @enderror" id="surname" wire:model="surname">
+                <input class="form-control @error('surname')is-invalid @enderror" id="surname" wire:model="surname" required>
                 @error('surname')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -28,7 +28,7 @@
         <div class="row mb-3">
             <label for="email" class="col-sm-3 col-xl-2 col-form-label">E-Mail-Adresse</label>
             <div class="col">
-                <input type="email" class="form-control @error('email')is-invalid @enderror" id="email" wire:model="email">
+                <input type="email" class="form-control @error('email')is-invalid @enderror" id="email" wire:model="email" required>
                 @error('email')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -38,7 +38,7 @@
             <label for="username" class="col-sm-3 col-xl-2 col-form-label">Benutzername</label>
             <div class="col">
                 @can('manage-users')
-                    <input class="form-control @error('username')is-invalid @enderror" id="username" wire:model="username">
+                    <input class="form-control @error('username')is-invalid @enderror" id="username" wire:model="username" required>
                     @error('username')
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
@@ -71,7 +71,7 @@
         <div class="row mb-3">
             <label for="new_password" class="col-sm-3 col-xl-2 col-form-label">Neues Passwort</label>
             <div class="col">
-                <input type="password" class="form-control @error('newPassword')is-invalid @enderror" id="new_password" autocomplete="new-password" wire:model.blur="newPassword">
+                <input type="password" class="form-control @error('newPassword')is-invalid @enderror" id="new_password" autocomplete="new-password" wire:model.blur="newPassword" required>
                 @error('newPassword')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -80,7 +80,7 @@
         <div class="row mb-3">
             <label for="new_password_confirmation" class="col-sm-3 col-xl-2 col-form-label">Neues Passwort wiederholen</label>
             <div class="col">
-                <input type="password" class="form-control @error('newPasswordConfirmation')is-invalid @enderror" id="new_password_confirmation" autocomplete="new-password" wire:model.blur="newPasswordConfirmation">
+                <input type="password" class="form-control @error('newPasswordConfirmation')is-invalid @enderror" id="new_password_confirmation" autocomplete="new-password" wire:model.blur="newPasswordConfirmation" required>
                 @error('newPasswordConfirmation')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
@@ -89,7 +89,7 @@
         <div class="row mb-3">
             <label for="current_password" class="col-sm-3 col-xl-2 col-form-label">Aktuelles Passwort bestätigen</label>
             <div class="col">
-                <input type="password" class="form-control @error('currentPassword')is-invalid @enderror" id="current_password" autocomplete="current-password" wire:model="currentPassword">
+                <input type="password" class="form-control @error('currentPassword')is-invalid @enderror" id="current_password" autocomplete="current-password" wire:model="currentPassword" required>
                 @error('currentPassword')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror

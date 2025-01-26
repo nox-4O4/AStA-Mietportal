@@ -10,20 +10,26 @@
 
         <div class="mb-3">
             <label for="username" class="form-label">Benutzername</label>
-            <input class="form-control" id="username" autocomplete="username" required @if(!$errors->has('form.login'))autofocus @endif wire:model="form.username">
-
-            @error('form.username')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+            <input class="form-control @error('form.username')is-invalid @enderror" id="username" autocomplete="username" required @if(!$errors->has('form.login'))autofocus @endif wire:model="form.username">
+            @error('form.username')
+            <div class="invalid-feedback">{{$message}}</div>
+            @enderror
         </div>
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" autocomplete="current-password" @error('form.login')autofocus @enderror required wire:model="form.password">
+            <input type="password" class="form-control @error('form.password')is-invalid @enderror" id="password" autocomplete="current-password" @error('form.login')autofocus @enderror required wire:model="form.password">
 
-            @error('form.password')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+            @error('form.password')
+            <div class="invalid-feedback">{{$message}}</div>
+            @enderror
         </div>
         <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="rememberme" wire:model="form.rememberme">
+            <input type="checkbox" class="form-check-input @error('form.rememberme')is-invalid @enderror" id="rememberme" wire:model="form.rememberme">
             <label class="form-check-label" for="rememberme">Eingeloggt bleiben</label>
-            @error('form.rememberme')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+
+            @error('form.rememberme')
+            <div class="invalid-feedback">{{$message}}</div>
+            @enderror
         </div>
 
         @error('form.login')<p class="text-danger small">{{ $message }}</p>@enderror

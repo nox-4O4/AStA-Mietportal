@@ -31,7 +31,7 @@
 		public string $password = '';
 
 		#[Validate]
-		public string $password_confirmation = '';
+		public string $passwordConfirmation = '';
 
 		/**
 		 * Performs a password reset.
@@ -73,10 +73,10 @@
 
 		protected function rules(): array {
 			return [
-				'token'                 => 'required',
-				'email'                 => ['required', 'string', 'email:strict'],
-				'password'              => ['required', 'string', PasswordRule::default()],
-				'password_confirmation' => ['required', 'string', 'confirmed:password'],
+				'token'                => 'required',
+				'email'                => ['required', 'string', 'email:strict'],
+				'password'             => ['required', 'string', PasswordRule::default()],
+				'passwordConfirmation' => ['required', 'string', 'confirmed:password'],
 			];
 		}
 	}

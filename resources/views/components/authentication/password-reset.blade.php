@@ -14,15 +14,19 @@
 
             <div class="mb-3">
                 <label for="password" class="form-label">Neues Passwort</label>
-                <input class="form-control" id="password" autocomplete="new-password" wire:model.blur="password" type="password" autofocus required
-                       x-on:input="document.getElementById('password_confirmation').value !== '' && $wire.set('password_confirmation', document.getElementById('password_confirmation').value)" {{-- force trigger validation for confirmation field --}}>
-                @error('password')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+                <input class="form-control @error('password')is-invalid @enderror" id="password" autocomplete="new-password" wire:model.blur="password" type="password" autofocus required
+                       x-on:input="document.getElementById('password_confirmation').value !== '' && $wire.set('passwordConfirmation', document.getElementById('password_confirmation').value)" {{-- force trigger validation for confirmation field --}}>
+                @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             <div class="mb-3">
                 <label for="password_confirmation" class="form-label">Passwort wiederholen</label>
-                <input class="form-control" id="password_confirmation" autocomplete="new-password" wire:model.blur="password_confirmation" type="password" autofocus required>
-                @error('password_confirmation')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+                <input class="form-control @error('passwordConfirmation')is-invalid @enderror" id="password_confirmation" autocomplete="new-password" wire:model.blur="passwordConfirmation" type="password" required>
+                @error('passwordConfirmation')
+                <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
 
             @session('error')

@@ -5,9 +5,13 @@
 
         <div class="mb-3">
             <label for="email" class="form-label">E-Mail-Adresse</label>
-            <input class="form-control" id="email" autocomplete="email" wire:model="email" type="email" autofocus>
+            <input class="form-control @error('email')is-invalid @enderror" id="email" autocomplete="email" wire:model="email" type="email" autofocus>
 
-            @error('email')<p class="text-danger small mt-1">{{ $message }}</p>@enderror
+            @error('email')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
 
         <button type="submit" class="btn btn-primary w-100 mb-2">Absenden</button>

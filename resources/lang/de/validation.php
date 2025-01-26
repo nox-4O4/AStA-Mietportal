@@ -199,6 +199,7 @@
 			'currentPassword'         => 'Aktuelles Passwort',
 			'newPassword'             => 'Neues Passwort',
 			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
+			'passwordConfirmation'    => 'Passwortbestätigung',
 			'role'                    => 'Rolle',
 		]
 	];
