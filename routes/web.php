@@ -5,6 +5,8 @@
 	use App\Http\Components\Authentication\PasswordReset;
 	use App\Http\Components\Dashboard\Orders;
 	use App\Http\Components\Dashboard\Profile;
+	use App\Http\Components\Dashboard\UserDetail;
+	use App\Http\Components\Dashboard\UserList;
 	use App\Http\Controllers\Logout;
 	use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,11 @@
 	Route::group(['middleware' => 'auth'], function () {
 		Route::get('/orders', Orders::class)->name('orders');
 		Route::get('/profile', Profile::class)->name('profile');
+
+		Route::group(['middleware' => 'can:manage-users'], function () {
+			Route::get('/users', UserList::class)->name('users.list');
+			Route::get('/users/{user}', UserDetail::class)->name('users.edit');
+		});
 	});
 
 	Route::get('/', fn() => 'Das hier ist der Shop. <a href="' . route('login') . '">Zum Dashboard</a>')->name('shop');

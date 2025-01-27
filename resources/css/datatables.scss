@@ -1,0 +1,61 @@
+.fancy-datatable > tbody > tr.odd td,
+.fancy-datatable tr.odd.parent + tr.child td.child {
+  background-color: rgba(0, 0, 0, .05) !important;
+}
+
+.fancy-datatable.table-hover tr:hover,
+.fancy-datatable.table-hover tr.parent:hover + tr.child {
+  background-color: rgba(0, 0, 0, 0.075) !important;
+}
+
+.slider {
+  display: none;
+}
+
+.fancy-datatable {
+  .control:before {
+    display: none !important; // hide default controls
+  }
+
+  tr {
+    vertical-align: middle;
+
+    .expand {
+      display: inline-block;
+    }
+
+    .restore {
+      display: none;
+    }
+
+    &.parent .expand {
+      display: none;
+    }
+
+    &.parent .restore {
+      display: inline-block;
+    }
+  }
+
+  > tbody > tr > td {
+    cursor: pointer; // clickable cursor when table expandable (only on parent rows)
+  }
+
+  .control[style*="display: none"],
+  .control[style*="display: none"] ~ td {
+    cursor: inherit; // default cursor when table not expandable
+  }
+
+  td {
+    &.control i { // makes sure control icons are the same width when opened and closed, otherwise table jerks when toggling state
+      width: 15px;
+      text-align: center;
+    }
+
+    .fa-xmark { // fix alignment with text and size compared with check icon
+      font-size: 1.1em;
+      position: relative;
+      top: 1px;
+    }
+  }
+}

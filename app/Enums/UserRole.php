@@ -12,4 +12,11 @@
 		 * An administrator can also edit users.
 		 */
 		case ADMIN = 2;
+
+		public function getDescription(): string {
+			return match ($this->value) {
+				self::OPERATOR->value => 'Mitarbeiter',
+				self::ADMIN->value    => 'Administrator',
+			};
+		}
 	}

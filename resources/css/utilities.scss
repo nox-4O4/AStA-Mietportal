@@ -1,3 +1,29 @@
 .min-w-0 {
   min-width: 0 !important;
 }
+
+.max-w-0 {
+  max-width: 0 !important;
+}
+
+.w-0 {
+  width: 0 !important;
+}
+
+.text-nowrap {
+  white-space: nowrap !important;
+}
+
+.text-left {
+  text-align: left !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

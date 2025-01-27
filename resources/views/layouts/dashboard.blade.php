@@ -25,7 +25,7 @@
                     </ul>
                 </li>
                 @can('manage-users')
-                    <li><a href="/users" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
+                    <li><a href="{{route('users.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
                 @endcan
                 <li><a href="/settings" class="px-4 py-2 d-block" wire:navigate wire:current="active">
                         <i class="fa-solid fa-gear"></i>&nbsp;Einstellungen

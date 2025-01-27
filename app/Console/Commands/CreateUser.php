@@ -5,7 +5,6 @@
 	use App\Enums\UserRole;
 	use App\Models\User;
 	use Illuminate\Console\Command;
-	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rule;
@@ -76,7 +75,7 @@
 			}
 			$username .= $increment;
 
-			DB::table('users')->insert(
+			new User(
 				[
 					'username' => $username,
 					'forename' => $forename,
@@ -85,7 +84,7 @@
 					'password' => Hash::make($password),
 					'role'     => UserRole::ADMIN,
 				]
-			);
+			)->save();
 
 			$this->info('User created successfully. Your username is: ' . $username);
 		}
