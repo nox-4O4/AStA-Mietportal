@@ -24,6 +24,7 @@ $offcanvas-horizontal-width: 300px;
     z-index: var(--bs-offcanvas-zindex); // reset zindex to bootstrap value when sidebar is visible in mobile view
   }
 }
+
 .topbar {
   z-index: 50; // otherwise form inputs are above shadow
 }
@@ -63,4 +64,12 @@ $offcanvas-horizontal-width: 300px;
 .sidebar-toggler {
   font-size: 1.5rem;
   line-height: 0;
+}
+
+.brand-small {
+  background-image: url('../../public/img/asta_logo.png');
+  background-size: contain;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-position: center;
 }

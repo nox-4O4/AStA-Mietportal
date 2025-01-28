@@ -3,9 +3,11 @@
 @section('content')
     <div class="container-fluid p-0 d-flex h-100">
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto">
-            <a href="/" class="navbar-brand p-4 pb-2 mb-3">
-                <img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo">
-            </a>
+            <div class="d-flex mb-3">
+                <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="/" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
+                <a href="/" class="navbar-brand brand-small flex-fill p-2 d-lg-none" wire:navigate></a>
+            </div>
             <ul class="side-nav nav flex-column mb-auto">
                 <li><a href="/" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-reply"></i>&nbsp;Zum Shop</a></li>
                 <li>
@@ -31,11 +33,10 @@
                         <i class="fa-solid fa-gear"></i>&nbsp;Einstellungen
                     </a>
                 </li>
-                <li><a href="/profile" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
-                <li><a href="{{route('logout')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Abmelden</a></li>
             </ul>
-            <ul class="d-lg-none side-nav nav flex-column">
-                <li class="border-top"><a href="#" class="p-4 py-3 d-block" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i>&nbsp;Menü schließen</a></li>
+            <ul class="side-nav nav flex-column">
+                <li><a href="{{route('profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
+                <li><a href="{{route('logout')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Abmelden</a></li>
             </ul>
         </div>
 
