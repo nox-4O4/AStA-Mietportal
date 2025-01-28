@@ -4,7 +4,7 @@
     <div class="container-fluid p-0 d-flex h-100">
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto">
             <div class="d-flex mb-3">
-                <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
                 <a href="/" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
                 <a href="/" class="navbar-brand brand-small flex-fill p-2 d-lg-none" wire:navigate></a>
             </div>
@@ -59,4 +59,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // quick & dirty workaround for stale (cached) open menu when navigating back
+        // manually remove elements and hide menu
+        if (document.getElementsByClassName('offcanvas-backdrop').length) {
+            for (const item of document.getElementsByClassName('offcanvas-backdrop'))
+                item.remove()
+            document.body.removeAttribute('style')
+            sidebar.classList.remove('show')
+            sidebar.removeAttribute('aria-modal')
+            sidebar.removeAttribute('role')
+        }
+    </script>
 @endsection
