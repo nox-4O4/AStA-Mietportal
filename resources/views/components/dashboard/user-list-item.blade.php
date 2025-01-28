@@ -7,14 +7,14 @@
     <th data-responsive-priority="70">E-Mail-Adresse</th>
     <th data-responsive-priority="60">Rolle</th>
     <th data-responsive-priority="50" class="text-left">Aktiv</th>
-    <th data-responsive-priority="20" data-orderable="false" data-searchable="false">&nbsp;</th>
+    <th data-responsive-priority="20" data-orderable="false" data-searchable="false" data-width="0px">&nbsp;</th>
 @else
     <td>{{$element->username}}</td>
     <td>{{$element->forename}}</td>
     <td>{{$element->surname}}</td>
     <td>{{$element->email}}</td>
     <td>{{$element->role->getDescription()}}</td>
-    <td data-sort="{{(int)$element->enabled}}" class="text-left" data-filter="{{$element->enabled ? 'aktiv' : ''}}">
+    <td data-sort="{{(int)!$element->enabled}}" class="text-left" data-filter="{{$element->enabled ? 'aktiv' : ''}}">
         @if($element->enabled)
             <i class="fa-solid fa-check text-success"></i>&nbsp;Ja
         @else
