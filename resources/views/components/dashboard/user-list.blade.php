@@ -6,5 +6,5 @@
 <div>
     <h1 class="mb-4">Benutzerverwaltung</h1>
 
-    <x-data-table :elements="$this->users" item-component="dashboard.user-list-item" />
+    <livewire:data-table :elements="$this->users" item-component="dashboard.user-list-item" />
 </div>

@@ -1,2 +1,5 @@
-// noinspection ES6UnusedImports
-import * as bootstrap from 'bootstrap'
+export * from 'bootstrap'
+export * from './LivewireExtensions'
+import CreateDataTable from './DataTableFactory.js';
+
+window.CreateDataTable = CreateDataTable
