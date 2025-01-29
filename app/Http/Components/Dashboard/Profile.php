@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard;
 
 	use App\Models\User;
+	use App\Traits\TrimWhitespaces;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rule;
@@ -14,6 +15,14 @@
 	#[Title('Profil')]
 	#[Layout('layouts.dashboard')]
 	class Profile extends Component {
+		use TrimWhitespaces;
+
+		protected array $trimWhitespacesExcept = [
+			'currentPassword',
+			'newPassword',
+			'newPasswordConfirmation',
+		];
+
 		public string $forename;
 		public string $surname;
 		public string $email;

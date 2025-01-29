@@ -1,3 +1,8 @@
+.form-control:read-only { // same as :disabled style. read-only is used by livewire during form requests
+  background-color: var(--bs-secondary-bg);
+  opacity: 1;
+}
+
 .min-w-0 {
   min-width: 0 !important;
 }

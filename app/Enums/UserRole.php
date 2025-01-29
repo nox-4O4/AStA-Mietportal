@@ -13,10 +13,18 @@
 		 */
 		case ADMIN = 2;
 
+		// TODO migrate this to attributes as soon as there are more roles
 		public function getDescription(): string {
 			return match ($this->value) {
 				self::OPERATOR->value => 'Mitarbeiter',
 				self::ADMIN->value    => 'Administrator',
+			};
+		}
+
+		public function getExplanation(): string {
+			return match ($this->value) {
+				self::OPERATOR->value => 'Mitarbeiter können Bestellungen und Artikel verwalten sowie Einstellungen vornehmen.',
+				self::ADMIN->value    => 'Administratoren können zusätzlich Benutzer verwalten.',
 			};
 		}
 	}

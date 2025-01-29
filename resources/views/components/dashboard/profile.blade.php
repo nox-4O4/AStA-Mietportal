@@ -48,19 +48,21 @@
                 @endcan
             </div>
         </div>
-        <div class="d-flex align-items-baseline">
-            @if($errors->hasAny('forename','surname','email','username'))
-                <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
-            @else
-                <button type="submit"
-                        id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
-                        class="btn btn-outline-primary"
-                        wire:dirty.class="btn-primary"
-                        wire:dirty.class.remove="btn-outline-primary"
-                        wire:target="forename,surname,email,username">
-                    Änderungen übernehmen
-                </button>
-            @endif
+        <div class="row mb-3">
+            <div class="col">
+                @if($errors->hasAny('forename','surname','email','username'))
+                    <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
+                @else
+                    <button type="submit"
+                            id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
+                            class="btn btn-outline-primary"
+                            wire:dirty.class="btn-primary"
+                            wire:dirty.class.remove="btn-outline-primary"
+                            wire:target="forename,surname,email,username">
+                        Änderungen übernehmen
+                    </button>
+                @endif
+            </div>
         </div>
     </form>
 
@@ -96,7 +98,7 @@
             </div>
         </div>
         @session('message')
-            <div class="alert alert-success small mb-2 p-2">{{session('message')}}</div>
+        <div class="alert alert-success small mb-2 p-2">{{session('message')}}</div>
         @endsession
         <button type="submit" class="btn btn-outline-primary" wire:target="currentPassword" wire:dirty.class="btn-primary" wire:dirty.class.remove="btn-outline-primary">Passwort ändern</button>
     </form>

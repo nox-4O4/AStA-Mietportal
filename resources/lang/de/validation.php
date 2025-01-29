@@ -201,5 +201,6 @@
 			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
 			'passwordConfirmation'    => 'Passwortbestätigung',
 			'role'                    => 'Rolle',
+			'enabled'                 => 'Benutzer aktiv',
 		]
 	];

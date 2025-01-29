@@ -4,7 +4,9 @@
 
 	use App\Enums\UserRole;
 	use App\Notifications\ResetPassword;
+	use Carbon\Carbon;
 	use DateTime;
+	use DateTimeInterface;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
 	use Illuminate\Notifications\Notifiable;
 	use SensitiveParameter;
@@ -61,9 +63,10 @@
 		 */
 		protected function casts(): array {
 			return [
-				'password' => 'hashed',
-				'role'     => UserRole::class,
-				'enabled'  => 'bool',
+				'password'   => 'hashed',
+				'role'       => UserRole::class,
+				'enabled'    => 'bool',
+				'last_login' => 'datetime',
 			];
 		}
 
