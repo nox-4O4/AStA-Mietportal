@@ -63,7 +63,7 @@ export default id => {
     }).on('keydown', 'tbody > tr[tabindex]', function (e) {
         if (e.target.nodeName === 'TR' && (e.which === 13 || e.which === 32))
             $(this).trigger('click');
-    }).api().on('responsive-resize', function () {
+    }).api().on('responsive-resize draw', function () { // need draw event when changing pages (page event is too early)
         $(this).find('tbody tr').attr({'tabindex': $('.control').css('display') === 'none' ? -1 : 0});
     });
 }
