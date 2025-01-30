@@ -10,5 +10,5 @@
     <div class="alert alert-success">{{session('status')}}</div>
     @endsession
 
-    <livewire:data-table :elements="$this->users" item-component="dashboard.user-list-item" />
+    <livewire:data-table :elements="$this->users" item-component="dashboard.user-list-entry" />
 </div>

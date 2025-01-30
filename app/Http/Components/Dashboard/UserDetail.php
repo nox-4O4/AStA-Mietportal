@@ -84,7 +84,7 @@
 			$this->user->delete();
 
 			session()->flash('status', "Der Benutzer „{$this->username}“ wurde erfolgreich gelöscht.");
-			$this->redirectRoute('users.list', navigate: true);
+			$this->redirectRoute('dashboard.users.list', navigate: true);
 		}
 
 		public function sendPasswordMail(): void {

@@ -4,9 +4,7 @@
 
 	use App\Enums\UserRole;
 	use App\Notifications\ResetPassword;
-	use Carbon\Carbon;
 	use DateTime;
-	use DateTimeInterface;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
 	use Illuminate\Notifications\Notifiable;
 	use SensitiveParameter;

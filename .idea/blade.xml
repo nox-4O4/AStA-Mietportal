@@ -4,10 +4,10 @@
     <directives>
       <data directive="@append" />
       <data directive="@assets" />
-      <data directive="@auth" injection="true" prefix="&lt;?php&#10;if(auth()-&gt;guard(" suffix=")-&gt;check()): ?&gt;" />
+      <data directive="@auth" injection="true" prefix="&lt;?php if(auth()-&gt;guard(" suffix=")-&gt;check()): ?&gt;" />
       <data directive="@aware" injection="true" prefix="&lt;?php $attributes = $attributes-&gt;exceptProps(" suffix="); ?&gt;" />
-      <data directive="@break" injection="true" prefix="&lt;?php&#10;if(" suffix=") break; ?&gt;" />
-      <data directive="@can" injection="true" prefix="&lt;?php&#10;if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;check(" suffix=")): ?&gt;" />
+      <data directive="@break" injection="true" prefix="&lt;?php if(" suffix=") break; ?&gt;" />
+      <data directive="@can" injection="true" prefix="&lt;?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;check(" suffix=")): ?&gt;" />
       <data directive="@canany" injection="true" prefix="&lt;?php&#10;if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;any(" suffix=")): ?&gt;" />
       <data directive="@cannot" injection="true" prefix="&lt;?php&#10;if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;denies(" suffix=")): ?&gt;" />
       <data directive="@case" injection="true" prefix="&lt;?php&#10;case (" suffix="): ?&gt;" />
@@ -93,6 +93,7 @@
       <data directive="@livewireScripts" />
       <data directive="@livewireStyles" />
       <data directive="@method" injection="true" prefix="&lt;?php&#10;echo method_field(" suffix="); ?&gt;" />
+      <data directive="@money" injection="true" prefix="number_format(\$x=(" suffix="), fmod(\$x, 1) ? 2 : 0, ',', '.') . mb_chr(0x202f, 'UTF-8') . '€'" />
       <data directive="@once" />
       <data directive="@overwrite" />
       <data directive="@parent" />
@@ -127,8 +128,8 @@
       <data directive="@vite" injection="true" prefix="&lt;?php echo vite_func(" suffix="); ?&gt;" />
       <data directive="@viteReactRefresh" />
       <data directive="@vitereactrefresh" />
-      <data directive="@while" injection="true" prefix="&lt;?php&#10;while(" suffix="): ?&gt;" />
-      <data directive="@yield" injection="true" prefix="&lt;?php&#10;echo $__env-&gt;yieldContent(" suffix="); ?&gt;" />
+      <data directive="@while" injection="true" prefix="&lt;?php while(" suffix="): ?&gt;" />
+      <data directive="@yield" injection="true" prefix="&lt;?php echo $__env-&gt;yieldContent(" suffix="); ?&gt;" />
     </directives>
   </component>
 </project>

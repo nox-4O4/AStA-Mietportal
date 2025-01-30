@@ -1,20 +1,27 @@
-.fancy-datatable > tbody > tr.odd td,
-.fancy-datatable tr.odd.parent + tr.child td.child {
-  background-color: rgba(0, 0, 0, .05) !important;
-}
-
-.fancy-datatable.table-hover tr:hover,
-.fancy-datatable.table-hover tr.parent:hover + tr.child {
-  background-color: rgba(0, 0, 0, 0.075) !important;
-}
-
-.slider {
-  display: none;
-}
-
 .fancy-datatable {
-  .control:before {
-    display: none !important; // hide default controls
+  // make hover rows darker
+  &.table-hover tr:hover,
+  &.table-hover tr.parent:hover + tr.child {
+    background-color: rgba(0, 0, 0, 0.075) !important;
+  }
+
+  > tbody {
+    > tr {
+      // make odd parent rows and their children darker
+      &:nth-child(odd of :not(.child)) td, &.parent:nth-child(odd of :not(.child)) + tr.child td.child {
+        background-color: rgba(0, 0, 0, .05) !important;
+      }
+
+      &:not(.child) {
+        > td {
+          cursor: pointer; // clickable cursor when table expandable (only on parent rows)
+        }
+
+        .detail-only {
+          display: none;
+        }
+      }
+    }
   }
 
   tr {
@@ -37,15 +44,6 @@
     }
   }
 
-  > tbody > tr > td {
-    cursor: pointer; // clickable cursor when table expandable (only on parent rows)
-  }
-
-  .control[style*="display: none"],
-  .control[style*="display: none"] ~ td {
-    cursor: inherit; // default cursor when table not expandable
-  }
-
   td {
     &.control i { // makes sure control icons are the same width when opened and closed, otherwise table jerks when toggling state
       width: 15px;
@@ -57,5 +55,24 @@
       position: relative;
       top: 1px;
     }
+
+    &.child {
+      .detail-hide {
+        display: none;
+      }
+    }
+  }
+
+  .control:before {
+    display: none !important; // hide default controls
+  }
+
+  .control[style*="display: none"],
+  .control[style*="display: none"] ~ td {
+    cursor: inherit; // default cursor when table not expandable
+  }
+
+  .slider {
+    display: none; // makes sure detail slider animates (otherwise slider is already visible when toggling)
   }
 }

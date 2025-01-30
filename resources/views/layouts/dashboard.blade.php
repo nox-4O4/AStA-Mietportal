@@ -5,18 +5,18 @@
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto">
             <div class="d-flex mb-3">
                 <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
-                <a href="/" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
-                <a href="/" class="navbar-brand brand-small flex-fill p-2 d-lg-none" wire:navigate></a>
+                <a href="{{route('shop')}}" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
+                <a href="{{route('shop')}}" class="navbar-brand brand-small flex-fill p-2 d-lg-none" wire:navigate></a>
             </div>
             <ul class="side-nav nav flex-column mb-auto">
-                <li><a href="/" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-reply"></i>&nbsp;Zum Shop</a></li>
+                <li><a href="{{route('shop')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-reply"></i>&nbsp;Zum Shop</a></li>
                 <li>
-                    <a href="/orders" class="px-4 py-2 d-flex justify-content-between align-items-baseline" wire:navigate wire:current="active">
+                    <a href="{{route('dashboard.orders')}}" class="px-4 py-2 d-flex justify-content-between align-items-baseline" wire:navigate wire:current="active">
                         <span><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</span>
                         <livewire:dashboard.order-count-badge />
                     </a>
                 </li>
-                <li><a href="/items" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-box"></i>&nbsp;Artikel</a></li>
+                <li><a href="{{route('dashboard.items.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-box"></i>&nbsp;Artikel</a></li>
                 <li>
                     <a href="#" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#reports" aria-expanded="false" aria-controls="reports">
                         <i class="fa-solid fa-chart-simple"></i>&nbsp;Berichte
@@ -27,7 +27,7 @@
                     </ul>
                 </li>
                 @can('manage-users')
-                    <li><a href="{{route('users.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
+                    <li><a href="{{route('dashboard.users.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
                 @endcan
                 <li><a href="/settings" class="px-4 py-2 d-block" wire:navigate wire:current="active">
                         <i class="fa-solid fa-gear"></i>&nbsp;Einstellungen
@@ -35,7 +35,7 @@
                 </li>
             </ul>
             <ul class="side-nav nav flex-column">
-                <li><a href="{{route('profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
+                <li><a href="{{route('dashboard.profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
                 <li><a href="{{route('logout')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Abmelden</a></li>
             </ul>
         </div>

@@ -1,6 +1,6 @@
 <x-slot:breadcrumbs>
     <li class="breadcrumb-item"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</li>
-    <li class="breadcrumb-item"><a href="{{route('users.list')}}" wire:navigate>Übersicht</a></li>
+    <li class="breadcrumb-item"><a href="{{route('dashboard.users.list')}}" wire:navigate>Übersicht</a></li>
     <li class="breadcrumb-item">Details zu „{{$username}}“</li> {{-- header is currently not dynamic (livewire won't update $username). To change that, see https://joshhanley.com.au/articles/how-to-structure-your-layout-file-for-livewire#:~:text=But%20what%20about%20the%20header%3F --}}
 </x-slot:breadcrumbs>
 

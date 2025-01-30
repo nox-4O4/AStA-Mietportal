@@ -11,7 +11,7 @@ export default id => {
         stateDuration: 0, // store indefinitely
         stateSaveParams: function (settings, data) {
             // only store page length
-            data.order = [];
+            data.order = element.data('order') ?? [];
             data.search.search = '';
             data.start = 0;
         },
@@ -27,15 +27,22 @@ export default id => {
                         if (!col.hidden)
                             return '';
 
-                        return `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                        <td class="ps-4 py-2 pe-1 w-0 text-nowrap">${col.title.trim()}:</td>
-                                        <td class="text-ellipsis max-w-0">${col.data}</td>
-                                    </tr>`;
+                        const title = document.createElement('div')
+                        title.innerHTML = col.title
+
+                        return title.innerText.trim() === ''
+                            ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
+                                <td colspan="2" class="px-4 py-2 text-ellipsis">${col.data}</td>
+                            </tr>`
+                            : `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
+                                <td class="ps-4 py-2 pe-1 w-0 text-nowrap">${col.title.trim()}:</td>
+                                <td class="text-ellipsis max-w-0">${col.data}</td>
+                            </tr>`;
                     }).join('');
 
                     return `<div class="slider">
-                                    <table class="w-100">${content}</table>
-                                </div>`;
+                                <table class="w-100">${content}</table>
+                            </div>`;
                 },
                 display: function (row, update, render) {
                     if (update && $(row.node()).hasClass('parent') || !update && !row.child.isShown()) { // show due to update or for the first time

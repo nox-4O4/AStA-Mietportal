@@ -6,6 +6,7 @@
 	use App\Models\User;
 	use Auth;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
@@ -33,5 +34,10 @@
 
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
+
+			Blade::directive('money', fn($expression) => <<<php
+				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . mb_chr(0x202f, 'UTF-8') . '€'?>
+				php
+			);
 		}
 	}

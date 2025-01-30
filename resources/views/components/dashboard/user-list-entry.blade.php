@@ -22,6 +22,9 @@
         @endif
     </td>
     <td>
-        <a href="{{route('users.edit', $element->id)}}" class="btn btn-outline-primary btn-sm" wire:navigate title="Benutzer bearbeiten"><i class="fa-solid fa-user-pen"></i></a>
+        <a href="{{route('dashboard.users.edit', $element->id)}}" class="btn btn-outline-primary btn-sm w-100 text-nowrap" wire:navigate title="Benutzer bearbeiten">
+            <i class="fa-solid fa-user-pen"></i>
+            <span class="detail-only">Bearbeiten</span>
+        </a>
     </td>
 @endif
