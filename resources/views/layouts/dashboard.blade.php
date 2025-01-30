@@ -52,7 +52,7 @@
                 </div>
             </nav>
 
-            <div class="p-3 pt-4 p-lg-5 flex-fill overflow-auto flex-grow-0">
+            <div class="p-3 pt-4 p-lg-5 flex-fill overflow-auto flex-grow-0" id="dashboard-content-container">
                 <div class="dashboard-content mx-auto">
                     {{$slot}}
                 </div>

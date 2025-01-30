@@ -1,6 +1,6 @@
 @assets
-<link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/r-3.0.3/datatables.min.css" integrity="sha384-0bu26ne7NEvEquG1f9uVHu4PPAgluEU2eNxlStLOQVlJncoJ3GcgR+IEcwzPRFb5" crossorigin="anonymous">
-<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/r-3.0.3/datatables.min.js" integrity="sha384-zptpTncqGLFjGATdLlLQcNmlcw73kGfOOIFLdsL8+wmpx8BdIfNBY4yoWxkdUy51" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/fh-4.0.1/r-3.0.3/datatables.min.css" integrity="sha384-da66bu6P8r0okiL41GigAdrH0vl8Q4dzVMWiMjj50mjIDUh8KIB4UOVKaxieAosy" crossorigin="anonymous">
+<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/fh-4.0.1/r-3.0.3/datatables.min.js" integrity="sha384-A4d9of2hRmPrBlPk1pQZLQMSG7/Uo3H0cZ1X0gMzIPON+P5/usUt1fK7oA9SU/8J" crossorigin="anonymous"></script>
 @endassets
 
 <div>
@@ -45,5 +45,6 @@
         // Remove stale markup to prevent flashing old table during refresh.
         // This script is executed at page load. Stale markup only exists then when the page was cached.
         document.getElementById('{{$id}}_wrapper')?.remove()
+        document.getElementsByClassName('dtfh-floatingparent-head')[0]?.remove()
     </script>
 </div>

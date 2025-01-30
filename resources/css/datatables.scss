@@ -76,3 +76,19 @@
     display: none; // makes sure detail slider animates (otherwise slider is already visible when toggling)
   }
 }
+
+// add some more space at the top of fixed header (variable is also used in JS for offset calculation)
+:root {
+  --fixed-table-header-offset: 15px;
+}
+
+.dtfh-floatingparent-head {
+  margin-top: calc(-1 * var(--fixed-table-header-offset));
+
+  &::before {
+    background-color: var(--bs-body-bg);
+    height: var(--fixed-table-header-offset);
+    content: '';
+    display: block;
+  }
+}
