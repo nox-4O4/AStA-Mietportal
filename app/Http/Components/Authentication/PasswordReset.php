@@ -44,7 +44,7 @@
 				function ($user) {
 					$user->forceFill([
 						                 'password'       => Hash::make($this->password),
-						                 'remember_token' => Str::random(60), // invalidate old remember me token
+						                 'remember_token' => null, // invalidate old remember me token
 					                 ])
 					     ->save();
 
@@ -68,7 +68,7 @@
 			if(is_null($user = Password::getUser($this->only('email'))) || !Password::getRepository()->exists($user, $this->token))
 				$this->addError('token', 'invalid');
 
-			return view('components.authentication.password-reset');
+			return view('components.authentication.password-reset')->with('user', $user);
 		}
 
 		protected function rules(): array {

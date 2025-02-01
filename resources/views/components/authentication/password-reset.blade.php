@@ -8,7 +8,7 @@
         <a href="{{route('login')}}" class="btn btn-primary w-100" wire:navigate>Zurück zum Login</a>
     @else
         <form wire:submit="resetPassword">
-            <legend>Passwort zurücksetzen</legend>
+            <legend>Passwort {{$user && !$user->password ? 'festlegen' : 'zurücksetzen'}}</legend>
 
             <input class="d-none" autocomplete="username">{{-- for accessibility, see https://goo.gl/9p2vKq --}}
 

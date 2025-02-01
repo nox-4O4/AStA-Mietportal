@@ -3,6 +3,7 @@
 	namespace App\Models;
 
 	use App\Enums\UserRole;
+	use App\Notifications\AccountCreated;
 	use App\Notifications\ResetPassword;
 	use DateTime;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,7 +14,7 @@
 	 * @property string   $forename
 	 * @property string   $surname
 	 * @property string   $email
-	 * @property string   $password
+	 * @property ?string  $password
 	 * @property UserRole $role
 	 * @property bool     $enabled
 	 * @property DateTime $last_login
@@ -69,6 +70,10 @@
 		}
 
 		public function sendPasswordResetNotification(#[SensitiveParameter] $token): void {
-			$this->notify(new ResetPassword($token));
+			if($this->password == null)
+				$this->notify(new AccountCreated($token, $this));
+
+			else
+				$this->notify(new ResetPassword($token, $this));
 		}
 	}

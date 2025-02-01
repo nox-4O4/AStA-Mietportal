@@ -6,17 +6,19 @@
 	use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 	use Illuminate\Notifications\Messages\MailMessage;
 
-	class ResetPassword extends ResetPasswordNotification {
+	class AccountCreated extends ResetPasswordNotification {
+
 		public function __construct(#[\SensitiveParameter] $token, private readonly User $user) { parent::__construct($token); }
 
 		protected function buildMailMessage($url) {
 			return (new MailMessage)
 				->markdown('mail.notification')
-				->subject('AStA-Mietportal: Zurücksetzen des Passworts')
+				->subject('AStA-Mietportal: Benutzeraccount angelegt')
 				->greeting("Hallo {$this->user->forename}!")
-				->line('Du erhältst diese Nachricht, da wir für deinene Account eine Anfrage zum Zurücksetzen des Passworts erhalten haben.')
-				->action('Passwort zurücksetzen', $url)
+				->line('Für dich wurde ein Benutzeraccount für das AStA-Mietportal erstellt.')
+				->line("Dein Benutzername lautet: {$this->user->username}")
+				->action('Passwort festlegen', $url)
 				->line('Dieser Link ist ' . config('auth.passwords.' . config('auth.defaults.passwords') . '.expire') . ' Minunten lang gültig.')
-				->line('Falls du das Zurücksetzen deines Passworts nicht angefragt hast, kannst du diese Nachricht löschen und brauchst nichts weiter zu machen.');
+				->line('Solltest du dein Passwort später festlegen wollen, kannst du dir mit der [Passwort vergessen](' . route('password.forgot') . ')-Funktion jederzeit eine neue Passwort-Reset-E-Mail zuschicken lassen.');
 		}
 	}

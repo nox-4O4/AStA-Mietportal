@@ -8,6 +8,7 @@
 	use App\Http\Components\Dashboard\ItemList;
 	use App\Http\Components\Dashboard\Dummy;
 	use App\Http\Components\Dashboard\Profile;
+	use App\Http\Components\Dashboard\UserCreate;
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
 	use App\Http\Controllers\Logout;
@@ -35,8 +36,8 @@
 
 		Route::group(['prefix' => '/groups', 'as' => '.groups'], function () {
 			Route::get('/', Dummy::class)->name('.list');
-			Route::get('/new', Dummy::class)->name('.create');
-			Route::get('/{group}', ItemGroupDetail::class)->name('.edit');
+			Route::get('/create', Dummy::class)->name('.create');
+			Route::get('/edit/{group}', ItemGroupDetail::class)->name('.edit');
 		});
 
 		Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
@@ -47,8 +48,8 @@
 
 		Route::group(['middleware' => 'can:manage-users', 'prefix' => '/users', 'as' => '.users'], function () {
 			Route::get('/', UserList::class)->name('.list');
-			Route::get('/new', Dummy::class)->name('.add');
-			Route::get('/{user}', UserDetail::class)->name('.edit');
+			Route::get('/create', UserCreate::class)->name('.create');
+			Route::get('/edit/{user}', UserDetail::class)->name('.edit');
 		});
 	});
 

@@ -16,7 +16,7 @@
 				$table->string('forename');
 				$table->string('surname');
 				$table->string('email')->unique();
-				$table->string('password');
+				$table->string('password')->nullable();
 				$table->integer('role')->default(UserRole::OPERATOR);
 				$table->boolean('enabled')->default(true);
 				$table->timestamp('last_login')->nullable();
