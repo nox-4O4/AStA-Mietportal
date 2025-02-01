@@ -27,6 +27,16 @@
 			'deposit',
 		];
 
+		protected static function booted(): void {
+			static::deleting(function ($item) {
+				// delete group when its last item gets deleted
+				if($item->itemGroup?->items()->whereNot('id', $item->id)->count() === 0)
+					$item->itemGroup->delete();
+
+				// TODO also delete item images when they are not referenced any more
+			});
+		}
+
 		protected function name(): Attribute {
 			return Attribute::make(fn(string $value) => $this->itemGroup ? "{$this->itemGroup->name} - $value" : $value);
 		}

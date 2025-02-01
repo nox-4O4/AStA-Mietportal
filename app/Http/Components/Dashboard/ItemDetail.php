@@ -87,4 +87,11 @@
 				$this->item->update();
 			}
 		}
+
+		public function delete() {
+			$this->item->delete();
+
+			session()->flash('status.success', "Der Artikel „{$this->item->name}“ wurde gelöscht.");
+			$this->redirectRoute('dashboard.items.list', navigate: true);
+		}
 	}
