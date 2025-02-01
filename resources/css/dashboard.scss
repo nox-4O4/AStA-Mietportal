@@ -73,3 +73,15 @@ $offcanvas-horizontal-width: 300px;
   background-repeat: no-repeat;
   background-position: center;
 }
+
+/* make sure that text wrapping in breadcrumbs remains indented and does not wrap to separator level */
+.breadcrumb-item {
+  & + & {
+    padding-left: calc(var(--bs-breadcrumb-item-padding-x) + 1rem) !important;
+  }
+
+  & + &::before {
+    margin-left: -1rem;
+    padding-right: 0 !important;
+  }
+}
