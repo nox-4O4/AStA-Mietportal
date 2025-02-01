@@ -1,15 +1,13 @@
 <x-slot:breadcrumbs>
     <li class="breadcrumb-item"><i class="fa-solid fa-object-group"></i>&nbsp;Artikelgruppen</li>
     <li class="breadcrumb-item"><a href="{{route('dashboard.groups.list')}}" wire:navigate>Übersicht</a></li>
-    <li class="breadcrumb-item">Artikelgruppe „{{$group->name}}“ bearbeiten</li>
+    <li class="breadcrumb-item">Artikelgruppe anlegen</li>
 </x-slot:breadcrumbs>
 
 <div>
-    <h1 class="mb-4">Gruppe „{{$group->name}}“ bearbeiten</h1>
+    <h1 class="mb-4">Gruppe anlegen</h1>
 
-    <x-status-message />
-
-    <form wire:submit="updateGroup">
+    <form wire:submit="createGroup">
         <div class="row mb-3">
             <label for="name" class="col-sm-3 col-xl-2 col-form-label">Name</label>
             <div class="col">
@@ -38,32 +36,8 @@
 
         <div class="row mb-3">
             <div class="col">
-                @if($errors->hasAny('name','description'))
-                    <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
-                @else
-                    <button type="submit"
-                            id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
-                            class="btn btn-outline-primary"
-                            wire:dirty.class="btn-primary"
-                            wire:dirty.class.remove="btn-outline-primary"
-                            wire:target="name,description">
-                        Änderungen übernehmen
-                    </button>
-                @endif
+                <button type="submit" class="btn btn-primary">Gruppe anlegen</button>
             </div>
         </div>
     </form>
-
-    <div class="row">
-        <div class="col">
-            <button wire:click="deleteGroup" wire:confirm="Soll diese Artikelgruppe wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Gruppe löschen</button>
-            @if($group->items()->count())
-                <div class="form-text">In der Gruppe vorhandene Artikel werden nicht gelöscht. Es wird lediglich ihre Gruppierung aufgehoben. Der Artikelname ändert sich entsprechend.</div>
-            @endif
-        </div>
-    </div>
-
-    <h3 class="mb-3 mt-4">Artikel verwalten</h3>
-
-
 </div>

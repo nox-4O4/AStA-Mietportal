@@ -7,6 +7,8 @@
 <div>
     <h1 class="mb-4">Artikel „{{$item->name}}“ bearbeiten</h1>
 
+    <x-status-message />
+
     <form wire:submit="updateItem">
         <div class="row mb-3">
             <label for="name" class="col-sm-3 col-xl-2 col-form-label">Artikelname</label>
@@ -198,7 +200,7 @@
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
             </div>
-            @if($item->itemGroup)
+            @if($item->itemGroup && $this->itemGroup != 'new' && $this->itemGroup != 'none')
                 <div class="col-auto">
                     <a href="{{route('dashboard.groups.edit', $this->itemGroup)}}" class="btn btn-outline-primary text-nowrap" wire:navigate>
                         <i class="fa-solid fa-pen-to-square"></i>

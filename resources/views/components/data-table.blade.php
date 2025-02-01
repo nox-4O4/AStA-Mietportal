@@ -20,7 +20,7 @@
            wire:rendered="CreateDataTable(element.id)"
            wire:refresh-when-cached
            class="table table-hover responsive d-none fancy-datatable {{$class}}"
-           @if($elements->count() < 10)data-paging="false" @endif
+           @if($elements->count() <= 10)data-paging="false" @endif
             {!! collect($elementAttributes)->map(fn($value, $name) => $name . '="' . htmlentities($value) . '"')->join(' ') !!}>
         <thead>
         <tr>

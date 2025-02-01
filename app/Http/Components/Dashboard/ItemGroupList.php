@@ -14,6 +14,6 @@
 
 		#[Computed]
 		public function groups() {
-			return ItemGroup::all();
+			return ItemGroup::all()->sortBy('name');
 		}
 	}

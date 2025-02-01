@@ -8,5 +8,7 @@
 
     <x-status-message />
 
+    <a href="{{route('dashboard.groups.create')}}" wire:navigate class="btn btn-primary mb-3"><i class="fa-regular fa-square-plus"></i>&nbsp;Neue Gruppe anlegen</a>
+
     <livewire:data-table :elements="$this->groups" item-component="dashboard.item-group-list-entry" />
 </div>

@@ -4,6 +4,7 @@
 	use App\Http\Components\Authentication\PasswordForgot;
 	use App\Http\Components\Authentication\PasswordReset;
 	use App\Http\Components\Dashboard\ItemDetail;
+	use App\Http\Components\Dashboard\ItemGroupCreate;
 	use App\Http\Components\Dashboard\ItemGroupDetail;
 	use App\Http\Components\Dashboard\ItemGroupList;
 	use App\Http\Components\Dashboard\ItemList;
@@ -37,7 +38,7 @@
 
 		Route::group(['prefix' => '/groups', 'as' => '.groups'], function () {
 			Route::get('/', ItemGroupList::class)->name('.list');
-			Route::get('/create', Dummy::class)->name('.create');
+			Route::get('/create', ItemGroupCreate::class)->name('.create');
 			Route::get('/edit/{group}', ItemGroupDetail::class)->name('.edit');
 		});
 
