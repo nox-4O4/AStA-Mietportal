@@ -123,12 +123,9 @@
     <h3 class="mb-3 mt-4">Passwort zurücksetzen</h3>
     @if($enabled)
         <p>Sollte {{$forename}} das Passwort zu dem Benutzeraccount nicht mehr kennen, kannst du hier eine Passwort-Reset-E-Mail versenden.</p>
-        @session('mailSuccess')
-        <div class="alert alert-success">Es wurde eine E-Mail-Adresse zum Zurücksetzen des Passworts an „{{$email}}“ gesendet.</div>
-        @endsession
-        @session('mailError')
-        <div class="alert alert-danger">{{session('mailError')}}</div>
-        @endsession
+
+        <x-status-message />
+
         <form wire:submit="sendPasswordMail">
             <button type="submit" class="btn btn-primary">E-Mail an „{{$email}}“ senden</button>
         </form>

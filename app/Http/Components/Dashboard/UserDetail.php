@@ -83,7 +83,7 @@
 		public function deleteUser(): void {
 			$this->user->delete();
 
-			session()->flash('status', "Der Benutzer „{$this->username}“ wurde erfolgreich gelöscht.");
+			session()->flash('status.success', "Der Benutzer „{$this->username}“ wurde erfolgreich gelöscht.");
 			$this->redirectRoute('dashboard.users.list', navigate: true);
 		}
 
@@ -91,9 +91,9 @@
 			$status = Password::sendResetLink($this->only('email'));
 
 			if($status == Password::RESET_LINK_SENT) {
-				session()->flash('mailSuccess', 'Es wurde eine Passwort-Reset-E-Mail an den Benutzer gesendet.');
+				session()->flash('status.success', "Es wurde eine E-Mail zum Zurücksetzen des Passworts an „{$this->email}“ gesendet.");
 			} else {
-				session()->flash('mailError', __($status));
+				session()->flash('status.error', __($status));
 			}
 		}
 	}

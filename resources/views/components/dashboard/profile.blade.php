@@ -97,9 +97,9 @@
                 @enderror
             </div>
         </div>
-        @session('message')
-        <div class="alert alert-success small mb-2 p-2">{{session('message')}}</div>
-        @endsession
+
+        <x-status-message class="small p-2" />
+
         <button type="submit" class="btn btn-outline-primary" wire:target="currentPassword" wire:dirty.class="btn-primary" wire:dirty.class.remove="btn-outline-primary">Passwort ändern</button>
     </form>
 </div>

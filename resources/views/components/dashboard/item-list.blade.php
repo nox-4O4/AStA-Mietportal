@@ -6,9 +6,7 @@
 <div>
     <h1 class="mb-4">Artikel</h1>
 
-    @session('status')
-    <div class="alert alert-success">{{session('status')}}</div>
-    @endsession
+    <x-status-message />
 
     <livewire:data-table :elements="$this->items" item-component="dashboard.item-list-entry" :element-attributes='["data-order" => "[[ 1, \"asc\" ]]"]' />
 </div>

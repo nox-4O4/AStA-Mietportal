@@ -2,11 +2,7 @@
     <form wire:submit="login">
         <legend>Anmeldung im Mietservice-Portal</legend>
 
-        @session('status')
-        <div class="alert alert-primary">
-            {{session('status')}}
-        </div>
-        @endsession
+        <x-status-message />
 
         <div class="mb-3">
             <label for="username" class="form-label">Benutzername</label>

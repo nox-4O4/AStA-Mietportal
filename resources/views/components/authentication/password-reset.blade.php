@@ -29,12 +29,6 @@
                 @enderror
             </div>
 
-            @session('error')
-            <div class="alert alert-danger">
-                {{session('error')}}
-            </div>
-            @endsession
-
             <button type="submit" class="btn btn-primary w-100 mb-2">Absenden</button>
             <a href="{{route('login')}}" class="btn btn-outline-secondary w-100" wire:navigate>Zurück zum Login</a>
         </form>

@@ -77,7 +77,7 @@
 			      ->save();
 
 			$this->reset('newPassword', 'newPasswordConfirmation', 'currentPassword');
-			session()->flash('message', 'Dein Passwort wurde geändert.');
+			session()->flash('status.success', 'Dein Passwort wurde geändert.');
 		}
 
 		private function loadProfileData(): void {

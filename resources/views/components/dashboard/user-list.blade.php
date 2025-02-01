@@ -6,9 +6,7 @@
 <div>
     <h1 class="mb-4">Benutzerverwaltung</h1>
 
-    @session('status')
-    <div class="alert alert-success">{{session('status')}}</div>
-    @endsession
+    <x-status-message />
 
     <a href="{{route('dashboard.users.add')}}" wire:navigate class="btn btn-primary mb-3">Neuen Benutzer anlegen</a>
 
