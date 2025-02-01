@@ -8,6 +8,7 @@
 	use Illuminate\Support\Arr;
 	use Illuminate\Support\Collection;
 	use Illuminate\Validation\Rule;
+	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Component;
@@ -27,9 +28,6 @@
 		public int    $stock;
 		public float  $price;
 		public int    $deposit;
-
-		#[Locked]
-		public Collection $groups;
 		public int|string $itemGroup;
 
 		public function mount(Item $item) {
@@ -42,8 +40,12 @@
 			$this->stock       = $item->amount;
 			$this->price       = $item->price;
 			$this->deposit     = $item->deposit;
-			$this->groups      = ItemGroup::all()->sortBy('name');
 			$this->itemGroup   = $item->itemGroup?->id ?? 'none';
+		}
+
+		#[Computed]
+		public function groups(): Collection {
+			return ItemGroup::orderBy('name')->get();
 		}
 
 		public function render() {

@@ -8,5 +8,5 @@
 
     <x-status-message />
 
-    <livewire:data-table :elements="$this->items" item-component="dashboard.item-list-entry" :element-attributes='["data-order" => "[[ 1, \"asc\" ]]"]' />
+    <livewire:data-table :elements="$this->items" item-component="dashboard.item-list-entry" />{{-- to override default sorting, use :element-attributes='["data-order" => "[[ 1, \"asc\" ]]"]' --}}
 </div>

@@ -36,7 +36,7 @@
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
 
 			Blade::directive('money', fn($expression) => <<<php
-				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . mb_chr(0x202f, 'UTF-8') . '€'?>
+				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
 				php
 			);
 		}

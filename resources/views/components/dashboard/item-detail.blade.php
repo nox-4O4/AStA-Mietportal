@@ -191,7 +191,7 @@
                     <option value="none" class="text-italic">Nicht gruppieren</option>
                     <option value="new" class="text-italic">Neue Gruppe erstellen</option>
                     <optgroup label="Vorhandene Gruppen">
-                        @foreach($groups as $group)
+                        @foreach($this->groups() as $group)
                             <option value="{{$group->id}}">{{$group->name}}</option>
                         @endforeach
                     </optgroup>

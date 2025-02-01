@@ -14,6 +14,6 @@
 
 		#[Computed]
 		public function items() {
-			return Item::all();
+			return Item::all()->sortBy('name', SORT_NATURAL); // not using database for sorting as we want to get mutated name (containing optional group name) and use natural sort
 		}
 	}

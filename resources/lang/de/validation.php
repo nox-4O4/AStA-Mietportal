@@ -199,6 +199,7 @@
 			'forename'                => 'Vorname',
 			'keepStock'               => 'Bestand verwalten',
 			'name'                    => 'Name',
+			'newItem'                 => 'Neuer Artikel',
 			'newPassword'             => 'Neues Passwort',
 			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
 			'password'                => 'Passwort',

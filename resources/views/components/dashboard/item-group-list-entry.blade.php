@@ -9,7 +9,7 @@
     <td>{{$element->items()->count()}}</td>
     <td>
         <a href="{{route('dashboard.groups.edit', $element->id)}}" class="btn btn-outline-primary btn-sm text-nowrap w-100" wire:navigate title="Gruppe bearbeiten">
-            <i class="fa-regular fa-pen-to-square"></i>&nbsp;Bearbeiten
+            <i class="fa-solid fa-pen-to-square"></i>&nbsp;Bearbeiten
         </a>
     </td>
 @endif

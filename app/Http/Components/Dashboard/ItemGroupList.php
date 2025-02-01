@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard;
 
 	use App\Models\ItemGroup;
+	use Illuminate\Support\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
@@ -13,7 +14,7 @@
 	class ItemGroupList extends Component {
 
 		#[Computed]
-		public function groups() {
-			return ItemGroup::all()->sortBy('name');
+		public function groups(): Collection {
+			return ItemGroup::orderBy('name')->get();
 		}
 	}
