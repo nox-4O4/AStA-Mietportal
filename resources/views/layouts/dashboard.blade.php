@@ -17,13 +17,14 @@
                     </a>
                 </li>
                 <li><a href="{{route('dashboard.items.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-box"></i>&nbsp;Artikel</a></li>
+                <li><a href="{{route('dashboard.groups.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-object-group"></i>&nbsp;Artikelgruppen</a></li>
                 <li>
-                    <a href="#" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#reports" aria-expanded="false" aria-controls="reports">
+                    <a href="{{route('dashboard.reports')}}" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#reportsMenu" aria-expanded="false" aria-controls="reportsMenu">
                         <i class="fa-solid fa-chart-simple"></i>&nbsp;Berichte
                     </a>
-                    <ul id="reports" class="nav flex-column collapse" data-bs-parent="#sidebar" wire:current="show">
-                        <li><a href="/reports/availability" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-list-check"></i>&nbsp;Verfügbarkeiten</a></li>
-                        <li><a href="/reports/last-bookings" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Letzte Vermietungen</a></li>
+                    <ul id="reportsMenu" class="nav flex-column collapse" data-bs-parent="#sidebar" wire:current="show" href="{{route('dashboard.reports')}}">{{-- href needed for livewire current styling --}}
+                        <li><a href="{{route('dashboard.reports.availability')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-list-check"></i>&nbsp;Verfügbarkeiten</a></li>
+                        <li><a href="{{route('dashboard.reports.last-bookings')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Letzte Vermietungen</a></li>
                     </ul>
                 </li>
                 @can('manage-users')

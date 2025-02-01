@@ -31,6 +31,10 @@
 			return Attribute::make(fn(string $value) => $this->itemGroup ? "{$this->itemGroup->name} - $value" : $value);
 		}
 
+		public function rawName(): string {
+			return $this->attributes['name'];
+		}
+
 		public function itemGroup(): BelongsTo {
 			return $this->belongsTo(ItemGroup::class);
 		}

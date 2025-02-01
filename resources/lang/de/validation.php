@@ -190,17 +190,26 @@
 		*/
 
 		'attributes' => [
-			'username'                => 'Benutzername',
-			'email'                   => 'E-Mail-Adresse',
-			'rememberme'              => 'Eingeloggt bleiben',
-			'forename'                => 'Vorname',
-			'surname'                 => 'Nachname',
-			'password'                => 'Passwort',
+			'available'               => 'Verfügbar',
 			'currentPassword'         => 'Aktuelles Passwort',
+			'deposit'                 => 'Kaution',
+			'description'             => 'Beschreibung',
+			'email'                   => 'E-Mail-Adresse',
+			'enabled'                 => 'Benutzer aktiv',
+			'forename'                => 'Vorname',
+			'keepStock'               => 'Bestand verwalten',
+			'name'                    => 'Name',
 			'newPassword'             => 'Neues Passwort',
 			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
+			'password'                => 'Passwort',
 			'passwordConfirmation'    => 'Passwortbestätigung',
+			'price'                   => 'Preis',
+			'rememberme'              => 'Eingeloggt bleiben',
 			'role'                    => 'Rolle',
-			'enabled'                 => 'Benutzer aktiv',
+			'stock'                   => 'Bestand',
+			'surname'                 => 'Nachname',
+			'username'                => 'Benutzername',
+			'visible'                 => 'Sichtbar',
+			'itemGroup'               => 'Artikelgruppe',
 		]
 	];

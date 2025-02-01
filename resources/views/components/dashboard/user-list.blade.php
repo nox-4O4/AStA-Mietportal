@@ -10,5 +10,7 @@
     <div class="alert alert-success">{{session('status')}}</div>
     @endsession
 
+    <a href="{{route('dashboard.users.add')}}" wire:navigate class="btn btn-primary mb-3">Neuen Benutzer anlegen</a>
+
     <livewire:data-table :elements="$this->users" item-component="dashboard.user-list-entry" />
 </div>

@@ -1,4 +1,4 @@
-.form-control:read-only { // same as :disabled style. read-only is used by livewire during form requests
+.form-control:not(select):read-only { // same as :disabled style. read-only is used by livewire during form requests. select fields are always readonly
   background-color: var(--bs-secondary-bg);
   opacity: 1;
 }
@@ -31,4 +31,45 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+span.link {
+  @extend a;
+  cursor: pointer;
+}
+
+.autogrow-textarea { // based on https://css-tricks.com/the-cleanest-trick-for-autogrowing-textareas/
+  display: grid; // to position the elements on top of each other and have them both sized based on the tallest one's height
+
+  // constrain height and make container scroll when max height reached
+  max-height: 50vh;
+  overflow: auto;
+
+  // expand container as otherwise input focus border (shadow) will be hidden
+  margin: -0.25rem;
+  padding: 0.25rem;
+
+  // pseudo-element must match textareas in behavior and sizing
+  &::after {
+    content: attr(data-replicated-value) " "; // space prevents jumpy behaviour
+    white-space: pre-wrap; // match textarea behaviour
+    visibility: hidden; // hide dummy element
+
+    @extend .form-control; // extend styling from bootstrap (relevant for border and padding)
+  }
+
+  > textarea {
+    resize: none; // disallow manually resizing textarea as shrinking won't work with dummy element
+    overflow: hidden; // after horizontal resizing scrollbar sometimes appears
+  }
+
+  > textarea,
+  &::after {
+    grid-area: 1 / 1 / 2 / 2; // place on top of each other
+    overflow-wrap: anywhere; // prevent long words from breaking layout
+  }
 }

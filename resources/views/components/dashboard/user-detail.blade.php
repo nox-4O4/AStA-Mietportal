@@ -79,8 +79,8 @@
         <div class="row mb-3">
             <div class="col offset-sm-3 offset-xl-2">
                 <div class="form-check form-switch">
-                    <input class="form-check-input @error('enabled')is-invalid @enderror" type="checkbox" role="switch" id="flexSwitchCheckDefault" wire:model="enabled">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Benutzer aktiv</label>
+                    <input class="form-check-input @error('enabled')is-invalid @enderror" type="checkbox" role="switch" id="enabled" wire:model="enabled">
+                    <label class="form-check-label" for="enabled">Benutzer aktiv</label>
                     @error('enabled')
                     <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
                     @enderror

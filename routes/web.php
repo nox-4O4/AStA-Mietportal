@@ -3,13 +3,14 @@
 	use App\Http\Components\Authentication\Login;
 	use App\Http\Components\Authentication\PasswordForgot;
 	use App\Http\Components\Authentication\PasswordReset;
+	use App\Http\Components\Dashboard\ItemDetail;
+	use App\Http\Components\Dashboard\ItemGroupDetail;
 	use App\Http\Components\Dashboard\ItemList;
-	use App\Http\Components\Dashboard\Orders;
+	use App\Http\Components\Dashboard\Dummy;
 	use App\Http\Components\Dashboard\Profile;
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
 	use App\Http\Controllers\Logout;
-	use App\Models\Item;
 	use Illuminate\Support\Facades\Route;
 
 	Route::group(['middleware' => 'guest'], function () {
@@ -24,15 +25,30 @@
 	Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard'], function () {
 		Route::get('/', fn() => redirect()->route(config('app.dashboard.defaultRoute')));
 
-		Route::get('/orders', Orders::class)->name('.orders');
+		Route::get('/orders', Dummy::class)->name('.orders');
 		Route::get('/profile', Profile::class)->name('.profile');
 
-		Route::get('/items', ItemList::class)->name('.items.list');
-		Route::get('/items/{item}', fn(Item $item) => "Details zu $item->name")->name('.items.edit');
+		Route::group(['prefix' => '/items', 'as' => '.items'], function () {
+			Route::get('/', ItemList::class)->name('.list');
+			Route::get('/{item}', ItemDetail::class)->name('.edit');
+		});
 
-		Route::group(['middleware' => 'can:manage-users'], function () {
-			Route::get('/users', UserList::class)->name('.users.list');
-			Route::get('/users/{user}', UserDetail::class)->name('.users.edit');
+		Route::group(['prefix' => '/groups', 'as' => '.groups'], function () {
+			Route::get('/', Dummy::class)->name('.list');
+			Route::get('/new', Dummy::class)->name('.create');
+			Route::get('/{group}', ItemGroupDetail::class)->name('.edit');
+		});
+
+		Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
+			Route::get('/', fn() => redirect()->route('dashboard.reports.availability'));
+			Route::get('/availability', Dummy::class)->name('.availability');
+			Route::get('/last-bookings', Dummy::class)->name('.last-bookings');
+		});
+
+		Route::group(['middleware' => 'can:manage-users', 'prefix' => '/users', 'as' => '.users'], function () {
+			Route::get('/', UserList::class)->name('.list');
+			Route::get('/new', Dummy::class)->name('.add');
+			Route::get('/{user}', UserDetail::class)->name('.edit');
 		});
 	});
 

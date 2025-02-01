@@ -6,8 +6,8 @@
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
 
-	#[Title('Bestellungen')]
+	#[Title('Platzhalter')]
 	#[Layout('layouts.dashboard')]
-	class Orders extends Component {
+	class Dummy extends Component {
 
 	}
