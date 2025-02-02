@@ -11,6 +11,7 @@ Das Mietportal für den AStA HKA.
 * Composer-Pakete installieren: `composer install`
 * Frontend-Assets generieren: `npm ci && npm run build`
 * Datenbank initialisieren `php artisan migrate`
+* Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`
 * Cronjob einrichten: `* * * * * php artisan schedule:run`
 
 ### Aktualisierung

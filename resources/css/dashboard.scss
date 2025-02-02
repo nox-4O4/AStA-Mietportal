@@ -85,3 +85,16 @@ $offcanvas-horizontal-width: 300px;
     padding-right: 0 !important;
   }
 }
+
+.image-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+
+  img {
+    max-height: 100px;
+    max-width: 45%;
+  }
+}
+

@@ -2,33 +2,44 @@
 
 	namespace App\Http\Components\Dashboard;
 
+	use App\Models\Image;
 	use App\Models\Item;
 	use App\Models\ItemGroup;
 	use App\Traits\TrimWhitespaces;
 	use Illuminate\Support\Arr;
 	use Illuminate\Support\Collection;
+	use Illuminate\Support\Facades\Validator;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Component;
+	use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+	use Livewire\WithFileUploads;
 
 	#[Layout('layouts.dashboard')]
 	class ItemDetail extends Component {
-		use TrimWhitespaces;
+		use TrimWhitespaces, WithFileUploads;
+
+		const int IMAGE_UPLOAD_SIZE_LIMIT_MB = 2;
 
 		#[Locked]
 		public Item $item;
 
-		public string $name;
-		public string $description;
-		public bool   $available;
-		public bool   $visible;
-		public bool   $keepStock;
-		public int    $stock;
-		public float  $price;
-		public int    $deposit;
+		public string     $name;
+		public string     $description;
+		public bool       $available;
+		public bool       $visible;
+		public bool       $keepStock;
+		public int        $stock;
+		public float      $price;
+		public int        $deposit;
 		public int|string $itemGroup;
+
+		/**
+		 * @var array<TemporaryUploadedFile>
+		 */
+		public array $images = [];
 
 		public function mount(Item $item) {
 			$this->item        = $item;
@@ -41,6 +52,10 @@
 			$this->price       = $item->price;
 			$this->deposit     = $item->deposit;
 			$this->itemGroup   = $item->itemGroup?->id ?? 'none';
+		}
+
+		public function maxSize(): int {
+			return self::IMAGE_UPLOAD_SIZE_LIMIT_MB;
 		}
 
 		#[Computed]
@@ -95,5 +110,33 @@
 
 			session()->flash('status.success', "Der Artikel „{$this->item->name}“ wurde gelöscht.");
 			$this->redirectRoute('dashboard.items.list', navigate: true);
+		}
+
+		public function updatedImages() {
+			// we want to store any valid images and discard invalid images only.
+			// as laravels validator does not support extracting valid elements from an array if only part of the array was invalid, we have to build a separate rule for each image
+			$rules = $data = [];
+			foreach($this->images as $key => $image) {
+				$key               = (int) $key;
+				$rules["file$key"] = ['file', 'mimes:jpg,jpeg,png,webp', 'max:' . self::IMAGE_UPLOAD_SIZE_LIMIT_MB * 1024];
+				$data["file$key"]  = $image;
+			}
+			$this->images = [];
+
+			$validator = Validator::make($data, $rules);
+			foreach($validator->valid() as $image) {
+				$path = $image->store('itemImages', 'public');
+				new Image(['path' => $path, 'item_id' => $this->item->id])->save();
+			}
+
+			if($validator->failed()) {
+				$messageParts = [];
+				foreach($validator->errors()->getMessages() as $key => $error)
+					$messageParts[] = "„{$data[$key]->getClientOriginalName()}“ (" . implode('; ', $error) . ')';
+
+				session()->flash('images.error', 'Es konnten nicht alle Dateien verarbeitet werden. Bei folgenden Dateien sind Fehler aufgetreten: ' . implode(', ', $messageParts));
+			} else {
+				session()->flash('images.success', (count($data) > 1 ? 'Bilder' : 'Bild') . ' erfolgreich hinzugefügt.');
+			}
 		}
 	}

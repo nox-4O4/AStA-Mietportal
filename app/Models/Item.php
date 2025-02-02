@@ -3,18 +3,21 @@
 	namespace App\Models;
 
 	use Illuminate\Database\Eloquent\Casts\Attribute;
+	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
+	use Illuminate\Database\Eloquent\Relations\HasMany;
 
 	/**
-	 * @property string     $name
-	 * @property string     $description
-	 * @property int        $amount
-	 * @property bool       $available
-	 * @property bool       $visible
-	 * @property float      $price
-	 * @property float      $deposit
-	 * @property ?ItemGroup $itemGroup
+	 * @property string            $name
+	 * @property string            $description
+	 * @property int               $amount
+	 * @property bool              $available
+	 * @property bool              $visible
+	 * @property float             $price
+	 * @property float             $deposit
+	 * @property ?ItemGroup        $itemGroup
+	 * @property Collection<Image> $images
 	 */
 	class Item extends Model {
 		protected $fillable = [
@@ -47,6 +50,10 @@
 
 		public function itemGroup(): BelongsTo {
 			return $this->belongsTo(ItemGroup::class);
+		}
+
+		public function images(): HasMany {
+			return $this->hasMany(Image::class)->chaperone();
 		}
 
 		/**

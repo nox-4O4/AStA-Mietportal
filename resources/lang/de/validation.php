@@ -110,8 +110,8 @@
 		'missing'              => ':attribute darf nicht vorhanden sein.',
 		'missing_if'           => ':attribute darf nicht vorhanden sein, wenn :other dem Wert :value entspricht.',
 		'missing_unless'       => ':attribute darf nicht vorhanden sein, solange :other nicht dem Wert :value entspricht.',
-		'missing_with'         => ':attribute darf nicht vorhanden sein, wenn  :values angegeben ist.',
-		'missing_with_all'     => ':attribute darf nicht vorhanden sein, wenn  :values angegeben sind.',
+		'missing_with'         => ':attribute darf nicht vorhanden sein, wenn :values angegeben ist.',
+		'missing_with_all'     => ':attribute darf nicht vorhanden sein, wenn :values angegeben sind.',
 		'multiple_of'          => ':attribute  be a multiple of :value.',
 		'not_in'               => ':attribute darf nicht in den vorgegebenen Werten enthalten sein.',
 		'not_regex'            => ':attribute weist ein ungültiges Format auf.',
@@ -212,5 +212,6 @@
 			'username'                => 'Benutzername',
 			'visible'                 => 'Sichtbar',
 			'itemGroup'               => 'Artikelgruppe',
+			'file*'                   => 'Datei',
 		]
 	];

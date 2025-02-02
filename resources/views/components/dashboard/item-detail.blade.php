@@ -9,169 +9,211 @@
 
     <x-status-message />
 
-    <form wire:submit="updateItem">
-        <div class="row mb-3">
-            <label for="name" class="col-sm-3 col-xl-2 col-form-label">Artikelname</label>
-            <div class="col">
-                <input class="form-control @error('name')is-invalid @enderror" wire:model="name" id="name" required>
-                @error('name')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-                <div class="form-text">
-                    @if($item->itemGroup)
-                        Da der Artikel gruppiert ist, wird dem Artikelnamen der Gruppenname vorangestellt.
-                    @else
-                        Falls der Artikel gruppiert wird, wird dem Artikelnamen der Gruppenname vorangestellt.
-                    @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label for="description" class="col-sm-3 col-xl-2 col-form-label">Beschreibung</label>
-            <div class="col">
-                <div class="autogrow-textarea @error('description')is-invalid @enderror" data-replicated-value="{{$description}}">
-                    <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="description" rows="3" id="description" class="form-control @error('description')is-invalid @enderror"></textarea>
-                </div>
-                @error('description')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-                <div class="form-text">
-                    Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>(Link-Text)[<span class="link">https://url</span>]</code>.
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-1 mb-sm-3">
-            <label for="stock" class="col-auto col-sm-3 col-xl-2 col-form-label">Regulärer Bestand</label>
-            <div class="col col-sm-9 col-xl-8">
-                <div class="row">
-                    <div class="col-12 col-sm-4 col-xl-3">
-                        <input type="number" min="1" max="9999" required class="form-control @error('stock')is-invalid @enderror" id="stock" wire:model="stock" data-initial-stock="{{$stock ?: 1}}" @if(!$keepStock)disabled @endif>
-                    </div>
-                </div>
-                @error('stock')
-                <div class="row">
+    <div class="row">
+        <div class="col-xxl mb-4">
+            <form wire:submit="updateItem">
+                <div class="row mb-3">
+                    <label for="name" class="col-sm-3 col-xl-2 col-xxl-3 col-form-label">Artikelname</label>
                     <div class="col">
-                        <input class="is-invalid" type="hidden">
+                        <input class="form-control @error('name')is-invalid @enderror" wire:model="name" id="name" required>
+                        @error('name')
                         <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        <div class="form-text">
+                            @if($item->itemGroup)
+                                Da der Artikel gruppiert ist, wird dem Artikelnamen der Gruppenname vorangestellt.
+                            @else
+                                Falls der Artikel gruppiert wird, wird dem Artikelnamen der Gruppenname vorangestellt.
+                            @endif
+                        </div>
                     </div>
                 </div>
-                @enderror
-                <div class="row mt-1 d-none d-sm-flex">
+
+                <div class="row mb-3">
+                    <label for="description" class="col-sm-3 col-xl-2 col-xxl-3 col-form-label">Beschreibung</label>
+                    <div class="col">
+                        <div class="autogrow-textarea @error('description')is-invalid @enderror" data-replicated-value="{{$description}}">
+                            <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="description" rows="3" id="description" class="form-control @error('description')is-invalid @enderror"></textarea>
+                        </div>
+                        @error('description')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        <div class="form-text">
+                            Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>(Link-Text)[<span class="link">https://url</span>]</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-1 mb-sm-3">
+                    <label for="stock" class="col-auto col-sm-3 col-xl-2 col-xxl-3 col-form-label">Regulärer Bestand</label>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <input type="number" min="1" max="9999" required class="form-control @error('stock')is-invalid @enderror" id="stock" wire:model="stock" data-initial-stock="{{$stock ?: 1}}" @if(!$keepStock)disabled @endif>
+                            </div>
+                        </div>
+                        @error('stock')
+                        <div class="row">
+                            <div class="col">
+                                <input class="is-invalid" type="hidden">
+                                <div class="invalid-feedback">{{$message}}</div>
+                            </div>
+                        </div>
+                        @enderror
+                        <div class="row mt-1 d-none d-sm-flex">
+                            <div class="col">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input @error('keepStock')is-invalid @enderror" type="checkbox" role="switch" id="keepStock" wire:model="keepStock">
+                                    <label class="form-check-label" for="keepStock">Bestand verwalten</label>
+                                    @error('keepStock')
+                                    <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
+                                    @enderror
+                                </div>
+                                <script>
+                                    document.getElementById('keepStock').addEventListener('change', function () {
+                                        const stockInput = document.getElementById('stock')
+                                        stockInput.toggleAttribute('disabled', !this.checked)
+                                        stockInput.value = this.checked ? stockInput.dataset.initialStock : ''
+                                        stockInput.dispatchEvent(new InputEvent('input'))
+                                    })
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row d-sm-none mb-3">
                     <div class="col">
                         <div class="form-check form-switch">
-                            <input class="form-check-input @error('keepStock')is-invalid @enderror" type="checkbox" role="switch" id="keepStock" wire:model="keepStock">
+                            <input class="form-check-input @error('keepStock')is-invalid @enderror" type="checkbox" role="switch" wire:model="keepStock">
                             <label class="form-check-label" for="keepStock">Bestand verwalten</label>
                             @error('keepStock')
                             <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
                             @enderror
                         </div>
-                        <script>
-                            document.getElementById('keepStock').addEventListener('change', function () {
-                                const stockInput = document.getElementById('stock')
-                                stockInput.toggleAttribute('disabled', !this.checked)
-                                stockInput.value = this.checked ? stockInput.dataset.initialStock : ''
-                                stockInput.dispatchEvent(new InputEvent('input'))
-                            })
-                        </script>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row d-sm-none mb-3">
-            <div class="col">
-                <div class="form-check form-switch">
-                    <input class="form-check-input @error('keepStock')is-invalid @enderror" type="checkbox" role="switch" wire:model="keepStock">
-                    <label class="form-check-label" for="keepStock">Bestand verwalten</label>
-                    @error('keepStock')
-                    <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
-                    @enderror
+
+                <div class="row mb-3">
+                    <label for="price" class="col-3 col-xl-2 col-xxl-3 col-form-label">Preis</label>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="number" required min="0" max="9999" step="0.01" class="form-control @error('price')is-invalid @enderror" id="price" wire:model="price">
+                                    <span class="input-group-text">€</span>
+                                    @error('price')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="deposit" class="col-3 col-xl-2 col-xxl-3 col-form-label">Kaution</label>
+                    <div class="col">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="number" required min="0" max="9999" class="form-control @error('deposit')is-invalid @enderror" id="deposit" wire:model="deposit">
+                                    <span class="input-group-text">€</span>
+                                    @error('deposit')
+                                    <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input @error('available')is-invalid @enderror" type="checkbox" role="switch" id="available" wire:model="available">
+                            <label class="form-check-label" for="available">Artikel verfügbar</label>
+                            @error('available')
+                            <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input @error('visible')is-invalid @enderror" type="checkbox" role="switch" id="visible" wire:model="visible">
+                            <label class="form-check-label" for="visible">Artikel sichtbar</label>
+                            @error('visible')
+                            <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        @if($errors->hasAny('name','description','keepStock','stock','price','deposit','available','visible'))
+                            <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
+                        @else
+                            <button type="submit"
+                                    id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
+                                    class="btn btn-outline-primary"
+                                    wire:dirty.class="btn-primary"
+                                    wire:dirty.class.remove="btn-outline-primary"
+                                    wire:target="name,description,keepStock,stock,price,deposit,available,visible">
+                                Änderungen übernehmen
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col" x-data="{'requested': false}">
+                    @if($this->item->itemGroup?->items()->count() == 1)
+                        <div x-cloak x-show="requested" class="alert alert-warning small p-2 mb-2">Dies ist der einzige Artikel in der Gruppe „{{$this->item->itemGroup->name}}“. Beim Löschen des Artikels wird auch die Gruppe entfernt.</div>
+                        <button x-cloak x-show="requested" wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+
+                        <button x-show="!requested" @@click="requested=true" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+                    @else
+                        <button wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+                    @endif
                 </div>
             </div>
         </div>
 
-        <div class="row mb-3">
-            <label for="price" class="col-3 col-xl-2 col-form-label">Preis</label>
-            <div class="col col-sm-3 col-xl-2">
-                <div class="input-group">
-                    <input type="number" required min="0" max="9999" step="0.01" class="form-control @error('price')is-invalid @enderror" id="price" wire:model="price">
-                    <span class="input-group-text">€</span>
-                    @error('price')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
+        <div class="col-xxl mb-4">
+            <h3>Artikelbilder</h3>
 
-        <div class="row mb-3">
-            <label for="deposit" class="col-3 col-xl-2 col-form-label">Kaution</label>
-            <div class="col col-sm-3 col-xl-2">
-                <div class="input-group">
-                    <input type="number" required min="0" max="9999" class="form-control @error('deposit')is-invalid @enderror" id="deposit" wire:model="deposit">
-                    <span class="input-group-text">€</span>
-                    @error('deposit')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                <div class="form-check form-switch">
-                    <input class="form-check-input @error('available')is-invalid @enderror" type="checkbox" role="switch" id="available" wire:model="available">
-                    <label class="form-check-label" for="available">Artikel verfügbar</label>
-                    @error('available')
-                    <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                <div class="form-check form-switch">
-                    <input class="form-check-input @error('visible')is-invalid @enderror" type="checkbox" role="switch" id="visible" wire:model="visible">
-                    <label class="form-check-label" for="visible">Artikel sichtbar</label>
-                    @error('visible')
-                    <div class="invalid-feedback mt-0 mb-1">{{$message}}</div>
-                    @enderror
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                @if($errors->hasAny('name','description','keepStock','stock','price','deposit','available','visible'))
-                    <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
-                @else
-                    <button type="submit"
-                            id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
-                            class="btn btn-outline-primary"
-                            wire:dirty.class="btn-primary"
-                            wire:dirty.class.remove="btn-outline-primary"
-                            wire:target="name,description,keepStock,stock,price,deposit,available,visible">
-                        Änderungen übernehmen
-                    </button>
-                @endif
-            </div>
-        </div>
-    </form>
-    <div class="row">
-        <div class="col" x-data="{'requested': false}">
-            @if($this->item->itemGroup?->items()->count() == 1)
-                <div x-cloak x-show="requested" class="alert alert-warning small p-2 mb-2">Dies ist der einzige Artikel in der Gruppe „{{$this->item->itemGroup->name}}“. Beim Löschen des Artikels wird auch die Gruppe entfernt.</div>
-                <button x-cloak x-show="requested" wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
-
-                <button x-show="!requested" @@click="requested=true" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+            @if($item->images->isEmpty())
+                <p>Zu diesem Artikel wurden noch keine Bilder hinterlegt.</p>
             @else
-                <button wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+                <div class="image-container">
+                    @foreach($item->images as $image)
+                        <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
+                    @endforeach
+                </div>
             @endif
+
+            <h5 class="mt-3 mb-2"><label for="images">Neue Bilder hinzufügen</label></h5>
+            <form class="spinner-when-loading">
+                <input type="file" wire:model.live="images" class="form-control" id="images" multiple wire:key="{{rand()}}">
+                <div wire:loading.flex wire:target="images">
+                    <div>
+                        <i class="fas fa-spinner fa-pulse"></i>
+                        Bitte warten...
+                    </div>
+                </div>
+            </form>
+            <div class="form-text mb-2">Maximale Dateigröße: {{$this->maxSize()}} MB. Unterstützte Formate: jpg, png, webp</div>
+            @error('images.*'){{-- internal upload error, e.g. when POST_MAX_SIZE was reached --}}
+            <div class="alert alert-danger small p-2">Mindestens eine Datei konnte nicht erfolgreich hochgeladen werden.</div>
+            @enderror
+            <x-status-message scope="images" class="small p-2" />
         </div>
     </div>
 
-    <h3 class="mt-4">Artikel gruppieren</h3>
+    <h3>Artikel gruppieren</h3>
 
     <p>
         @if($item->itemGroup)
@@ -225,7 +267,4 @@
             </div>
         </div>
     </form>
-
-    <h3 class="mt-4">Artikelbilder</h3>
-
 </div>

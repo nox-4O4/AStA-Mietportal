@@ -1,4 +1,4 @@
-.form-control:not(select):read-only { // same as :disabled style. read-only is used by livewire during form requests. select fields are always readonly
+.form-control:not(:is(select, input[type=file])):read-only { // same as :disabled style. read-only is used by livewire during form requests. select fields and file input fields are always readonly
   background-color: var(--bs-secondary-bg);
   opacity: 1;
 }
@@ -71,5 +71,25 @@ span.link {
   &::after {
     grid-area: 1 / 1 / 2 / 2; // place on top of each other
     overflow-wrap: anywhere; // prevent long words from breaking layout
+  }
+}
+
+.spinner-when-loading {
+  position: relative;
+
+  [wire\:loading\.flex] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(172 169 169 / 47%);
+    border-radius: var(--bs-border-radius);
+
+    > div {
+      margin: auto;
+      background: #d8d7d7;
+      padding: 5px 10px;
+    }
   }
 }
