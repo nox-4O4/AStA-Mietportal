@@ -4,10 +4,19 @@ document.addEventListener('livewire:init', () => {
     //
     const componentRenderCallbacks = {}
     const initializedComponents = {}
+    const previouslyRegisteredComponentIds = {}
 
     Livewire.directive('rendered', ({el, directive, component, cleanup}) => {
         componentRenderCallbacks[component.id] = () => Function('element', directive.expression)(el)
-        cleanup(() => delete componentRenderCallbacks[component.id])
+        cleanup(() => {
+            delete componentRenderCallbacks[component.id]
+
+            // Cleanup gets called when the element that contained the directive gets removed from the DOM. If the element is lateron
+            // reinserted into the DOM without component re-initialisation, only morphed gets invoked (before the rendered directive is
+            // handled). So, we store any previously registered component IDs to re-add them to initializedComponents when they are
+            // morphed again. Thus, when the rendered directive is handled afterward we know to re-execute the directive's expression.
+            previouslyRegisteredComponentIds[component.id] = true
+        })
 
         // On initial page load morphed hook will not be called (no morphing occurs).
         // So, we invoke the callback here as the component has been rendered when directives are being processed.
@@ -21,12 +30,15 @@ document.addEventListener('livewire:init', () => {
     Livewire.hook('morphed', ({el, component}) => {
         if (Object.hasOwn(componentRenderCallbacks, component.id)) {
             componentRenderCallbacks[component.id]()
+        } else if (Object.hasOwn(previouslyRegisteredComponentIds, component.id)) {
+            delete previouslyRegisteredComponentIds[component.id]
+            initializedComponents[component.id] = true
         }
     })
 
     // store all initialized components so we can later execute their render callback if they register any
     Livewire.hook('component.init', ({component, cleanup}) => {
-        initializedComponents[component.id] = true;
+        initializedComponents[component.id] = true
         cleanup(() => delete initializedComponents[component.id])
     })
 

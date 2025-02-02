@@ -86,15 +86,8 @@ $offcanvas-horizontal-width: 300px;
   }
 }
 
-.image-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px;
-
-  img {
-    max-height: 100px;
-    max-width: 45%;
-  }
+// constrain height for item image slider
+.dashboard-swiper-container {
+  height: min(500px, 80vh);
+  max-height: fit-content;
 }
-

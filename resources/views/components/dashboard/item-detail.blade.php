@@ -10,7 +10,7 @@
     <x-status-message />
 
     <div class="row">
-        <div class="col-xxl mb-4">
+        <div class="col-xxl-6 mb-4">
             <form wire:submit="updateItem">
                 <div class="row mb-3">
                     <label for="name" class="col-sm-3 col-xl-2 col-xxl-3 col-form-label">Artikelname</label>
@@ -182,17 +182,21 @@
             </div>
         </div>
 
-        <div class="col-xxl mb-4">
+        <div class="col-xxl-6 mb-4">
             <h3>Artikelbilder</h3>
 
             @if($item->images->isEmpty())
                 <p>Zu diesem Artikel wurden noch keine Bilder hinterlegt.</p>
             @else
-                <div class="image-container">
+                <x-swiper id="dashboard-images" class="dashboard-swiper-container">
                     @foreach($item->images as $image)
-                        <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
+                        <div class="swiper-slide">
+                            <div class="swiper-zoom-container">
+                                <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
+                            </div>
+                        </div>
                     @endforeach
-                </div>
+                </x-swiper>
             @endif
 
             <h5 class="mt-3 mb-2"><label for="images">Neue Bilder hinzufügen</label></h5>
@@ -205,7 +209,7 @@
                     </div>
                 </div>
             </form>
-            <div class="form-text mb-2">Maximale Dateigröße: {{$this->maxSize()}} MB. Unterstützte Formate: jpg, png, webp</div>
+            <div class="form-text mb-2">Maximale Dateigröße: {{$this->maxSize()}} MB. Unterstützte Formate: jpg, png, webp.</div>
             @error('images.*'){{-- internal upload error, e.g. when POST_MAX_SIZE was reached --}}
             <div class="alert alert-danger small p-2">Mindestens eine Datei konnte nicht erfolgreich hochgeladen werden.</div>
             @enderror

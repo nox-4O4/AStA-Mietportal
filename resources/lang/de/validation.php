@@ -98,8 +98,8 @@
 			'string'  => ':attribute darf maximal :max Zeichen haben.',
 		],
 		'max_digits'           => ':attribute darf höchstens :max Ziffern enthalten.',
-		'mimes'                => ':attribute muss den Dateityp :values haben.',
-		'mimetypes'            => ':attribute muss den Dateityp :values haben.',
+		'mimes'                => ':attribute muss einen der folgenden Dateitypen haben: :values',
+		'mimetypes'            => ':attribute muss einen der folgenden Dateitypen haben: :values',
 		'min'                  => [
 			'array'   => ':attribute muss mindestens :min Elemente haben.',
 			'file'    => ':attribute muss mindestens :min Kilobytes groß sein.',

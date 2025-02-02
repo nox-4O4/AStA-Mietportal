@@ -1,0 +1,54 @@
+:root {
+  --swiper-theme-color: var(--bs-primary) !important;
+}
+
+.swiper-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .swiper {
+    width: 100%;
+
+    img {
+      object-fit: contain;
+      width: 100%;
+      height: 100%;
+      user-select: none;
+      -webkit-user-select: none;
+      display: none; // show images only after swiper was initialized to prevent flashing
+    }
+
+    &.swiper-initialized img {
+      display: block;
+    }
+  }
+
+  .swiper-thumbs {
+    // show thumbs only when there are at least 2 slides
+    &:not(:has(.swiper-slide + .swiper-slide)) {
+      display: none;
+    }
+
+    // take 20% of container height
+    flex: 0 0 20%;
+
+    // make inactive images lighter
+    .swiper-slide {
+      opacity: 0.6;
+    }
+
+    .swiper-slide-thumb-active {
+      opacity: 1;
+    }
+
+    img {
+      cursor: pointer;
+    }
+  }
+
+  // white border around navigation button arrows
+  .swiper-button-prev:after, .swiper-button-next:after {
+    text-shadow: -1px 0px white, 1px 0px white, 0px 1px white, 0px -1px white;
+  }
+}
