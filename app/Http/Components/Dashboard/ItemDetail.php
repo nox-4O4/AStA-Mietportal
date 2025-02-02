@@ -139,4 +139,12 @@
 				session()->flash('images.success', (count($data) > 1 ? 'Bilder' : 'Bild') . ' erfolgreich hinzugefügt.');
 			}
 		}
+
+		public function deleteImage(int $imageId):void{
+			$image = Image::find($imageId);
+
+			if($image && $image->item_id == $this->item->id) {
+				$image->delete();
+			}
+		}
 	}

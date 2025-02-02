@@ -91,3 +91,7 @@ $offcanvas-horizontal-width: 300px;
   height: min(500px, 80vh);
   max-height: fit-content;
 }
+
+.swiper-thumbs .image-delete {
+  display: none !important;
+}

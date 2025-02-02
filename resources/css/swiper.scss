@@ -16,10 +16,13 @@
       height: 100%;
       user-select: none;
       -webkit-user-select: none;
+    }
+
+    .swiper-slide {
       display: none; // show images only after swiper was initialized to prevent flashing
     }
 
-    &.swiper-initialized img {
+    &.swiper-initialized .swiper-slide {
       display: block;
     }
   }

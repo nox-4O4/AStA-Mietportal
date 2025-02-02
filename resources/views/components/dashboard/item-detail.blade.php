@@ -194,6 +194,11 @@
                             <div class="swiper-zoom-container">
                                 <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
                             </div>
+                            <div class="image-delete d-flex position-absolute bottom-0 w-100">
+                                <button class="btn btn-danger mx-auto my-2" wire:click="deleteImage({{$image->id}})">
+                                    <i class="fa-solid fa-trash-can"></i>&nbsp;Löschen
+                                </button>
+                            </div>
                         </div>
                     @endforeach
                 </x-swiper>
