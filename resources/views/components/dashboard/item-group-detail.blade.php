@@ -67,10 +67,11 @@
 
     <form wire:submit="addItem">
         <div class="row mb-3">
-            <label for="newItem" class="col-sm-3 col-xl-2 col-form-label pe-xl-2">Neuen Artikel hinzufügen</label>
+            <label for="newItem" class="col-sm-3 col-xl-2 col-form-label pe-xl-2">Artikel hinzufügen</label>
             <div class="col-sm">
                 <select required class="form-control @error('newItem')is-invalid @enderror" id="newItem" wire:model="newItem" wire:replace>
                     <option hidden value="">Bitte wählen...</option>
+                    <option class="text-italic" value="-1">Neuen Artikel anlegen und hinzufügen</option>
                     @php($lastGroupId = null)
                     {{--@formatter:off--}}
                     @foreach($this->addableItems() as $item)
@@ -125,7 +126,7 @@
                                 </a>
                             </td>
                             <td>
-                                <button class="btn btn-outline-danger btn-sm text-nowrap px-3 px-sm-2" x-on:click="$wire.removeItem({{$item->id}}) && $wire.$refresh()">
+                                <button class="btn btn-outline-danger btn-sm text-nowrap px-3 px-sm-2" wire:click="removeItem({{$item->id}})">
                                     <i class="fa-solid fa-xmark"></i>
                                     <span class="d-none d-sm-inline d-md-none">Entfernen</span>
                                     <span class="d-none d-md-inline">Aus Gruppe entfernen</span>

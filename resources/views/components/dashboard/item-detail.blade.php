@@ -58,22 +58,21 @@
                     </div>
                 </div>
 
-                @empty($item)
-                    <div class="row mb-3">
-                        <label for="initialItemGroup" class="{{$labelClass}}">Artikelgruppe</label>
-                        <div class="col">
-                            <select class="form-control @error('initialItemGroup')is-invalid @enderror" id="initialItemGroup" wire:model="initialItemGroup">
-                                <option value="" class="text-italic">Nicht gruppieren</option>
-                                @foreach($this->groups() as $group)
-                                    <option value="{{$group->id}}">{{$group->name}}</option>
-                                @endforeach
-                            </select>
-                            @error('initialItemGroup')
-                            <div class="invalid-feedback">{{$message}}</div>
-                            @enderror
-                        </div>
+                <div class="row mb-3">
+                    <label for="itemGroup" class="{{$labelClass}}">Artikel gruppieren</label>
+                    <div class="col">
+                        <select class="form-control @error('itemGroup')is-invalid @enderror" id="itemGroup" wire:model="itemGroup">
+                            <option value="" class="text-italic">Nicht gruppieren</option>
+                            @foreach($this->groups() as $group)
+                                <option value="{{$group->id}}">{{$group->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('itemGroup')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        <div class="form-text">Gruppierte Artikel werden auf der Übersichtsseite zusammengefasst.</div>
                     </div>
-                @endempty
+                </div>
 
                 <div class="row mb-1 mb-sm-3">
                     <label for="stock" class="col-auto {{$labelClass}}">Regulärer Bestand</label>
@@ -184,7 +183,7 @@
 
                 <div class="row mb-3">
                     <div class="col">
-                        @if($errors->hasAny('name','description','keepStock','stock','price','deposit','available','visible','initialItemGroup'))
+                        @if($errors->hasAny('name','description','keepStock','stock','price','deposit','available','visible','itemGroup'))
                             <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
                         @else
                             <button type="submit"
@@ -192,7 +191,7 @@
                                     class="btn btn-outline-primary"
                                     wire:dirty.class="btn-primary"
                                     wire:dirty.class.remove="btn-outline-primary"
-                                    wire:target="name,description,keepStock,stock,price,deposit,available,visible,initialItemGroup">
+                                    wire:target="name,description,keepStock,stock,price,deposit,available,visible,itemGroup">
                                 @isset($item)
                                     Änderungen übernehmen
                                 @else
@@ -264,60 +263,46 @@
         @endisset
     </div>
 
-    @isset($item)
-        <h3>Artikel gruppieren</h3>
+    @isset($item->itemGroup)
+        <h3>Artikelgruppe</h3>
 
-        <p>
-            @if($item->itemGroup)
-                Da
-            @else
-                Wenn
-            @endif
-                dieser Artikel mit anderen Artikeln gruppiert wird, wird auf der Übersichtsseite im Shop nur der Gruppenname dargestellt. Die individuellen Artikel lassen sich dann auf der Artikelseite in einem Auswahlfeld selektieren.
-                Das kann praktisch sein, wenn es mehrere Varianten gibt, bspw. Kabel mit unterschiedlichen Längen.
-        </p>
-
-        <form wire:submit="updateGroup">
-            <div class="row mb-3">
-                <label for="itemGroup" class="col-sm-3 col-xl-2 col-form-label">Artikelgruppe</label>
-                <div class="col">
-                    <select class="form-control @error('itemGroup')is-invalid @enderror" id="itemGroup" wire:model.live="itemGroup" wire:refresh-when-cached>{{-- refresh when cached so that "Gruppe bearbeiten" button will still point to correct link after changing group and navigating back from edit page --}}
-                        <option value="none" class="text-italic">Nicht gruppieren</option>
-                        <option value="new" class="text-italic">Neue Gruppe erstellen</option>
-                        <optgroup label="Vorhandene Gruppen">
-                            @foreach($this->groups() as $group)
-                                <option value="{{$group->id}}">{{$group->name}}</option>
-                            @endforeach
-                        </optgroup>
-                    </select>
-                    @error('itemGroup')
-                    <div class="invalid-feedback">{{$message}}</div>
-                    @enderror
+        <div>
+            <p>Da dieser Artikel mit anderen Artikeln gruppiert ist, wird auf der Übersichtsseite im Shop nur der Gruppenname dargestellt. Die individuellen Artikel lassen sich dann auf der Artikelseite in einem Auswahlfeld selektieren.</p>
+            <p class="mb-2">In der Gruppe „{{$item->itemGroup->name}}“ befinden sich folgende Artikel:</p>
+            <div class="row">
+                <div class="col-auto">
+                    <table class="table table-hover align-middle table-borderless">
+                        @foreach($item->itemGroup->items->sortBy('name', SORT_NATURAL) as $item)
+                            <tr>
+                                <td>
+                                    <ul class="my-1 ps-4">
+                                        <li>
+                                            <span class="d-sm-none">{{$item->rawName()}}</span>
+                                            <span class="d-none d-sm-inline">{{$item->name}}</span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td class="w-0 text-center">
+                                    @if($item->id == $this->item->id)
+                                        <span class="badge text-bg-primary fw-normal d-sm-none">Dieser Artikel!</span>
+                                        <span class="badge text-bg-primary d-none d-sm-inline-block">Dieser Artikel!</span>
+                                    @else
+                                        <a class="btn btn-outline-primary btn-sm text-nowrap px-3 px-sm-2" href="{{route('dashboard.items.edit', $item->id)}}" wire:navigate>
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <span class="d-none d-sm-inline">Bearbeiten</span>
+                                        </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 </div>
-                @if($item->itemGroup && $this->itemGroup != 'new' && $this->itemGroup != 'none')
-                    <div class="col-auto">
-                        <a href="{{route('dashboard.groups.edit', $this->itemGroup)}}" class="btn btn-outline-primary text-nowrap" wire:navigate>
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            <span class="d-none d-sm-inline">Gruppe bearbeiten</span>
-                        </a>
-                    </div>
-                @endif
             </div>
             <div class="row">
-                <div class="col">
-                    @if($errors->has('itemGroup') || $item->itemGroup?->id != ($itemGroup == 'none' ? null : $itemGroup))
-                        <button type="submit" class="btn btn-primary">Änderung übernehmen</button>
-                    @else
-                        <button type="submit"
-                                id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
-                                class="btn btn-outline-primary"
-                                wire:dirty.class="btn-primary"
-                                wire:dirty.class.remove="btn-outline-primary"
-                                wire:target="itemGroup">Änderung übernehmen
-                        </button>
-                    @endif
+                <div class="col-auto">
+                    <a href="{{route('dashboard.groups.edit', $item->itemGroup->id)}}" wire:navigate class="btn btn-primary">Artikelgruppe bearbeiten</a>
                 </div>
             </div>
-        </form>
+        </div>
     @endisset
 </div>

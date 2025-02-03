@@ -212,7 +212,6 @@
 			'username'                => 'Benutzername',
 			'visible'                 => 'Sichtbar',
 			'itemGroup'               => 'Artikelgruppe',
-			'initialItemGroup'        => 'Artikelgruppe',
 			'file*'                   => 'Datei',
 		]
 	];

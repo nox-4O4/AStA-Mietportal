@@ -26,15 +26,15 @@
 		#[Locked]
 		public Item $item;
 
-		public string     $name;
-		public string     $description;
-		public bool       $available;
-		public bool       $visible;
-		public bool       $keepStock;
-		public int        $stock;
-		public float      $price;
-		public int        $deposit;
-		public int|string $itemGroup;
+		public string $name;
+		public string $description;
+		public bool   $available;
+		public bool   $visible;
+		public bool   $keepStock;
+		public int    $stock;
+		public float  $price;
+		public int    $deposit;
+		public string $itemGroup;
 
 		/**
 		 * @var array<TemporaryUploadedFile>
@@ -51,7 +51,7 @@
 			$this->stock       = $item->amount;
 			$this->price       = $item->price;
 			$this->deposit     = $item->deposit;
-			$this->itemGroup   = $item->itemGroup?->id ?? 'none';
+			$this->itemGroup   = $item->itemGroup?->id ?? '';
 		}
 
 		public function maxSize(): int {
@@ -79,30 +79,18 @@
 					'stock'       => ['required_if_accepted:keepStock', Rule::unless(!$this->keepStock, ['integer', 'gt:0'])],
 					'price'       => ['required', 'numeric'],
 					'deposit'     => ['required', 'integer'],
+					'itemGroup'   => ['sometimes', Rule::exists(ItemGroup::class, 'id')],
 				]
 			);
 
-			$this->item->fill(Arr::except($values, ['keepStock', 'stock']));
+			$this->item->fill(Arr::except($values, ['keepStock', 'stock', 'itemGroup']));
 			$this->item->amount = $this->keepStock ? $this->stock : 0;
-			$this->item->update();
-		}
-
-		public function updateGroup() {
-			$this->validate(['itemGroup' => 'required']);
-
-			if($this->itemGroup == 'new') {
-				$this->redirectRoute('dashboard.groups.create', ['initialItem' => $this->item->id], navigate: true);
-
-			} else if($this->itemGroup == 'none') {
-				$this->item->itemGroup()->associate(null);
-				$this->item->update();
-
-			} else {
-				$this->validate(['itemGroup' => Rule::exists(ItemGroup::class, 'id')]);
-
+			if($this->itemGroup)
 				$this->item->itemGroup()->associate(ItemGroup::find($this->itemGroup));
-				$this->item->update();
-			}
+			else
+				$this->item->itemGroup()->dissociate();
+
+			$this->item->update();
 		}
 
 		public function delete() {
@@ -140,7 +128,7 @@
 			}
 		}
 
-		public function deleteImage(int $imageId):void{
+		public function deleteImage(int $imageId): void {
 			$image = Image::find($imageId);
 
 			if($image && $image->item_id == $this->item->id) {

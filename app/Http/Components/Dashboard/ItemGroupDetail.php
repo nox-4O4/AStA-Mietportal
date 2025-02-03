@@ -81,14 +81,19 @@
 					'newItem' => [
 						'required',
 						'integer',
-						Rule::exists(Item::class, 'id'),
+						Rule::unless($this->newItem == -1, Rule::exists(Item::class, 'id')),
 					]
 				]);
 
-			Item::find($this->newItem)
-			    ->itemGroup()
-			    ->associate($this->group)
-			    ->save();
+			if($this->newItem == -1) {
+				$this->redirectRoute('dashboard.items.create', ['itemGroupPrefill' => $this->group->id], navigate: true);
+
+			} else {
+				Item::find($this->newItem)
+				    ->itemGroup()
+				    ->associate($this->group)
+				    ->save();
+			}
 
 			$this->newItem = null;
 		}
