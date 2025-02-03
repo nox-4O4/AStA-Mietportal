@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Http\Components\Dashboard;
+	namespace App\Http\Components\Dashboard\Items;
 
 	use App\Models\Item;
 	use App\Models\ItemGroup;
@@ -47,7 +47,7 @@
 		}
 
 		public function render() {
-			return view('components.dashboard.item-detail');
+			return view('components.dashboard.items.item-detail');
 		}
 
 		public function saveItem() {

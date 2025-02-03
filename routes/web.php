@@ -5,12 +5,12 @@
 	use App\Http\Components\Authentication\PasswordReset;
 	use App\Http\Components\Dashboard\DisabledDate;
 	use App\Http\Components\Dashboard\Dummy;
-	use App\Http\Components\Dashboard\ItemCreate;
-	use App\Http\Components\Dashboard\ItemDetail;
-	use App\Http\Components\Dashboard\ItemGroupCreate;
-	use App\Http\Components\Dashboard\ItemGroupDetail;
-	use App\Http\Components\Dashboard\ItemGroupList;
-	use App\Http\Components\Dashboard\ItemList;
+	use App\Http\Components\Dashboard\Items\ItemCreate;
+	use App\Http\Components\Dashboard\Items\ItemDetail;
+	use App\Http\Components\Dashboard\Items\ItemGroupCreate;
+	use App\Http\Components\Dashboard\Items\ItemGroupDetail;
+	use App\Http\Components\Dashboard\Items\ItemGroupList;
+	use App\Http\Components\Dashboard\Items\ItemList;
 	use App\Http\Components\Dashboard\Profile;
 	use App\Http\Components\Dashboard\Settings;
 	use App\Http\Components\Dashboard\UserCreate;

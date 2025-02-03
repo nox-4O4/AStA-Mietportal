@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Http\Components\Dashboard;
+	namespace App\Http\Components\Dashboard\Items;
 
 	use App\Models\Image;
 	use App\Models\Item;
@@ -64,7 +64,7 @@
 		}
 
 		public function render() {
-			return view('components.dashboard.item-detail')
+			return view('components.dashboard.items.item-detail')
 				->title("Artikel „{$this->item->name}“ bearbeiten");
 		}
 

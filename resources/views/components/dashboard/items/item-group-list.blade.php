@@ -15,5 +15,5 @@
 
     <a href="{{route('dashboard.groups.create')}}" wire:navigate class="btn btn-primary mb-3"><i class="fa-solid fa-plus"></i>&nbsp;Neue Gruppe anlegen</a>
 
-    <livewire:data-table :elements="$this->groups" item-component="dashboard.item-group-list-entry" />
+    <livewire:data-table :elements="$this->groups" item-component="dashboard.items.item-group-list-entry" />
 </div>
