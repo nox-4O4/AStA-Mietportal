@@ -3,6 +3,7 @@
 	use App\Http\Components\Authentication\Login;
 	use App\Http\Components\Authentication\PasswordForgot;
 	use App\Http\Components\Authentication\PasswordReset;
+	use App\Http\Components\Dashboard\ItemCreate;
 	use App\Http\Components\Dashboard\ItemDetail;
 	use App\Http\Components\Dashboard\ItemGroupCreate;
 	use App\Http\Components\Dashboard\ItemGroupDetail;
@@ -33,6 +34,7 @@
 
 		Route::group(['prefix' => '/items', 'as' => '.items'], function () {
 			Route::get('/', ItemList::class)->name('.list');
+			Route::get('/create', ItemCreate::class)->name('.create');
 			Route::get('/{item}', ItemDetail::class)->name('.edit');
 		});
 

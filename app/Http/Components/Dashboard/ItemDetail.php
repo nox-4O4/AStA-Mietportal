@@ -68,7 +68,7 @@
 				->title("Artikel „{$this->item->name}“ bearbeiten");
 		}
 
-		public function updateItem() {
+		public function saveItem() {
 			$values = $this->validate(
 				[
 					'name'        => ['required', 'string'],
