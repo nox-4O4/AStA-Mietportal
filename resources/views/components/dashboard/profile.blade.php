@@ -1,5 +1,5 @@
 <x-slot:breadcrumbs>
-    <li><i class="fa-solid fa-user"></i>&nbsp;Profil</li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-user"></i>&nbsp;Profil</li>
 </x-slot:breadcrumbs>
 
 <div>

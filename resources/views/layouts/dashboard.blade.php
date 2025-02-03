@@ -30,10 +30,7 @@
                 @can('manage-users')
                     <li><a href="{{route('dashboard.users.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
                 @endcan
-                <li><a href="/settings" class="px-4 py-2 d-block" wire:navigate wire:current="active">
-                        <i class="fa-solid fa-gear"></i>&nbsp;Einstellungen
-                    </a>
-                </li>
+                <li><a href="{{route('dashboard.settings.view')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-gear"></i>&nbsp;Einstellungen</a></li>
             </ul>
             <ul class="side-nav nav flex-column">
                 <li><a href="{{route('dashboard.profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
