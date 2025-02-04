@@ -52,6 +52,6 @@
 
   // white border around navigation button arrows
   .swiper-button-prev:after, .swiper-button-next:after {
-    text-shadow: -1px 0px white, 1px 0px white, 0px 1px white, 0px -1px white;
+    text-shadow: -1px 0px var(--bs-primary-border-subtle), 1px 0px var(--bs-primary-border-subtle), 0px 1px var(--bs-primary-border-subtle), 0px -1px var(--bs-primary-border-subtle);
   }
 }

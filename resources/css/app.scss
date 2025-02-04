@@ -1,7 +1,16 @@
 @import 'default';
 @import 'utilities';
-@import 'dashboard';
 @import 'datatables';
 @import 'swiper';
+
+// variables and functions needed for bootstrap-overrides
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap-overrides';
+
 @import 'bootstrap/scss/bootstrap';
+
+@import 'dashboard';
+
 @import '@fortawesome/fontawesome-free/css/all.min.css';

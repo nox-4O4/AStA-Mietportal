@@ -12,15 +12,11 @@ html, body {
 
 /* dashboard view */
 
-$breadcrumb-divider: quote(">");
-
-/* sidebar fixed */
-$offcanvas-horizontal-width: 300px;
 .sidebar {
   width: var(--bs-offcanvas-width); // same width for mobile and desktop sidebar
   z-index: 100; // sidebar shadow should be above top bar in desktop view
 
-  &.show {
+  &.show, &.showing {
     z-index: var(--bs-offcanvas-zindex); // reset zindex to bootstrap value when sidebar is visible in mobile view
   }
 }
@@ -57,6 +53,14 @@ $offcanvas-horizontal-width: 300px;
       width: 25px;
       text-align: center;
     }
+  }
+}
+
+/* improvements for dark mode */
+@include color-mode(dark) {
+  .side-nav li a:hover,
+  .side-nav li a.active {
+    background: #525b66;
   }
 }
 

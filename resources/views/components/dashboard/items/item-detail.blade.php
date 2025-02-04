@@ -245,20 +245,17 @@
                 @endif
 
                 <h5 class="mt-3 mb-2"><label for="images">Neue Bilder hinzufügen</label></h5>
-                <form class="spinner-when-loading">
+                <form wire:loading.remove wire:target="images">
                     <input type="file" wire:model.live="images" class="form-control" id="images" multiple wire:key="{{rand()}}">
-                    <div wire:loading.flex wire:target="images">
-                        <div>
-                            <i class="fas fa-spinner fa-pulse"></i>
-                            Bitte warten...
-                        </div>
-                    </div>
+                    <div class="form-text mb-2">Maximale Dateigröße: {{$this->maxSize()}} MB. Unterstützte Formate: jpg, png, webp.</div>
                 </form>
-                <div class="form-text mb-2">Maximale Dateigröße: {{$this->maxSize()}} MB. Unterstützte Formate: jpg, png, webp.</div>
+                <p wire:loading wire:target="images">
+                    <i class="fas fa-spinner fa-pulse"></i>&nbsp;Bitte warten...
+                </p>
                 @error('images.*'){{-- internal upload error, e.g. when POST_MAX_SIZE was reached --}}
                 <div class="alert alert-danger small p-2">Mindestens eine Datei konnte nicht erfolgreich hochgeladen werden.</div>
                 @enderror
-                <x-status-message scope="images" class="small p-2" />
+                <x-status-message scope="images" class="small p-2" wire:loading.remove wire:target="images" />
             </div>
         @endisset
     </div>

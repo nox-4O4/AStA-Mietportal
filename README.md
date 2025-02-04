@@ -36,3 +36,5 @@ Weitere Optionen sind hier beschrieben: https://laravel.com/docs/11.x/configurat
 Die Dateien unter `public/build` werden mit Vite generiert. Die Quelldateien befinden sich im `resources`-Ordner.
 
 Assets während der Entwicklung mit Hot-Reload-Support generieren: `npm run dev`
+
+Bei manchen Änderungen an den Style-Definitionen (bspw. neue SASS-generierte Bootstrap-Utility-Klassen) ist es erforderlich, mit `npm run build` die statischen Assets neu zu generieren, damit die IDE die Klassen vorschlagen kann.

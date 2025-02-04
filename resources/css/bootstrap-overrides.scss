@@ -1,0 +1,36 @@
+//
+// add a new theme color "purple"
+//
+
+// must be overridden prior to importing bootstrap/scss/maps
+$theme-colors: map-merge($theme-colors, ("purple": $purple));
+
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+
+// must be overridden after importing bootstrap/scss/maps as $theme-colors-text etc. get defined there
+// Light mode
+$theme-colors-text: map-merge($theme-colors-text, ("purple": $purple));
+$theme-colors-bg-subtle: map-merge($theme-colors-bg-subtle, ("purple": #e1d2fe));
+$theme-colors-border-subtle: map-merge($theme-colors-border-subtle, ("purple": #bfa1fc));
+
+// Dark mode
+$theme-colors-text-dark: map-merge($theme-colors-text-dark, ("purple": #e1d2f2));
+$theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, ("purple": #8951fa));
+$theme-colors-border-subtle-dark: map-merge($theme-colors-border-subtle-dark, ("purple": #e1d2f2));
+
+// must be overriden prior to importing bootstrap/scss/utilities
+$utilities-text-emphasis-colors: map-merge($utilities-text-emphasis-colors, ("purple-emphasis": var(--#{$prefix}purple-text-emphasis)));
+$utilities-bg-subtle: map-merge($utilities-bg-subtle, ("purple-subtle": var(--#{$prefix}purple-bg-subtle)));
+$utilities-border-subtle: map-merge($utilities-border-subtle, ("purple-subtle": var(--#{$prefix}purple-border-subtle)));
+
+
+//
+// other bootstrap overrides
+//
+
+// different divider for breadcrumbs
+$breadcrumb-divider: quote(">");
+
+// change sidebar size
+$offcanvas-horizontal-width: 300px;
