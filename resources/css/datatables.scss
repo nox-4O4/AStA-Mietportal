@@ -75,6 +75,11 @@
   .slider {
     display: none; // makes sure detail slider animates (otherwise slider is already visible when toggling)
   }
+
+  // dates should not be right-aligned
+  td.dt-type-date, th.dt-type-date {
+    text-align: left !important;
+  }
 }
 
 // add some more space at the top of fixed header (variable is also used in JS for offset calculation)

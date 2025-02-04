@@ -99,3 +99,70 @@ html, body {
 .swiper-thumbs .image-delete {
   display: none !important;
 }
+
+// as we're reducing gutter between buttons we also have to offset them more from the sides to prevent them from spilling over
+.filter-button-container {
+  --bs-gutter-x: 2.5rem;
+
+  // filter button styles
+  .btn-primary-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-primary-bg-subtle) 40%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-primary-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+  }
+
+  .btn-warning-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-warning-bg-subtle) 60%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-warning-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+    --bs-btn-active-bg: color-mix(in srgb, var(--bs-warning) 80%, orange);
+    --bs-btn-active-border-color: color-mix(in srgb, var(--bs-warning) 60%, black);
+  }
+
+  .btn-purple-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-purple-bg-subtle) 40%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-purple-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+  }
+
+  .btn-info-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-info-bg-subtle) 40%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-info-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+  }
+
+  .btn-secondary-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-secondary-bg-subtle) 40%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-secondary-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+  }
+
+  .btn-success-subtle {
+    --bs-btn-bg: color-mix(in srgb, var(--bs-success-bg-subtle) 40%, transparent);
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-hover-bg: var(--bs-success-border-subtle);
+    --bs-btn-hover-color: var(--bs-body-color);
+  }
+
+
+  .btn-check:checked + .btn .btn {
+    font-weight: 600; // semibold
+
+    // we have to reapply styles from parent as we're nesting buttons
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-active-bg);
+    border-color: var(--bs-btn-active-border-color);
+
+  }
+
+  .btn-check + .btn {
+    &:after {
+      content: "\a0" // nbsp
+    }
+  }
+}

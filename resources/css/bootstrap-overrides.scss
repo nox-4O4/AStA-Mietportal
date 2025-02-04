@@ -15,9 +15,9 @@ $theme-colors-bg-subtle: map-merge($theme-colors-bg-subtle, ("purple": #e1d2fe))
 $theme-colors-border-subtle: map-merge($theme-colors-border-subtle, ("purple": #bfa1fc));
 
 // Dark mode
-$theme-colors-text-dark: map-merge($theme-colors-text-dark, ("purple": #e1d2f2));
-$theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, ("purple": #8951fa));
-$theme-colors-border-subtle-dark: map-merge($theme-colors-border-subtle-dark, ("purple": #e1d2f2));
+$theme-colors-text-dark: map-merge($theme-colors-text-dark, ("purple": #a355f6));
+$theme-colors-bg-subtle-dark: map-merge($theme-colors-bg-subtle-dark, ("purple": #241640));
+$theme-colors-border-subtle-dark: map-merge($theme-colors-border-subtle-dark, ("purple": #423366));
 
 // must be overriden prior to importing bootstrap/scss/utilities
 $utilities-text-emphasis-colors: map-merge($utilities-text-emphasis-colors, ("purple-emphasis": var(--#{$prefix}purple-text-emphasis)));

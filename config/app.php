@@ -122,6 +122,6 @@
 		],
 
 		'dashboard' => [
-			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'dashboard.orders'),
+			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'dashboard.orders.list'),
 		],
 	];

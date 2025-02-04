@@ -6,18 +6,21 @@
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
+	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
 	/**
-	 * @property string            $name
-	 * @property string            $description
-	 * @property int               $amount
-	 * @property bool              $available
-	 * @property bool              $visible
-	 * @property float             $price
-	 * @property float             $deposit
-	 * @property ?ItemGroup        $itemGroup
-	 * @property Collection<Image> $images
+	 * @property string                $name
+	 * @property string                $description
+	 * @property int                   $amount
+	 * @property bool                  $available
+	 * @property bool                  $visible
+	 * @property float                 $price
+	 * @property float                 $deposit
+	 * @property ?ItemGroup            $itemGroup
+	 * @property Collection<Image>     $images
+	 * @property Collection<OrderItem> $orderItems
+	 * @property Collection<Order>     $orders
 	 */
 	class Item extends Model {
 		protected $fillable = [
@@ -54,6 +57,14 @@
 
 		public function images(): HasMany {
 			return $this->hasMany(Image::class)->orderBy('id')->chaperone();
+		}
+
+		public function orderItems(): HasMany {
+			return $this->hasMany(OrderItem::class)->orderBy('id')->chaperone();
+		}
+
+		public function orders(): BelongsToMany {
+			return $this->belongsToMany(Order::class)->using(OrderItem::class);
 		}
 
 		/**

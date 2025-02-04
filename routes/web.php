@@ -11,6 +11,7 @@
 	use App\Http\Components\Dashboard\Items\ItemGroupDetail;
 	use App\Http\Components\Dashboard\Items\ItemGroupList;
 	use App\Http\Components\Dashboard\Items\ItemList;
+	use App\Http\Components\Dashboard\Orders\OrderList;
 	use App\Http\Components\Dashboard\Profile;
 	use App\Http\Components\Dashboard\Settings;
 	use App\Http\Components\Dashboard\UserCreate;
@@ -31,7 +32,6 @@
 	Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard'], function () {
 		Route::get('/', fn() => redirect()->route(config('app.dashboard.defaultRoute')));
 
-		Route::get('/orders', Dummy::class)->name('.orders');
 		Route::get('/profile', Profile::class)->name('.profile');
 
 		Route::group(['prefix' => '/items', 'as' => '.items'], function () {
@@ -44,6 +44,12 @@
 			Route::get('/', ItemGroupList::class)->name('.list');
 			Route::get('/create', ItemGroupCreate::class)->name('.create');
 			Route::get('/edit/{group}', ItemGroupDetail::class)->name('.edit');
+		});
+
+		Route::group(['prefix' => '/orders', 'as' => '.orders'], function () {
+			Route::get('/', OrderList::class)->name('.list');
+			Route::get('/create', Dummy::class)->name('.create');
+			Route::get('/view/{order}', Dummy::class)->name('.view');
 		});
 
 		Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {

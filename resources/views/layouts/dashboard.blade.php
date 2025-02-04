@@ -11,9 +11,9 @@
             <ul class="side-nav nav flex-column mb-auto">
                 <li><a href="{{route('shop')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-reply"></i>&nbsp;Zum Shop</a></li>
                 <li>
-                    <a href="{{route('dashboard.orders')}}" class="px-4 py-2 d-flex justify-content-between align-items-baseline" wire:navigate wire:current="active">
+                    <a href="{{route('dashboard.orders.list')}}" class="px-4 py-2 d-flex justify-content-between align-items-baseline" wire:navigate wire:current="active">
                         <span><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</span>
-                        <livewire:dashboard.order-count-badge />
+                        <livewire:dashboard.orders.order-count-badge />
                     </a>
                 </li>
                 <li><a href="{{route('dashboard.items.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-box"></i>&nbsp;Artikel</a></li>
