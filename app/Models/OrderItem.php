@@ -53,8 +53,11 @@
 		 */
 		protected function casts(): array {
 			return [
-				'start' => 'date',
-				'end'   => 'date',
+				'start'          => 'date',
+				'end'            => 'date',
+				'quantity'       => 'int',
+				'original_price' => 'float',
+				'price'          => 'float',
 			];
 		}
 	}

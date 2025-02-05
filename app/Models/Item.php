@@ -8,6 +8,7 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Support\Str;
 
 	/**
 	 * @property string                $name
@@ -47,6 +48,10 @@
 			return Attribute::make(fn(string $value) => $this->itemGroup ? "{$this->itemGroup->name} - $value" : $value);
 		}
 
+		protected function slug(): Attribute {
+			return Attribute::get(fn() => Str::slug($this->name, language: 'de'));
+		}
+
 		public function rawName(): string {
 			return $this->attributes['name'];
 		}
@@ -78,7 +83,7 @@
 				'visible'   => 'bool',
 				'price'     => 'float',
 				'deposit'   => 'float',
-				'amount'    => 'integer',
+				'amount'    => 'int',
 			];
 		}
 	}

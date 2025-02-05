@@ -23,7 +23,7 @@
                             <td>
                                 <ul class="m-0 ps-4">
                                     <li>
-                                        <span class="text-nowrap">{{$disabledDate->start->format('d.m.Y')}}</span> &ndash; <span>{{$disabledDate->end->format('d.m.Y')}}</span>
+                                        <span class="text-nowrap">{{$disabledDate->start}}</span> &ndash; <span>{{$disabledDate->end}}</span>
                                         @if($disabledDate->comment)
                                             <span class="">({{$disabledDate->comment}})</span>
                                         @endif
@@ -41,7 +41,7 @@
                                 </a>
                                 <button class="btn btn-outline-danger btn-sm px-3 px-sm-2"
                                         wire:click="removeDisabledDate({{$disabledDate->id}})"
-                                        wire:confirm="Soll der Zeitraum vom {{$disabledDate->start->format('d.m.Y')}} bis zum {{$disabledDate->end->format('d.m.Y')}} {{$disabledDate->comment ? '(' . htmlentities($disabledDate->comment) . ')' : ''}} wirklich gelöscht werden?">
+                                        wire:confirm="Soll der Zeitraum vom {{$disabledDate->start}} bis zum {{$disabledDate->end}} {{$disabledDate->comment ? '(' . htmlentities($disabledDate->comment) . ')' : ''}} wirklich gelöscht werden?">
                                     <i class="fa-solid fa-trash-can"></i>
                                     <span class="d-none d-sm-inline">Löschen</span>
                                 </button>

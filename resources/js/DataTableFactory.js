@@ -49,8 +49,8 @@ export default id => {
                                    <td colspan="2" class="px-4 py-2 text-ellipsis">${col.data}</td>
                                </tr>`
                             : `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                   <td class="ps-4 py-2 pe-1 w-0 text-nowrap">${col.title.trim()}:</td>
-                                   <td class="text-ellipsis max-w-0">${col.data}</td>
+                                   <td class="ps-4 py-2 pe-1 w-0 text-nowrap column-title">${col.title.trim()}</td>
+                                   <td class="py-2 text-ellipsis max-w-0">${col.data}</td>
                                </tr>`;
                     }).join('');
 

@@ -6,6 +6,7 @@
 	use App\Models\User;
 	use Auth;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+	use Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
@@ -39,5 +40,7 @@
 				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
 				php
 			);
+
+			Blade::stringable(fn(Carbon $dateTime) => $dateTime->format('d.m.Y'));
 		}
 	}

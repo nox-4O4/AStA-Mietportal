@@ -6,21 +6,23 @@
 	use App\Notifications\AccountCreated;
 	use App\Notifications\ResetPassword;
 	use DateTime;
+	use Illuminate\Database\Eloquent\Casts\Attribute;
+	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
 	use Illuminate\Notifications\Notifiable;
+	use Ramsey\Collection\Collection;
 	use SensitiveParameter;
 
 	/**
-	 * @property string   $forename
-	 * @property string   $surname
-	 * @property string   $email
-	 * @property ?string  $password
-	 * @property UserRole $role
-	 * @property bool     $enabled
-	 * @property DateTime $last_login
-	 * @property string   $remember_token
-	 * @property DateTime $created_at
-	 * @property DateTime $updated_at
+	 * @property string              $forename
+	 * @property string              $surname
+	 * @property string              $email
+	 * @property ?string             $password
+	 * @property UserRole            $role
+	 * @property bool                $enabled
+	 * @property DateTime            $last_login
+	 * @property string              $remember_token
+	 * @property Collection<Comment> $comments
 	 */
 	class User extends Authenticatable {
 		use Notifiable;
@@ -75,5 +77,13 @@
 
 			else
 				$this->notify(new ResetPassword($token, $this));
+		}
+
+		public function comments(): HasMany {
+			return $this->hasMany(Comment::class)->chaperone();
+		}
+
+		public function name(): Attribute {
+			return Attribute::get(fn() => "$this->forename $this->surname");
 		}
 	}

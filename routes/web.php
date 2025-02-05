@@ -11,6 +11,7 @@
 	use App\Http\Components\Dashboard\Items\ItemGroupDetail;
 	use App\Http\Components\Dashboard\Items\ItemGroupList;
 	use App\Http\Components\Dashboard\Items\ItemList;
+	use App\Http\Components\Dashboard\Orders\OrderDetailView;
 	use App\Http\Components\Dashboard\Orders\OrderList;
 	use App\Http\Components\Dashboard\Profile;
 	use App\Http\Components\Dashboard\Settings;
@@ -18,6 +19,7 @@
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
 	use App\Http\Controllers\Logout;
+	use App\Models\Item;
 	use Illuminate\Support\Facades\Route;
 
 	Route::group(['middleware' => 'guest'], function () {
@@ -49,7 +51,7 @@
 		Route::group(['prefix' => '/orders', 'as' => '.orders'], function () {
 			Route::get('/', OrderList::class)->name('.list');
 			Route::get('/create', Dummy::class)->name('.create');
-			Route::get('/view/{order}', Dummy::class)->name('.view');
+			Route::get('/view/{order}', OrderDetailView::class)->name('.view');
 		});
 
 		Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
@@ -72,3 +74,4 @@
 	});
 
 	Route::get('/', fn() => 'Das hier ist der Shop. <a href="' . route('dashboard') . '">Zum Dashboard</a>')->name('shop');
+	Route::get('/artikel/{item}/{slug}', fn(Item $item, string $slug) => "Das hier ist die Artilelseite zu $item->name im Shop.<br><a href=\"" . route('dashboard') . '">Zum Dashboard</a>')->name('shop.article.view');

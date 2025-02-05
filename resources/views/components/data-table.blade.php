@@ -25,7 +25,7 @@
         <thead>
         <tr>
             <th data-orderable="false" data-searchable="false" class="control">&nbsp;</th>
-            <x-dynamic-component :component="$itemComponent" />
+            <x-dynamic-component :component="$itemComponent" :attributes="new \Illuminate\View\ComponentAttributeBag($itemComponentData)" />
         </tr>
         </thead>
         <tbody>
@@ -35,7 +35,7 @@
                     <i class="fas fa-chevron-right expand"></i>
                     <i class="fas fa-chevron-down restore"></i>
                 </td>
-                <x-dynamic-component :component="$itemComponent" :$element />
+                <x-dynamic-component :component="$itemComponent" :$element :attributes="new \Illuminate\View\ComponentAttributeBag($itemComponentData)" />
             </tr>
         @endforeach
         </tbody>

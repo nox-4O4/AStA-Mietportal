@@ -70,6 +70,10 @@
         display: none;
       }
     }
+
+    &.column-title:after {
+      content: ":";
+    }
   }
 
   .control:before {
@@ -88,6 +92,34 @@
   // dates should not be right-aligned
   td.dt-type-date, th.dt-type-date {
     text-align: left !important;
+  }
+
+  &.child-responsive .child table {
+    tbody, tr, td {
+      display: block;
+      width: 100% !important;
+      max-width: 100% !important;
+      white-space: normal;
+    }
+
+    td {
+      padding: 0.5rem 0 0.5rem 1.5rem !important; // single cells
+
+      &:has( + td) { // non-single top cell
+        font-weight: 600;
+        padding-top: 0.25rem !important;
+        padding-bottom: 0 !important;
+      }
+
+      + td { // non-single bottom cell
+        padding-top: 0 !important;
+        padding-bottom: 0.25rem !important;
+      }
+
+      &.column-title:after {
+        content: "";
+      }
+    }
   }
 }
 
