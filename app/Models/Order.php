@@ -10,24 +10,19 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Support\Carbon;
-	use Illuminate\Support\Collection;
 	use Illuminate\Support\Facades\DB;
 
 	/**
-	 * @property OrderStatus           $status
-	 * @property float                 $rate
-	 * @property string                $event_name
-	 * @property string                $note
-	 * @property Customer              $customer
-	 * @property float                 $deposit
-	 * @property Collection<OrderItem> $orderItems
-	 * @property Collection<Item>      $items
-	 * @property Collection<Comment>   $comments
-	 * @property ?DateTime             $commonStart   {@see Order::commonStart()}
-	 * @property ?DateTime             $commonEnd     {@see Order::commonEnd()}
-	 * @property ?DateTime             $firstStart    {@see Order::firstStart()}
-	 * @property ?DateTime             $lastEnd       {@see Order::lastEnd()}
-	 * @property float                 $totalDiscount {@see Order::totalDiscount()}
+	 * @property int         $id
+	 * @property OrderStatus $status
+	 * @property float       $rate
+	 * @property string      $event_name
+	 * @property string      $note
+	 * @property int         $customer_id
+	 * @property Customer    $customer
+	 * @property float       $deposit
+	 * @property ?DateTime   $created_at
+	 * @property ?DateTime   $updated_at
 	 */
 	class Order extends Model {
 

@@ -10,19 +10,21 @@
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
 	use Illuminate\Notifications\Notifiable;
-	use Ramsey\Collection\Collection;
 	use SensitiveParameter;
 
 	/**
-	 * @property string              $forename
-	 * @property string              $surname
-	 * @property string              $email
-	 * @property ?string             $password
-	 * @property UserRole            $role
-	 * @property bool                $enabled
-	 * @property DateTime            $last_login
-	 * @property string              $remember_token
-	 * @property Collection<Comment> $comments
+	 * @property int       $id
+	 * @property string    $username
+	 * @property string    $forename
+	 * @property string    $surname
+	 * @property string    $email
+	 * @property ?string   $password
+	 * @property UserRole  $role
+	 * @property bool      $enabled
+	 * @property ?DateTime $last_login
+	 * @property string    $remember_token
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class User extends Authenticatable {
 		use Notifiable;

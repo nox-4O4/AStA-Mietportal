@@ -7,10 +7,11 @@
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
 	/**
-	 * @property string   $name
-	 * @property string   $description
-	 * @property DateTime $created_at
-	 * @property DateTime $updated_at
+	 * @property int       $id
+	 * @property string    $name
+	 * @property string    $description
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class ItemGroup extends Model {
 

@@ -2,20 +2,24 @@
 
 	namespace App\Models;
 
+	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 
 	/**
-	 * @property string  $forename
-	 * @property string  $surname
-	 * @property ?string $legalname
-	 * @property ?string $street
-	 * @property ?string $number
-	 * @property ?string $zipcode
-	 * @property ?string $city
-	 * @property string  $email
-	 * @property string  $mobile
+	 * @property int       $id
+	 * @property string    $forename
+	 * @property string    $surname
+	 * @property ?string   $legalname
+	 * @property ?string   $street
+	 * @property ?string   $number
+	 * @property ?string   $zipcode
+	 * @property ?string   $city
+	 * @property string    $email
+	 * @property string    $mobile
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class Customer extends Model {
 

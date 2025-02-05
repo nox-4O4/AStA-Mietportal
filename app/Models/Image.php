@@ -2,13 +2,18 @@
 
 	namespace App\Models;
 
+	use DateTime;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Support\Facades\Storage;
 
 	/**
-	 * @property string $path
-	 * @property Item   $item
+	 * @property int       $id
+	 * @property string    $path
+	 * @property int       $item_id
+	 * @property Item      $item
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class Image extends Model {
 		protected $fillable = [

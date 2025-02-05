@@ -82,8 +82,10 @@
                     <div class="alert alert-secondary bg-gradient px-2 py-1 mb-2">
                         <p class="small fw-semibold mb-1 text-italic text-right text-muted">
                             {{$comment->user?->name ?? 'Gelöschter Benutzer'}}
-                            am&nbsp;{{$comment->created_at}}
-                            um&nbsp;{{$comment->created_at->format('H:i:s')}}&nbsp;Uhr
+                            @if($comment->created_at)
+                                am&nbsp;{{$comment->created_at}}
+                                um&nbsp;{{$comment->created_at->format('H:i:s')}}&nbsp;Uhr
+                            @endif
                         </p>
                         <p class="m-0">
                             {{$comment->comment}}

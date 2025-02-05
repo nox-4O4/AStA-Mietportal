@@ -6,11 +6,14 @@
 	use Illuminate\Database\Eloquent\Model;
 
 	/**
-	 * @property DateTime $start
-	 * @property DateTime $end
-	 * @property string   $siteNotice
-	 * @property string   $comment
-	 * @property bool     $active
+	 * @property int       $id
+	 * @property DateTime  $start
+	 * @property DateTime  $end
+	 * @property string    $site_notice
+	 * @property string    $comment
+	 * @property bool      $active
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class DisabledDate extends Model {
 

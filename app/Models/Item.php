@@ -2,8 +2,8 @@
 
 	namespace App\Models;
 
+	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
-	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -11,17 +11,18 @@
 	use Illuminate\Support\Str;
 
 	/**
-	 * @property string                $name
-	 * @property string                $description
-	 * @property int                   $amount
-	 * @property bool                  $available
-	 * @property bool                  $visible
-	 * @property float                 $price
-	 * @property float                 $deposit
-	 * @property ?ItemGroup            $itemGroup
-	 * @property Collection<Image>     $images
-	 * @property Collection<OrderItem> $orderItems
-	 * @property Collection<Order>     $orders
+	 * @property int        $id
+	 * @property string     $name
+	 * @property ?int       $item_group_id
+	 * @property ?ItemGroup $itemGroup
+	 * @property string     $description
+	 * @property int        $amount
+	 * @property bool       $available
+	 * @property bool       $visible
+	 * @property float      $price
+	 * @property float      $deposit
+	 * @property ?DateTime  $created_at
+	 * @property ?DateTime  $updated_at
 	 */
 	class Item extends Model {
 		protected $fillable = [

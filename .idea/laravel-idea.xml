@@ -13,6 +13,11 @@
       </LaravelCodeGeneration>
     </option>
     <option name="frameworkFound" value="true" />
+    <option name="helperCode">
+      <LaravelHelperCodeCommonSettings>
+        <option name="addIgnoreFile" value="false" />
+      </LaravelHelperCodeCommonSettings>
+    </option>
     <option name="translation">
       <LaravelTranslation>
         <option name="defaultLanguageFromConfig" value="de" />

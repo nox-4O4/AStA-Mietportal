@@ -7,12 +7,14 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 	/**
-	 * @property int      $id
-	 * @property ?User    $user
-	 * @property Order    $order
-	 * @property string   $comment
-	 * @property DateTime $created_at
-	 * @property DateTime $updated_at
+	 * @property int       $id
+	 * @property ?int      $user_id
+	 * @property ?User     $user
+	 * @property int       $order_id
+	 * @property Order     $order
+	 * @property string    $comment
+	 * @property ?DateTime $created_at // cannot be non-null due to database behaviour. See https://github.com/laravel/framework/issues/12060 and https://github.com/laravel/ideas/issues/874#issuecomment-343639163
+	 * @property ?DateTime $updated_at
 	 */
 	class Comment extends Model {
 		/**

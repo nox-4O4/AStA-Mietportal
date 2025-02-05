@@ -7,14 +7,19 @@
 	use Illuminate\Database\Eloquent\Relations\Pivot;
 
 	/**
-	 * @property Order    $order
-	 * @property Item     $item
-	 * @property int      $quantity
-	 * @property DateTime $start
-	 * @property DateTime $end
-	 * @property float    $original_price
-	 * @property float    $price
-	 * @property string   $comment
+	 * @property int       $id
+	 * @property int       $order_id
+	 * @property Order     $order
+	 * @property int       $item_id
+	 * @property Item      $item
+	 * @property int       $quantity
+	 * @property DateTime  $start stores only date
+	 * @property DateTime  $end   stores only date
+	 * @property float     $original_price
+	 * @property float     $price
+	 * @property string    $comment
+	 * @property ?DateTime $created_at
+	 * @property ?DateTime $updated_at
 	 */
 	class OrderItem extends Pivot {
 		/**
