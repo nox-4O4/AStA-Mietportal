@@ -13,11 +13,20 @@
       }
 
       &:not(.child) {
-        > td {
+        &:not(.child-empty) > td {
           cursor: pointer; // clickable cursor when table expandable (only on parent rows)
         }
 
         .detail-only {
+          display: none;
+        }
+      }
+
+      // hide controls when there is not child row to expand
+      &.child-empty > td.control {
+        cursor: inherit !important;
+
+        * {
           display: none;
         }
       }

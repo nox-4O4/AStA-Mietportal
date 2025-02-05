@@ -30,7 +30,7 @@
         </thead>
         <tbody>
         @foreach($elements as $element)
-            <tr>
+            <tr>{{-- to auto-open add class="parent" --}}
                 <td class="control">
                     <i class="fas fa-chevron-right expand"></i>
                     <i class="fas fa-chevron-down restore"></i>

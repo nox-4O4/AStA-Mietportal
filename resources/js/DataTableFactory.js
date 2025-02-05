@@ -32,36 +32,54 @@ export default id => {
                         if (!col.hidden)
                             return '';
 
-                        const title = document.createElement('div')
-                        title.innerHTML = col.title
+                        const checker = document.createElement('div')
+                        checker.innerHTML = col.title
+                        const titleEmtpy = checker.innerText.trim() === ''
 
-                        return title.innerText.trim() === ''
-                            ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td colspan="2" class="px-4 py-2 text-ellipsis">${col.data}</td>
-                            </tr>`
-                            : `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
-                                <td class="ps-4 py-2 pe-1 w-0 text-nowrap">${col.title.trim()}:</td>
-                                <td class="text-ellipsis max-w-0">${col.data}</td>
-                            </tr>`;
-                    }).join('');
+                        if (tableElement.data('hideEmptyChildren')) {
+                            checker.innerHTML = col.data
+                            const dataEmtpy = checker.innerText.trim() === ''
 
-                    return `<div class="slider">
-                                <table class="w-100">${content}</table>
-                            </div>`;
-                },
-                display: function (row, update, render) {
-                    if (update && $(row.node()).hasClass('parent') || !update && !row.child.isShown()) { // show due to update or for the first time
-                        row.child(render(), 'child p-0').show();
-
-                        if (update)
-                            $('div.slider', row.child()).show(); // was already slid down
-                        else {
-                            $('div.slider', row.child()).slideDown(100);
-                            $(row.node()).addClass('parent');
+                            if (dataEmtpy)
+                                return ''
                         }
 
-                        return true;
-                    } else if (!update && row.child.isShown()) { // hide
+                        return titleEmtpy
+                            ? `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
+                                   <td colspan="2" class="px-4 py-2 text-ellipsis">${col.data}</td>
+                               </tr>`
+                            : `<tr data-dt-row="${col.rowIndex}" data-dt-column="${col.columnIndex}">
+                                   <td class="ps-4 py-2 pe-1 w-0 text-nowrap">${col.title.trim()}:</td>
+                                   <td class="text-ellipsis max-w-0">${col.data}</td>
+                               </tr>`;
+                    }).join('');
+
+                    return content
+                        ? `<div class="slider">
+                               <table class="w-100">${content}</table>
+                           </div>`
+                        : false;
+                },
+                display: function (row, update, render) {
+                    if (update || !row.child.isShown()) { // show due to update or for the first time
+                        const childContent = render()
+                        row.node().classList.toggle('child-empty', !childContent)
+
+                        if (update && row.node().classList.contains('parent') || !update) {
+                            if (!childContent) {
+                                row.child(false); // removes child <tr> element if it exists
+                            } else {
+                                row.child(childContent, 'child p-0').show();
+                                if (update)
+                                    $('div.slider', row.child()).show(); // was already slid down
+                                else {
+                                    $('div.slider', row.child()).slideDown(100);
+                                    $(row.node()).addClass('parent was-expanded');
+                                }
+                                return true;
+                            }
+                        }
+                    } else { // hide
                         $('div.slider', row.child()).slideUp(100, function () {
                             row.child(false);
                             $(row.node()).removeClass('parent');
