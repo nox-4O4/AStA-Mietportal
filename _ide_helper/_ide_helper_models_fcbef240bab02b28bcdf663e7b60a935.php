@@ -1,4 +1,4 @@
-<?php //48a4fc4a7dd61c2b19b42b6dae9a20b7
+<?php //a9f96c8c02b08eaf76e57972873e8c5d
 /** @noinspection all */
 
 namespace App\Models {
@@ -15,6 +15,8 @@ namespace App\Models {
     use Illuminate\Support\Carbon;
     use LaravelIdea\Helper\App\Models\_IH_Comment_C;
     use LaravelIdea\Helper\App\Models\_IH_Comment_QB;
+    use LaravelIdea\Helper\App\Models\_IH_Content_C;
+    use LaravelIdea\Helper\App\Models\_IH_Content_QB;
     use LaravelIdea\Helper\App\Models\_IH_Customer_C;
     use LaravelIdea\Helper\App\Models\_IH_Customer_QB;
     use LaravelIdea\Helper\App\Models\_IH_DisabledDate_C;
@@ -57,6 +59,26 @@ namespace App\Models {
      * @mixin _IH_Comment_QB
      */
     class Comment extends Model {}
+    
+    /**
+     * @property int $id
+     * @property string $name
+     * @property string $description
+     * @property $content
+     * @property Carbon|null $created_at
+     * @property Carbon|null $updated_at
+     * @method static _IH_Content_QB onWriteConnection()
+     * @method _IH_Content_QB newQuery()
+     * @method static _IH_Content_QB on(null|string $connection = null)
+     * @method static _IH_Content_QB query()
+     * @method static _IH_Content_QB with(array|string $relations)
+     * @method _IH_Content_QB newModelQuery()
+     * @method false|int increment(string $column, float|int $amount = 1, array $extra = [])
+     * @method false|int decrement(string $column, float|int $amount = 1, array $extra = [])
+     * @method static _IH_Content_C|Content[] all()
+     * @mixin _IH_Content_QB
+     */
+    class Content extends Model {}
     
     /**
      * @property int $id

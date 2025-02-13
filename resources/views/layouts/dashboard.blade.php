@@ -22,7 +22,7 @@
                     <a href="{{route('dashboard.reports')}}" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#reportsMenu" aria-expanded="false" aria-controls="reportsMenu">
                         <i class="fa-solid fa-chart-simple"></i>&nbsp;Berichte
                     </a>
-                    <ul id="reportsMenu" class="nav flex-row collapse" data-bs-parent="#sidebar" wire:current="show" href="{{route('dashboard.reports')}}">{{-- href needed for livewire current styling --}}
+                    <ul id="reportsMenu" class="nav flex-row collapse" wire:current="show" href="{{route('dashboard.reports')}}">{{-- href needed for livewire current styling --}}
                         <li class="w-100"><a href="{{route('dashboard.reports.availability')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-list-check"></i>&nbsp;Verfügbarkeiten</a></li>
                         <li class="w-100"><a href="{{route('dashboard.reports.last-bookings')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-clock-rotate-left"></i>&nbsp;Letzte Vermietungen</a></li>
                     </ul>
@@ -30,7 +30,15 @@
                 @can('manage-users')
                     <li><a href="{{route('dashboard.users.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-users"></i>&nbsp;Benutzerverwaltung</a></li>
                 @endcan
-                <li><a href="{{route('dashboard.settings.view')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-gear"></i>&nbsp;Einstellungen</a></li>
+                <li>
+                    <a href="{{route('dashboard.settings')}}" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#settingsMenu" aria-expanded="false" aria-controls="reportsMenu">
+                        <i class="fa-solid fa-gear"></i>&nbsp;Einstellungen
+                    </a>
+                    <ul id="settingsMenu" class="nav flex-row collapse" wire:current="show" href="{{route('dashboard.settings')}}">{{-- href needed for livewire current styling --}}
+                        <li class="w-100"><a href="{{route('dashboard.settings.disabledDates.list')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;Deaktivierte Zeiträume</a></li>
+                        <li class="w-100"><a href="{{route('dashboard.settings.contents.list')}}" class="ps-5 p-2 d-block" wire:navigate wire:current="active"><i class="fa-regular fa-newspaper"></i>&nbsp;Inhalte</a></li>
+                    </ul>
+                </li>
             </ul>
             <ul class="side-nav nav flex-column">
                 <li><a href="{{route('dashboard.profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>

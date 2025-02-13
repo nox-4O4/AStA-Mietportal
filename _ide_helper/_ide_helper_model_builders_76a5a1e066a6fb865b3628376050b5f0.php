@@ -1,9 +1,10 @@
-<?php //d76a5b1735bb6e6299738d292fc90c56
+<?php //40bfdeb548a9a7d6bc7347db99146e35
 /** @noinspection all */
 
 namespace LaravelIdea\Helper\App\Models {
 
     use App\Models\Comment;
+    use App\Models\Content;
     use App\Models\Customer;
     use App\Models\DisabledDate;
     use App\Models\Image;
@@ -90,6 +91,77 @@ namespace LaravelIdea\Helper\App\Models {
      * @method Comment updateOrCreate(array $attributes, array $values = [])
      */
     class _IH_Comment_QB extends _BaseBuilder {}
+    
+    /**
+     * @method Content|null getOrPut($key, \Closure $value)
+     * @method Content|$this shift(int $count = 1)
+     * @method Content|null firstOrFail(callable|string $key = null, $operator = null, $value = null)
+     * @method Content|$this pop(int $count = 1)
+     * @method Content|null pull($key, \Closure $default = null)
+     * @method Content|null last(callable|null $callback = null, \Closure $default = null)
+     * @method Content|$this random(callable|int|null $number = null, bool $preserveKeys = false)
+     * @method Content|null sole(callable|string $key = null, $operator = null, $value = null)
+     * @method Content|null get($key, \Closure $default = null)
+     * @method Content|null first(callable|null $callback = null, \Closure $default = null)
+     * @method Content|null firstWhere(callable|string $key, $operator = null, $value = null)
+     * @method Content|null find($key, $default = null)
+     * @method Content[] all()
+     */
+    class _IH_Content_C extends _BaseCollection {
+        /**
+         * @param int $size
+         * @return Content[][]|Collection<_IH_Content_C>
+         */
+        public function chunk($size)
+        {
+            return [];
+        }
+    }
+    
+    /**
+     * @method _IH_Content_QB whereId($value)
+     * @method _IH_Content_QB whereName($value)
+     * @method _IH_Content_QB whereDescription($value)
+     * @method _IH_Content_QB whereContent($value)
+     * @method _IH_Content_QB whereCreatedAt($value)
+     * @method _IH_Content_QB whereUpdatedAt($value)
+     * @method Content create(array $attributes = [])
+     * @method Content createOrFirst(array $attributes = [], array $values = [])
+     * @method Content createOrRestore(array $attributes = [], array $values = [])
+     * @method Content createQuietly(array $attributes = [])
+     * @method _IH_Content_C|Content[] cursor()
+     * @method Content[] eagerLoadRelations(array $models)
+     * @method Content|null|_IH_Content_C|Content[] find($id, array|string $columns = ['*'])
+     * @method _IH_Content_C|Content[] findMany(array|Arrayable $ids, array|string $columns = ['*'])
+     * @method Content|_IH_Content_C|Content[] findOr($id, \Closure|string|string[] $columns = ['*'], \Closure|null $callback = null)
+     * @method Content|_IH_Content_C|Content[] findOrFail($id, array|string $columns = ['*'])
+     * @method Content|_IH_Content_C|Content[] findOrNew($id, array|string $columns = ['*'])
+     * @method Content first(array|string $columns = ['*'])
+     * @method Content firstOr(\Closure|string[] $columns = ['*'], \Closure|null $callback = null)
+     * @method Content firstOrCreate(array $attributes = [], array $values = [])
+     * @method Content firstOrFail(array|string $columns = ['*'])
+     * @method Content firstOrNew(array $attributes = [], array $values = [])
+     * @method Content firstWhere(array|\Closure|Expression|string $column, $operator = null, $value = null, string $boolean = 'and')
+     * @method Content forceCreate(array $attributes)
+     * @method Content forceCreateQuietly(array $attributes = [])
+     * @method _IH_Content_C|Content[] fromQuery(string $query, array $bindings = [])
+     * @method _IH_Content_C|Content[] get(array|string $columns = ['*'])
+     * @method Content getModel()
+     * @method Content[] getModels(array|string $columns = ['*'])
+     * @method _IH_Content_C|Content[] hydrate(array $items)
+     * @method Content incrementOrCreate(array $attributes, string $column = 'count', float|int $default = 1, float|int $step = 1, array $extra = [])
+     * @method _IH_Content_C|Content[] lazy(int $chunkSize = 1000)
+     * @method _IH_Content_C|Content[] lazyById(int $chunkSize = 1000, null|string $column = null, null|string $alias = null)
+     * @method _IH_Content_C|Content[] lazyByIdDesc(int $chunkSize = 1000, null|string $column = null, null|string $alias = null)
+     * @method Content make(array $attributes = [])
+     * @method Content newModelInstance(array $attributes = [])
+     * @method LengthAwarePaginator|Content[]|_IH_Content_C paginate(\Closure|int|null $perPage = null, array|string $columns = ['*'], string $pageName = 'page', int|null $page = null, \Closure|int|null $total = null)
+     * @method Content restoreOrCreate(array $attributes = [], array $values = [])
+     * @method Paginator|Content[]|_IH_Content_C simplePaginate(int|null $perPage = null, array|string $columns = ['*'], string $pageName = 'page', int|null $page = null)
+     * @method Content sole(array|string $columns = ['*'])
+     * @method Content updateOrCreate(array $attributes, array $values = [])
+     */
+    class _IH_Content_QB extends _BaseBuilder {}
     
     /**
      * @method Customer|null getOrPut($key, \Closure $value)

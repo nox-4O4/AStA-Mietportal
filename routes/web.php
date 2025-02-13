@@ -3,7 +3,6 @@
 	use App\Http\Components\Authentication\Login;
 	use App\Http\Components\Authentication\PasswordForgot;
 	use App\Http\Components\Authentication\PasswordReset;
-	use App\Http\Components\Dashboard\DisabledDate;
 	use App\Http\Components\Dashboard\Dummy;
 	use App\Http\Components\Dashboard\Items\ItemCreate;
 	use App\Http\Components\Dashboard\Items\ItemDetail;
@@ -14,7 +13,10 @@
 	use App\Http\Components\Dashboard\Orders\OrderDetailView;
 	use App\Http\Components\Dashboard\Orders\OrderList;
 	use App\Http\Components\Dashboard\Profile;
-	use App\Http\Components\Dashboard\Settings;
+	use App\Http\Components\Dashboard\Settings\ContentDetail;
+	use App\Http\Components\Dashboard\Settings\ContentList;
+	use App\Http\Components\Dashboard\Settings\DisabledDateDetail;
+	use App\Http\Components\Dashboard\Settings\DisabledDateList;
 	use App\Http\Components\Dashboard\UserCreate;
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
@@ -67,9 +69,19 @@
 		});
 
 		Route::group(['prefix' => '/settings', 'as' => '.settings'], function () {
-			Route::get('/', Settings::class)->name('.view');
-			Route::get('/disabledDates/edit/{disabledDate}', DisabledDate::class)->name('.disabledDates.edit');
-			Route::get('/disabledDates/create', DisabledDate::class)->name('.disabledDates.create');
+			Route::get('/', fn() => redirect()->route('dashboard.settings.disabledDates.list'));
+
+			Route::group(['prefix' => '/disabledDates', 'as' => '.disabledDates'], function () {
+				Route::get('/', DisabledDateList::class)->name('.list');
+				Route::get('/create', DisabledDateDetail::class)->name('.create');
+				Route::get('/edit/{disabledDate}', DisabledDateDetail::class)->name('.edit');
+			});
+
+			Route::group(['prefix' => '/contents', 'as' => '.contents'], function () {
+				Route::get('/', ContentList::class)->name('.list');
+				Route::get('/edit/{content}', ContentDetail::class)->name('.edit');
+			});
+
 		});
 	});
 

@@ -1,6 +1,7 @@
 <x-slot:breadcrumbs>
-    <li class="breadcrumb-item"><i class="fa-solid fa-gear"></i>&nbsp;<a href="{{route('dashboard.settings.view')}}" wire:navigate>Einstellungen</a></li>
-    <li class="breadcrumb-item">Deaktivierten Zeitraum {{$disabledDate ? 'bearbeiten' : 'anlegen'}}</li>
+    <li class="breadcrumb-item"><i class="fa-solid fa-gear"></i>&nbsp;Einstellungen</li>
+    <li class="breadcrumb-item"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;<a href="{{route('dashboard.settings.disabledDates.list')}}" wire:navigate>Deaktivierte Zeiträume</a></li>
+    <li class="breadcrumb-item">Zeitraum {{$disabledDate ? 'bearbeiten' : 'anlegen'}}</li>
 </x-slot:breadcrumbs>
 
 <div>

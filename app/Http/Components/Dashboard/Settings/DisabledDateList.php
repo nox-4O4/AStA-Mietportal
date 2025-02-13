@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Http\Components\Dashboard;
+	namespace App\Http\Components\Dashboard\Settings;
 
 	use App\Models\DisabledDate;
 	use Illuminate\Support\Collection;
@@ -9,9 +9,9 @@
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
 
-	#[Title('Einstellungen')]
+	#[Title('Deaktivierte Zeiträume')]
 	#[Layout('layouts.dashboard')]
-	class Settings extends Component {
+	class DisabledDateList extends Component {
 
 		#[Computed]
 		public function disabledDates(): Collection {
@@ -21,7 +21,7 @@
 		}
 
 		public function render() {
-			return view('components.dashboard.settings');
+			return view('components.dashboard.settings.disabled-date-list');
 		}
 
 		public function removeDisabledDate(int $id): void {

@@ -10,19 +10,20 @@
       <data directive="@can" injection="true" prefix="&lt;?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;check(" suffix=")): ?&gt;" />
       <data directive="@canany" injection="true" prefix="&lt;?php&#10;if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;any(" suffix=")): ?&gt;" />
       <data directive="@cannot" injection="true" prefix="&lt;?php&#10;if (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;denies(" suffix=")): ?&gt;" />
-      <data directive="@case" injection="true" prefix="&lt;?php&#10;case (" suffix="): ?&gt;" />
+      <data directive="@case" injection="true" prefix="&lt;?php case (" suffix="): ?&gt;" />
       <data directive="@checked" injection="true" prefix="&lt;?php if(" suffix=") {echo 'checked';}?&gt;" />
       <data directive="@choice" injection="true" prefix="&lt;?php&#10;echo app('translator')-&gt;choice(" suffix="); ?&gt;" />
       <data directive="@class" injection="true" prefix="class=&quot;&lt;?php echo \Illuminate\Support\Arr::toCssClasses(" suffix=")?&gt;&quot;" />
       <data directive="@component" injection="true" prefix="&lt;?php&#10;$__env-&gt;startComponent(" suffix="); ?&gt;" />
       <data directive="@componentfirst" injection="true" prefix="&lt;?php&#10;$__env-&gt;startComponentFirst(" suffix="); ?&gt;" />
+      <data directive="@content" injection="true" prefix="&lt;?=\App\Models\Content::fromName(" suffix=")?-&gt;content ?? ''?&gt;" />
       <data directive="@continue" injection="true" prefix="&lt;?php&#10;if(" suffix=") continue; ?&gt;" />
       <data directive="@csrf" />
       <data directive="@dd" injection="true" prefix="&lt;?php&#10;dd(" suffix="); ?&gt;" />
       <data directive="@default" />
       <data directive="@disabled" injection="true" prefix="&lt;?php if(" suffix=") {echo 'disabled';}?&gt;" />
       <data directive="@dump" injection="true" prefix="&lt;?php&#10;dump(" suffix="); ?&gt;" />
-      <data directive="@each" injection="true" prefix="&lt;?php&#10;echo $__env-&gt;renderEach(" suffix="); ?&gt;" />
+      <data directive="@each" injection="true" prefix="&lt;?php echo $__env-&gt;renderEach(" suffix="); ?&gt;" />
       <data directive="@else" />
       <data directive="@elseauth" injection="true" prefix="&lt;?php&#10;elseif(auth()-&gt;guard(" suffix=")-&gt;check()): ?&gt;" />
       <data directive="@elsecan" injection="true" prefix="&lt;?php&#10;elseif (app(\Illuminate\Contracts\Auth\Access\Gate::class)-&gt;check(" suffix=")): ?&gt;" />
@@ -92,8 +93,8 @@
       <data directive="@livewireScriptConfig" />
       <data directive="@livewireScripts" />
       <data directive="@livewireStyles" />
-      <data directive="@method" injection="true" prefix="&lt;?php&#10;echo method_field(" suffix="); ?&gt;" />
-      <data directive="@money" injection="true" prefix="number_format(\$x=(" suffix="), fmod(\$x, 1) ? 2 : 0, ',', '.') . mb_chr(0x202f, 'UTF-8') . '€'" />
+      <data directive="@method" injection="true" prefix="&lt;?php echo method_field(" suffix="); ?&gt;" />
+      <data directive="@money" injection="true" prefix="&lt;?=number_format(\$x=(" suffix="), fmod(\$x, 1) ? 2 : 0, ',', '.') . mb_chr(0x202f, 'UTF-8') . '€'?&gt;" />
       <data directive="@once" />
       <data directive="@overwrite" />
       <data directive="@parent" />

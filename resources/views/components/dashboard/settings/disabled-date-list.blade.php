@@ -1,5 +1,6 @@
 <x-slot:breadcrumbs>
     <li class="breadcrumb-item"><i class="fa-solid fa-gear"></i>&nbsp;Einstellungen</li>
+    <li class="breadcrumb-item"><i class="fa-regular fa-calendar-xmark"></i>&nbsp;Deaktivierte Zeiträume</li>
 </x-slot:breadcrumbs>
 
 <div>
@@ -14,11 +15,11 @@
         Es ist zwar möglich, während eines deaktivierten Zeitraums eine Buchung vorzunehmen, allerdings kann sich der Buchungszeitraum nicht mit einem deaktivierten Zeitraum überschneiden.
     </p>
 
-    @if($this->disabledDates()->isNotEmpty())
+    @if($this->disabledDates->isNotEmpty())
         <div class="row">
             <div class="col-auto table-responsive">
                 <table class="table table-hover align-middle table-borderless">
-                    @foreach($this->disabledDates() as $disabledDate)
+                    @foreach($this->disabledDates as $disabledDate)
                         <tr>
                             <td>
                                 <ul class="m-0 ps-4">

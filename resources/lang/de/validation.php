@@ -192,6 +192,7 @@
 		'attributes' => [
 			'available'               => 'Verfügbar',
 			'comment'                 => 'Kommentar',
+			'contentValue'            => 'Inhalt',
 			'currentPassword'         => 'Aktuelles Passwort',
 			'deposit'                 => 'Kaution',
 			'description'             => 'Beschreibung',

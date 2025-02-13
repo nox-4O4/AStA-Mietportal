@@ -1,18 +1,18 @@
 <?php
 
-	namespace App\Http\Components\Dashboard;
+	namespace App\Http\Components\Dashboard\Settings;
 
-	use App\Models\DisabledDate as DisabledDateModel;
+	use App\Models\DisabledDate;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Validate;
 	use Livewire\Component;
 
 	#[Layout('layouts.dashboard')]
-	class DisabledDate extends Component {
+	class DisabledDateDetail extends Component {
 
 		#[Locked]
-		public ?DisabledDateModel $disabledDate = null;
+		public ?DisabledDate $disabledDate = null;
 
 		#[Validate('required|date')]
 		public string $start;
@@ -38,7 +38,7 @@
 		}
 
 		public function render() {
-			return view('components.dashboard.disabled-date')
+			return view('components.dashboard.settings.disabled-date-detail')
 				->title('Deaktivierten Zeitraum ' . ($this->disabledDate ? 'bearbeiten' : 'anlegen'));
 		}
 
@@ -50,16 +50,16 @@
 				$this->disabledDate->fill($this->except(['disabledDate']))->update();
 			} else {
 				session()->flash('status.success', 'Deaktivierten Zeitraum gespeichert.');
-				new DisabledDateModel($this->except(['disabledDate']))->save();
+				new DisabledDate($this->except(['disabledDate']))->save();
 			}
 
-			$this->redirectRoute('dashboard.settings.view', navigate: true);
+			$this->redirectRoute('dashboard.settings.disabledDates.list', navigate: true);
 		}
 
 		public function delete(int $id): void {
-			DisabledDateModel::destroy($id);
+			DisabledDate::destroy($id);
 
 			session()->flash('status.success', 'Deaktivierten Zeitraum gelöscht.');
-			$this->redirectRoute('dashboard.settings.view', navigate: true);
+			$this->redirectRoute('dashboard.settings.disabledDates.list', navigate: true);
 		}
 	}

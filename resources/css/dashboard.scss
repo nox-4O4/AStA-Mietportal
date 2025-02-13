@@ -170,3 +170,7 @@ html, body {
 .was-expanded .no-animation-when-expanded {
   animation: none;
 }
+
+.preview-container {
+  min-height: 2rem;
+}

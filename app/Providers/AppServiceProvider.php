@@ -4,6 +4,7 @@
 
 	use App\Enums\UserRole;
 	use App\Models\User;
+	use App\Util\Markdown;
 	use Auth;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 	use Illuminate\Support\Carbon;
@@ -36,11 +37,17 @@
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
 
-			Blade::directive('money', fn($expression) => <<<php
+			Blade::directive('money', fn($expression) => <<<PHP
 				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
-				php
+				PHP
+			);
+
+			Blade::directive('content', fn($expression) => <<<PHP
+				<?=\App\Models\Content::fromName($expression)?->render() ?? '<i>Inhalt noch nicht verfügbar.</i>'?>
+				PHP
 			);
 
 			Blade::stringable(fn(Carbon $dateTime) => $dateTime->format('d.m.Y'));
+			Blade::stringable(fn(Markdown $markdown) => $markdown->render());
 		}
 	}
