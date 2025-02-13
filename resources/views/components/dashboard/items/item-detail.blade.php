@@ -63,7 +63,7 @@
                     <div class="col">
                         <select class="form-control @error('itemGroup')is-invalid @enderror" id="itemGroup" wire:model="itemGroup">
                             <option value="" class="text-italic">Nicht gruppieren</option>
-                            @foreach($this->groups() as $group)
+                            @foreach($this->groups as $group)
                                 <option value="{{$group->id}}">{{$group->name}}</option>
                             @endforeach
                         </select>

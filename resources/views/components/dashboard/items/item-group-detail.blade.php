@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col">
             <button wire:click="deleteGroup" wire:confirm="Soll diese Artikelgruppe wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Gruppe löschen</button>
-            @if($this->hasItems())
+            @if($this->hasItems)
                 <div class="form-text">In der Gruppe vorhandene Artikel werden nicht gelöscht. Es wird lediglich ihre Gruppierung aufgehoben. Der Artikelname ändert sich entsprechend.</div>
             @endif
         </div>
@@ -74,7 +74,7 @@
                     <option class="text-italic" value="-1">Neuen Artikel anlegen und hinzufügen</option>
                     @php($lastGroupId = null)
                     {{--@formatter:off--}}
-                    @foreach($this->addableItems() as $item)
+                    @foreach($this->addableItems as $item)
                         @if($lastGroupId != $item->itemGroup?->id)
                             {!! $lastGroupId !== null ? '</optgroup>' : '' !!}
                             <optgroup label="{{$item->itemGroup->name}}">
@@ -104,7 +104,7 @@
             </div>
         </div>
     </form>
-    @if($this->hasItems())
+    @if($this->hasItems)
         <div class="row mb-3">
             <label class="col-sm-3 col-xl-2 col-form-label pe-xl-2 text-nowrap">Enthaltene Artikel</label>
             <div class="col-sm-auto col">
