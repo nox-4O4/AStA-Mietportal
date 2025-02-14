@@ -18,7 +18,6 @@
 		 * Register any application services.
 		 */
 		public function register(): void {
-			//
 		}
 
 		/**
@@ -37,6 +36,7 @@
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
 
+			// some blade helpers
 			Blade::directive('money', fn($expression) => <<<PHP
 				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
 				PHP

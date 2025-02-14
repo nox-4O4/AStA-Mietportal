@@ -44,6 +44,10 @@
 				'prefix_indexes' => true,
 				'strict'         => true,
 				'engine'         => null,
+				/* The following 'modes' definition matches the default value without 'ONLY_FULL_GROUP_BY'. We're not specifying ONLY_FULL_GROUP_BY as MariaDB lacks real support
+				 * for functional dependency (see MDEV-11588). MySQL also does not correctly evaluate functional dependency when dependency is guaranteed by partition-clause of
+				 * window function, leading to cumbersome workarounds in SQL queries. */
+				'modes'          => ['STRICT_TRANS_TABLES', 'NO_ZERO_IN_DATE', 'NO_ZERO_DATE', 'ERROR_FOR_DIVISION_BY_ZERO', 'NO_ENGINE_SUBSTITUTION'],
 				'options'        => extension_loaded('pdo_mysql')
 					? array_filter([PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA')])
 					: [],

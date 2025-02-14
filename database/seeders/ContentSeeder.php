@@ -8,6 +8,7 @@
 	class ContentSeeder extends Seeder {
 
 		private static array $defaultContents = [
+			'shop.top' => 'Wird am Anfang der Übersichtsseite im Shop oberhalb der Artikel dargestellt.',
 		];
 
 		public function run(): void {

@@ -25,6 +25,7 @@
     <p class="m-0 d-none d-lg-block d-xl-none">lg</p>
     <p class="m-0 d-none d-xl-block d-xxl-none">xl</p>
     <p class="m-0 d-none d-xxl-block">xxl</p>
+    <a href="{{route('dashboard')}}" wire:navigate>Dashboard</a>
 </div>
 </body>
 </html>
