@@ -29,7 +29,7 @@
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
                 <div class="form-text">
-                    Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>(Link-Text)[<span class="link">https://url</span>]</code>.
+                    Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>[Link-Text](<span class="link">https://url</span>)</code>.
                 </div>
             </div>
         </div>
