@@ -22,9 +22,9 @@
                 <p class="my-0">{{$order->customer->zipcode}} {{$order->customer->city}}</p>
             </div>
             <div>
-                <p class="my-0"><a href="mailto:{{htmlentities($order->customer->email)}}">{{$order->customer->email}}</a></p>
+                <p class="my-0"><a href="mailto:{{htmlspecialchars($order->customer->email)}}">{{$order->customer->email}}</a></p>
                 @if($order->customer->mobile)
-                    <p class="my-0">Telefon: <a href="tel:{{htmlentities($order->customer->mobile)}}">{{$order->customer->mobile}}</a></p>
+                    <p class="my-0">Telefon: <a href="tel:{{htmlspecialchars($order->customer->mobile)}}">{{$order->customer->mobile}}</a></p>
                 @endif
             </div>
         </div>

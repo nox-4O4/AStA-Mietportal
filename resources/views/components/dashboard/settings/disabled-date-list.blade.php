@@ -42,7 +42,7 @@
                                 </a>
                                 <button class="btn btn-outline-danger btn-sm px-3 px-sm-2"
                                         wire:click="removeDisabledDate({{$disabledDate->id}})"
-                                        wire:confirm="Soll der Zeitraum vom {{$disabledDate->start}} bis zum {{$disabledDate->end}} {{$disabledDate->comment ? '(' . htmlentities($disabledDate->comment) . ')' : ''}} wirklich gelöscht werden?">
+                                        wire:confirm="Soll der Zeitraum vom {{$disabledDate->start}} bis zum {{$disabledDate->end}} {{$disabledDate->comment ? '(' . htmlspecialchars($disabledDate->comment) . ')' : ''}} wirklich gelöscht werden?">
                                     <i class="fa-solid fa-trash-can"></i>
                                     <span class="d-none d-sm-inline">Löschen</span>
                                 </button>

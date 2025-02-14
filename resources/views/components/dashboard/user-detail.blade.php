@@ -142,7 +142,7 @@
             Dadurch wird <strong>dein Account</strong> vollständig aus der Datenbank gelöscht. Du kannst dich danach nicht mehr am Portal anmelden.
         </div>
 
-        <form wire:submit="deleteUser" wire:confirm="Soll dein Benutzeraccount ({{htmlentities($username)}}) wirklich vollständig gelöscht werden?\nDanach kannst du dich nicht mehr am Portal anmelden.">
+        <form wire:submit="deleteUser" wire:confirm="Soll dein Benutzeraccount ({{htmlspecialchars($username)}}) wirklich vollständig gelöscht werden?\nDanach kannst du dich nicht mehr am Portal anmelden.">
             <button class="btn btn-danger" type="submit">
                 Benutzer „{{$username}}“ löschen
             </button>
@@ -153,7 +153,7 @@
             Dadurch wird der Benutzer vollständig aus der Datenbank gelöscht.
         </div>
 
-        <form wire:submit="deleteUser" wire:confirm="Soll der Benutzer „{{htmlentities($username)}}“ wirklich vollständig gelöscht werden?">
+        <form wire:submit="deleteUser" wire:confirm="Soll der Benutzer „{{htmlspecialchars($username)}}“ wirklich vollständig gelöscht werden?">
             <button class="btn btn-danger" type="submit">
                 Benutzer „{{$username}}“ löschen
             </button>
