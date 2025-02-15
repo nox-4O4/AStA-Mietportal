@@ -28,4 +28,14 @@
 		public function items(): HasMany {
 			return $this->hasMany(Item::class)->chaperone();
 		}
+
+		public function getSearchFilterValues(bool $includeDescription): array {
+			$items      = $this->items()->where('visible', true)->get()->all();
+			$itemValues = array_merge(...array_map(fn(Item $item) => $item->getSearchFilterValues($includeDescription), $items));
+
+			return [
+				...($includeDescription ? [$this->description] : []),
+				...($itemValues ?: [$this->name]) // omit own name when items exist as own name is part of item name
+			];
+		}
 	}

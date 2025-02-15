@@ -2,59 +2,86 @@
 
 	namespace App\Http\Components\Shop;
 
-	use Illuminate\Support\Facades\DB;
+	use App\Models\Item;
+	use App\Models\ItemGroup;
+	use Illuminate\Support\Arr;
+	use Illuminate\Support\Str;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
+	use Livewire\Attributes\Url;
 	use Livewire\Component;
+	use Transliterator;
 
 	#[Layout('layouts.shop')]
 	class ItemList extends Component {
 
-		/**
-		 * Gets all elements that should be displayed in shop item list. Grouped items will be returned as a single element, ungrouped items will be returned unchanged.
-		 * Result is ordered by the amount of non-cancelled orders that contain the corresponding ungrouped item or an item of the corresponding group.
-		 *
-		 * TODO visibility
-		 *
-		 * @return array
-		 */
+		#[Url(as: 'suche', except: '')]
+		public string $search = '';
+
+		#[Url(except: false)]
+		public bool $searchDescription = false;
+
 		#[Computed]
 		public function items(): array {
-			return DB::select(<<<SQL
-				WITH singleItems AS (SELECT items.id,
-				                            name,
-				                            FIRST_VALUE(images.path) OVER (PARTITION BY item_id ORDER BY images.id) imagePath,
-				                            0                                                                       grouped,
-				                            (SELECT COUNT(DISTINCT orders.id)
-				                             FROM orders
-				                             JOIN order_item ON orders.id = order_item.order_id
-				                             WHERE orders.status != 'cancelled' AND
-				                                   order_item.item_id = items.id)                                   orders
-				                     FROM items
-				                     LEFT JOIN images ON items.id = images.item_id
-				                     WHERE item_group_id IS NULL),
-				     groupedItems AS (SELECT item_groups.id,
-				                             item_groups.name,
-				                             FIRST_VALUE(images.path) OVER (PARTITION BY item_groups.id ORDER BY images.id IS NULL, items.id,images.id),
-				                             1,
-				                             (SELECT COUNT(DISTINCT orders.id)
-				                              FROM orders
-				                              JOIN order_item ON orders.id = order_item.order_id
-				                              JOIN items innerItems ON order_item.item_id = innerItems.id
-				                              WHERE orders.status != 'cancelled' AND
-				                                    innerItems.item_group_id = item_groups.id)
-				                      FROM item_groups
-				                      JOIN items ON item_groups.id = items.item_group_id
-				                      LEFT JOIN images ON items.id = images.item_id)
-				SELECT * FROM singleItems GROUP BY id
-				UNION ALL
-				SELECT * FROM groupedItems GROUP BY id
-				ORDER BY orders DESC, name
-				SQL
-			);
+			$result = Item::getDisplayItemElements();
+
+			if($this->search !== '')
+				$result = self::filterValues($result);
+
+			return $result;
 		}
 
 		public function render() {
-			return view('components.shop.item-list');
+			if($this->search !== '' && count($this->items) == 1) {
+				$item = Arr::first($this->items);
+
+				// when our search result contains only a single item group check if the search query is specific enough to identify a single item of that group.
+				// If it is specific enough we redirect the user directly to that item. Otherwise, redirect user to item group.
+				if($item->grouped) {
+					$items  = array_map(fn(Item $item) => (object) ['id' => $item->id, 'grouped' => false, 'name' => $item->name], ItemGroup::find($item->id)->items->all());
+					$result = self::filterValues($items);
+
+					if(count($result) == 1) { // specific item found
+						$item = reset($result);
+					}
+				}
+
+				$this->redirectRoute($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, Str::slug($item->name)]);
+			}
+
+			$view = view('components.shop.item-list');
+
+			if($this->search !== '')
+				$view->title("Suche „{$this->search}“");
+
+			return $view;
+		}
+
+		private function filterValues(array $elements): array {
+			// remove accents, see https://stackoverflow.com/a/76733861
+			$transliterator = Transliterator::createFromRules(':: NFD; :: [:Mn:] Remove; :: NFC;');
+			$search         = $transliterator->transliterate($this->search);
+			$searchParts    = preg_split('/[^\pL0-9]+/u', $search, flags: PREG_SPLIT_NO_EMPTY); // split at any chars that are neither letters nor digits 0-9
+
+			if(!$searchParts) { // invalid or empty search (e.g. consisting only of separator chars)
+				$this->search = '';
+				return $elements;
+			}
+
+			$regex = '/(?=.*' . implode(')(?=.*', $searchParts) . ').*/i'; // Build search regex. All search parts are required. No need for escaping as our search parts only consist of [a-zA-Z0-9]+
+
+			return array_filter($elements, function ($entry) use ($regex, $transliterator) {
+				// First check if name matches to skip querying database
+				if(preg_match($regex, $transliterator->transliterate($entry->name)))
+					return true;
+
+				$values = $entry->grouped
+					? ItemGroup::find($entry->id)->getSearchFilterValues($this->searchDescription)
+					: Item::find($entry->id)->getSearchFilterValues($this->searchDescription);
+
+				$searchTarget = implode(',', $values); // implode with any separator not contained in search expression to prevent search values from spilling over
+
+				return preg_match($regex, $transliterator->transliterate($searchTarget));
+			});
 		}
 	}

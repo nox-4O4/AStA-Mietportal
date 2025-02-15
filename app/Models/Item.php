@@ -8,6 +8,7 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Str;
 
 	/**
@@ -45,6 +46,12 @@
 			});
 		}
 
+		public function getSearchFilterValues(bool $includeDescription): array {
+			return $includeDescription
+				? [$this->name, $this->description]
+				: [$this->name];
+		}
+
 		protected function name(): Attribute {
 			return Attribute::make(fn(string $value) => $this->itemGroup ? "{$this->itemGroup->name} - $value" : $value);
 		}
@@ -71,6 +78,59 @@
 
 		public function orders(): BelongsToMany {
 			return $this->belongsToMany(Order::class)->using(OrderItem::class);
+		}
+
+		/**
+		 * Gets all elements that should be displayed in shop item list. Grouped items will be returned as a single element, ungrouped items will be returned unchanged.
+		 * Result is ordered by the amount of non-cancelled orders that contain the corresponding ungrouped item or an item of the corresponding group.
+		 *
+		 * @return array
+		 */
+		public static function getDisplayItemElements(): array {
+			return DB::select(<<<SQL
+				WITH singleItems AS (SELECT items.id,
+				                            name,
+				                            FIRST_VALUE(images.path) OVER (PARTITION BY item_id ORDER BY images.id) imagePath,
+				                            0                                                                       grouped,
+				                            (SELECT COUNT(DISTINCT orders.id)
+				                             FROM orders
+				                             JOIN order_item ON orders.id = order_item.order_id
+				                             WHERE orders.status != 'cancelled' AND
+				                                   order_item.item_id = items.id)                                   orders,
+				                            visible
+				                     FROM items
+				                     LEFT JOIN images ON items.id = images.item_id
+				                     WHERE item_group_id IS NULL),
+				     groupedItems AS (SELECT item_groups.id,
+				                             item_groups.name,
+				                             FIRST_VALUE(images.path) OVER (PARTITION BY item_groups.id ORDER BY images.id IS NULL, items.id,images.id) imagePath,
+				                             1                                                                                                          grouped,
+				                             (SELECT COUNT(DISTINCT orders.id)
+				                              FROM orders
+				                              JOIN order_item ON orders.id = order_item.order_id
+				                              JOIN items innerItems ON order_item.item_id = innerItems.id
+				                              WHERE orders.status != 'cancelled' AND
+				                                    innerItems.item_group_id = item_groups.id)                                                          orders,
+				                             visible
+				                      FROM item_groups
+				                      JOIN items ON item_groups.id = items.item_group_id
+				                      LEFT JOIN images ON items.id = images.item_id)
+
+				SELECT id, name, imagePath, grouped, orders
+				FROM singleItems
+				GROUP BY id
+				HAVING SUM(visible) > 0
+
+				UNION ALL
+
+				SELECT id, name, imagePath, grouped, orders
+				FROM groupedItems
+				GROUP BY id
+				HAVING SUM(visible) > 0
+
+				ORDER BY orders DESC, name
+				SQL
+			);
 		}
 
 		/**

@@ -13,6 +13,7 @@ Das Mietportal für den AStA HKA.
 * Datenbank initialisieren `php artisan migrate --seed --force`
 * Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`
 * Cronjob einrichten: `* * * * * php artisan schedule:run`
+* Konfiguration u. Ä. cachen: `php artisan optimize`
 
 ### Aktualisierung
 
@@ -28,7 +29,7 @@ Weitere Optionen sind hier beschrieben: https://laravel.com/docs/11.x/configurat
 ## Entwicklung
 
 * Lokale Datenbank (MariaDB, MySQL) muss vorhanden sein
-* Anleitung fürs initiale Deployment befolgen
+* Anleitung fürs initiale Deployment befolgen (Cache für Konfiguration u. Ä. weglassen oder danach `php artisan optimize:clear` ausführen)
 * Zum Ausführen und Debuggen bevorzugt einen lokalen Apache-Webserver nutzen. Quick & Dirty-Alternative: `php artisan serve` (nutzt den PHP-Build-In Webserver)
 
 ### Assets generieren

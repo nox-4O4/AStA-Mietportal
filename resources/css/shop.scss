@@ -1,3 +1,46 @@
 .shop-content {
   max-width: 1400px;
 }
+
+.shop {
+  .shopping-cart {
+    top: .075em; // offset icon slightly so that it better matches text
+    margin-right: -0.5rem; // move slightly to the right to better match content padding
+
+    .loot {
+      color: var(--bs-yellow);
+      // top of cloud should be above cart and centered to it
+      top: -0.7em;
+      left: 0.15em;
+    }
+
+    .cart {
+      color: var(--bs-secondary-text-emphasis);
+    }
+  }
+
+  .brand-small {
+    background-position: left;
+    min-width: 10rem; // logo is auto-sized, make sure it has enough space to expand
+    margin: -0.5rem 0; // make logo larger than content margins
+  }
+
+  .search-bar {
+    max-width: 30rem; // search bar should not span complete header
+
+    input.initialEmpty:placeholder-shown {
+      border-top-right-radius: var(--bs-border-radius) !important;
+      border-bottom-right-radius: var(--bs-border-radius) !important;
+
+      + button {
+        display: none;
+      }
+    }
+  }
+}
+
+@include color-mode(dark) {
+  .shop .shopping-cart .loot {
+    color: var(--bs-warning-text-emphasis); // yellow is too intense for dark mode
+  }
+}

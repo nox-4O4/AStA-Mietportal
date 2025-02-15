@@ -3,7 +3,34 @@
 
     <div class="row">
         <div class="col">
-            @content('shop.top')
+            @if($search)
+                <p class="mb-0">
+                    @if(count($this->items) == 1)
+                        Es wurde <b>ein</b>
+                    @elseif(count($this->items) > 1)
+                        Es wurden <b>{{count($this->items)}}</b>
+                    @else
+                        Es wurden <b>keine</b>
+                    @endif
+                        <b>Treffer</b> bei der Suche nach „{{$search}}“ gefunden.
+                </p>
+
+                @if(!$this->items && !$this->searchDescription)
+                    <p>
+                        <span class="my-1 d-inline-block">Eventuell hilft es, die Suche unter Berücksichtigung der Artikel&shy;beschreibung erneut vorzunehmen.</span>
+                        <a class="btn btn-outline-primary align-baseline" href="{{route('shop', ['suche' => $search, 'searchDescription' => true])}}" wire:navigate>Mit Artikelbeschreibung suchen</a>
+                    </p>
+                @endif
+
+                <p class="my-3">
+                    <a class="btn btn-outline-primary" href="{{route('shop')}}" wire:navigate>
+                        <i class="fa-solid fa-arrow-rotate-left" title="Suche Zurücksetzen"></i>
+                        Suche zurücksetzen
+                    </a>
+                </p>
+            @else
+                @content('shop.top')
+            @endif
         </div>
     </div>
 
