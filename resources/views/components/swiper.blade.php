@@ -16,7 +16,6 @@
 
         const thumbsSwiper = new Swiper(`#swiper-thumbs-${id}`, {
             createElements: true,
-            loop: true,
             spaceBetween: 10,
             slidesPerView: 3,
             breakpointsBase: 'container',
@@ -44,7 +43,11 @@
             navigation: true,
             thumbs: {
                 swiper: thumbsSwiper,
-            }
+            },
+            hashNavigation: {
+                replaceState: true,
+                watchState: true,
+            },
         })
 
         // enable zoom on single click for desktop

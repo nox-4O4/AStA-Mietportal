@@ -230,7 +230,7 @@
                 @else
                     <x-swiper id="dashboard-images" class="dashboard-swiper-container">
                         @foreach($item->images as $image)
-                            <div class="swiper-slide">
+                            <div class="swiper-slide" data-hash="image-{{$image->id}}">
                                 <div class="swiper-zoom-container">
                                     <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
                                 </div>
