@@ -16,3 +16,13 @@ img::before {
 img[alt]::before {
   content: "\274C\a" attr(alt) " konnte nicht geladen werden.";
 }
+
+.error-page {
+  .headtext {
+    max-width: 20rem;
+  }
+
+  .subtext {
+    max-width: 45rem;
+  }
+}

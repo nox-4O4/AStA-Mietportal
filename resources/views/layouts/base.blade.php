@@ -15,6 +15,7 @@
     <title>{{ config('app.name') }}{{ isset($title) ? " - $title" : '' }}</title>
 
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
+    @yield('head')
 </head>
 <body>
 @yield('content')
@@ -27,5 +28,6 @@
     <p class="m-0 d-none d-xxl-block">xxl</p>
     <a href="{{route('dashboard')}}" wire:navigate>Dashboard</a>
 </div>
+@yield('body_end')
 </body>
 </html>

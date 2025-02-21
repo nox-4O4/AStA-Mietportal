@@ -5,7 +5,7 @@
 	use Illuminate\Http\RedirectResponse;
 	use Illuminate\Support\Facades\Auth;
 
-	class Logout extends Controller {
+	class LogoutController extends Controller {
 
 		public function action(): RedirectResponse {
 			if(Auth::user()) {

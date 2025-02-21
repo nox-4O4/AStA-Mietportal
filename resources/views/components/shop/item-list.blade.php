@@ -41,7 +41,7 @@
                     @if($item->imagePath)
                         <img src="{{\Illuminate\Support\Facades\Storage::url($item->imagePath)}}" alt="Produktbild {{htmlspecialchars($item->name,encoding: 'UTF-8')}}" class="w-100 h-100 object-fit-contain">
                     @else
-                        {!! File::get(resource_path('img/product-placeholder-opt.svg')) !!}
+                        {!! File::get(resource_path('img/product-placeholder.svg')) !!}
                     @endif
 
                     <span class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body" @if($item->grouped)title="Unterschiedliche Varianten vorhanden"@endif>

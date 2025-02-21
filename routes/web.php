@@ -21,7 +21,8 @@
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
 	use App\Http\Components\Shop\ItemList as ShopItemList;
-	use App\Http\Controllers\Logout;
+	use App\Http\Controllers\LogoutController;
+	use App\Http\Controllers\MiscController;
 	use App\Models\Item;
 	use App\Models\ItemGroup;
 	use Illuminate\Support\Facades\Route;
@@ -33,7 +34,7 @@
 	});
 
 	// logout route is outside of auth middleware to prevent users from being redirected to logout route on login when they called /logout while not authenticated
-	Route::get('logout', [Logout::class, 'action'])->name('logout');
+	Route::get('logout', [LogoutController::class, 'action'])->name('logout');
 
 	Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard'], function () {
 		Route::get('/', fn() => redirect()->route(config('app.dashboard.defaultRoute')));
@@ -88,5 +89,11 @@
 	});
 
 	Route::get('/', ShopItemList::class)->name('shop');
-	Route::get('/artikel/{item}/{slug?}', fn(Item $item, ?string $slug = null) => "Das hier ist die Artikelseite zu $item->name.<br><a href=\"" . route('dashboard') . '">Zum Dashboard</a>')->name('shop.item.view');
-	Route::get('/artikelgruppe/{group}/{slug?}', fn(ItemGroup $group, ?string $slug = null) => "Das hier ist die Artikelgruppenseite zu $group->name.<br><a href=\"" . route('dashboard') . '">Zum Dashboard</a>')->name('shop.itemGroup.view');
+
+	// Setting custom missing callback prevents SubstituteBindings from throwing an exception which breaks Livewire component updates on error pages.
+	Route::group(['missing' => app(MiscController::class)->notFound(...)], function () {
+		Route::get('/artikel/{item}/{slug?}', fn(Item $item, ?string $slug = null) => "Das hier ist die Artikelseite zu $item->name.<br><a href=\"" . route('dashboard') . '" wire:navigate>Zum Dashboard</a>')->name('shop.item.view');
+		Route::get('/artikelgruppe/{group}/{slug?}', fn(ItemGroup $group, ?string $slug = null) => "Das hier ist die Artikelgruppenseite zu $group->name.<br><a href=\"" . route('dashboard') . '" wire:navigate>Zum Dashboard</a>')->name('shop.itemGroup.view');
+	});
+
+	Route::fallback([MiscController::class, 'notFound']); // fallback route is required to get middlewares executed on 404 page (otherwise session, auth, csrf-token, etc. won't be available)
