@@ -12,7 +12,7 @@
                     @else
                         Es wurden <b>keine</b>
                     @endif
-                        <b>Treffer</b> bei der Suche nach „{{$search}}“ gefunden.
+                    <b>Treffer</b> bei der Suche nach „{{$search}}“ gefunden.
                 </p>
 
                 @if(!$this->items && !$this->searchDescription)
@@ -44,11 +44,22 @@
                         {!! File::get(resource_path('img/product-placeholder.svg')) !!}
                     @endif
 
-                    <span class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body" @if($item->grouped)title="Unterschiedliche Varianten vorhanden"@endif>
+                    <span @if($item->grouped && !$item->visible)
+                              title="Unterschiedliche Varianten vorhanden; Artikel nicht sichtbar"
+                          @elseif($item->grouped)
+                              title="Unterschiedliche Varianten vorhanden"
+                          @elseif(!$item->visible)
+                              title="Artikel nicht sichtbar"
+                          @endif
+                          class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body">
+
                         {{$item->name}}
 
                         @if($item->grouped)
-                            <i class="fa-solid fa-grip"></i>
+                            <i class="fa-solid fa-grip" title="Unterschiedliche Varianten vorhanden"></i>
+                        @endif
+                        @if(!$item->visible)
+                            <i class="fa-regular fa-eye-slash" title="Artikel nicht sichtbar"></i>
                         @endif
                     </span>
                 </a>
