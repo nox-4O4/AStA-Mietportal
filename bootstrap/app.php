@@ -12,6 +12,7 @@
 	                  )
 	                  ->withMiddleware(function (Middleware $middleware) {
 		                  $middleware->trustHosts(); // defaults to trusting host specified in app.url config
+		                  $middleware->web(append: [CommonHeaders::class]);
 	                  })
 	                  ->withExceptions(function (Exceptions $exceptions) {
 		                  //
