@@ -1,4 +1,4 @@
-<?php //a9f96c8c02b08eaf76e57972873e8c5d
+<?php //c3f21a4774660d9470821841056ce22c
 /** @noinspection all */
 
 namespace App\Models {
@@ -9,6 +9,7 @@ namespace App\Models {
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
     use Illuminate\Database\Eloquent\Relations\BelongsToMany;
     use Illuminate\Database\Eloquent\Relations\HasMany;
+    use Illuminate\Database\Eloquent\Relations\HasManyThrough;
     use Illuminate\Database\Eloquent\Relations\MorphToMany;
     use Illuminate\Notifications\DatabaseNotification;
     use Illuminate\Notifications\DatabaseNotificationCollection;
@@ -151,6 +152,7 @@ namespace App\Models {
      * @method false|int decrement(string $column, float|int $amount = 1, array $extra = [])
      * @method static _IH_Image_C|Image[] all()
      * @ownLinks item_id,\App\Models\Item,id
+     * @foreignLinks id,\App\Models\ItemGroup,image_id
      * @mixin _IH_Image_QB
      */
     class Image extends Model {}
@@ -167,6 +169,7 @@ namespace App\Models {
      * @property int|null $item_group_id
      * @property Carbon|null $created_at
      * @property Carbon|null $updated_at
+     * @property-read mixed $raw_name attribute
      * @property-read string $slug attribute
      * @property _IH_Image_C|Image[] $images
      * @property-read int $images_count
@@ -200,6 +203,13 @@ namespace App\Models {
      * @property string|null $description
      * @property Carbon|null $created_at
      * @property Carbon|null $updated_at
+     * @property int|null $image_id
+     * @property-read string $slug attribute
+     * @property Image|null $image
+     * @method BelongsTo|_IH_Image_QB image()
+     * @property _IH_Image_C|Image[] $itemImages
+     * @property-read int $item_images_count
+     * @method HasManyThrough|_IH_Image_QB itemImages()
      * @property _IH_Item_C|Item[] $items
      * @property-read int $items_count
      * @method HasMany|_IH_Item_QB items()
@@ -212,6 +222,7 @@ namespace App\Models {
      * @method false|int increment(string $column, float|int $amount = 1, array $extra = [])
      * @method false|int decrement(string $column, float|int $amount = 1, array $extra = [])
      * @method static _IH_ItemGroup_C|ItemGroup[] all()
+     * @ownLinks image_id,\App\Models\Image,id
      * @foreignLinks id,\App\Models\Item,item_group_id
      * @mixin _IH_ItemGroup_QB
      */

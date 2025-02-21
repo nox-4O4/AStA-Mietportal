@@ -1,4 +1,4 @@
-<?php //40bfdeb548a9a7d6bc7347db99146e35
+<?php //804df6610e5001cda15b019b9e238ac6
 /** @noinspection all */
 
 namespace LaravelIdea\Helper\App\Models {
@@ -415,6 +415,7 @@ namespace LaravelIdea\Helper\App\Models {
      * @method _IH_ItemGroup_QB whereDescription($value)
      * @method _IH_ItemGroup_QB whereCreatedAt($value)
      * @method _IH_ItemGroup_QB whereUpdatedAt($value)
+     * @method _IH_ItemGroup_QB whereImageId($value)
      * @method ItemGroup create(array $attributes = [])
      * @method ItemGroup createOrFirst(array $attributes = [], array $values = [])
      * @method ItemGroup createOrRestore(array $attributes = [], array $values = [])

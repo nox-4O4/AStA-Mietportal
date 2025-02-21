@@ -9,56 +9,90 @@
 
     <x-status-message />
 
-    <form wire:submit="updateGroup">
-        <div class="row mb-3">
-            <label for="name" class="col-sm-3 col-xl-2 col-form-label">Name</label>
-            <div class="col">
-                <input class="form-control @error('name')is-invalid @enderror" wire:model="name" id="name" required>
-                @error('name')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-                <div class="form-text">Der Gruppenname wird den Artikelnamen vorangestellt.</div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <label for="description" class="col-sm-3 col-xl-2 col-form-label">Beschreibung</label>
-            <div class="col">
-                <div class="autogrow-textarea @error('description')is-invalid @enderror" data-replicated-value="{{$description}}">
-                    <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="description" rows="3" id="description" class="form-control @error('description')is-invalid @enderror"></textarea>
-                </div>
-                @error('description')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
-                <div class="form-text">
-                    Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>[Link-Text](<span class="link">https://url</span>)</code>.
-                </div>
-            </div>
-        </div>
-
-        <div class="row mb-3">
-            <div class="col">
-                @if($errors->hasAny('name','description'))
-                    <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
-                @else
-                    <button type="submit"
-                            id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
-                            class="btn btn-outline-primary"
-                            wire:dirty.class="btn-primary"
-                            wire:dirty.class.remove="btn-outline-primary"
-                            wire:target="name,description">
-                        Änderungen übernehmen
-                    </button>
-                @endif
-            </div>
-        </div>
-    </form>
-
     <div class="row">
         <div class="col">
-            <button wire:click="deleteGroup" wire:confirm="Soll diese Artikelgruppe wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Gruppe löschen</button>
-            @if($this->hasItems)
-                <div class="form-text">In der Gruppe vorhandene Artikel werden nicht gelöscht. Es wird lediglich ihre Gruppierung aufgehoben. Der Artikelname ändert sich entsprechend.</div>
+            <form wire:submit="updateGroup">
+                <div class="row mb-3">
+                    <label for="name" class="col-sm-3 col-xxl-2 col-form-label">Name</label>
+                    <div class="col">
+                        <input class="form-control @error('name')is-invalid @enderror" wire:model="name" id="name" required>
+                        @error('name')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        <div class="form-text">Der Gruppenname wird den Artikelnamen vorangestellt.</div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <label for="description" class="col-sm-3 col-xxl-2 col-form-label">Beschrei&shy;bung</label>
+                    <div class="col">
+                        <div class="autogrow-textarea @error('description')is-invalid @enderror" data-replicated-value="{{$description}}">
+                            <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="description" rows="3" id="description" class="form-control @error('description')is-invalid @enderror"></textarea>
+                        </div>
+                        @error('description')
+                        <div class="invalid-feedback">{{$message}}</div>
+                        @enderror
+                        <div class="form-text">
+                            Formatierung mit Markdown wird unterstützt, bspw. <code>*<i>kursiv</i>*</code>, <code>**<b>fett</b>**</code> oder <code>[Link-Text](<span class="link">https://url</span>)</code>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col">
+                        @if($errors->hasAny('name','description'))
+                            <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
+                        @else
+                            <button type="submit"
+                                    id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
+                                    class="btn btn-outline-primary"
+                                    wire:dirty.class="btn-primary"
+                                    wire:dirty.class.remove="btn-outline-primary"
+                                    wire:target="name,description">
+                                Änderungen übernehmen
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </form>
+
+            <div class="row">
+                <div class="col">
+                    <button wire:click="deleteGroup" wire:confirm="Soll diese Artikelgruppe wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Gruppe löschen</button>
+                    @if($this->hasItems)
+                        <div class="form-text">In der Gruppe vorhandene Artikel werden nicht gelöscht. Es wird lediglich ihre Gruppierung aufgehoben. Der Artikelname ändert sich entsprechend.</div>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-12 col-xl-4">
+            <h5 class="mt-3 mt-md-0 mt-lg-3 mt-xl-0">Gruppenbild</h5>
+            @if($group->image)
+                <div class="position-relative w-100 h-100 d-none d-md-block d-lg-none d-xl-block">
+                    <div class="position-absolute d-flex w-100 h-100 flex-column">
+                        <div class="min-h-0">
+                            <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="w-100 h-100 object-fit-contain">
+                        </div>
+                        <p class="small text-muted mt-1">
+                            Um das Gruppenbild zu ändern, wähle einen in der Gruppe enthaltenen Artikel aus und lege dort eines der Artikelbilder als Gruppenbild fest.
+                        </p>
+                    </div>
+                </div>
+                <div class="row d-md-none d-lg-flex d-xl-none">
+                    <div class="col col-sm-auto">
+                        <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="object-fit-contain group-image-small">
+                    </div>
+                    <p class="col-sm small text-muted mt-1 mt-sm-0 mb-0">
+                        Um das Gruppenbild zu ändern, wähle einen in der Gruppe enthaltenen Artikel aus und lege dort eines der Artikelbilder als Gruppenbild fest.
+                    </p>
+                </div>
+            @else
+                <p>Noch kein Gruppenbild vorhanden.</p>
+                @if($this->hasItems)
+                    <p class="mb-0">Um ein Gruppenbild zuzuweisen, wähle einen in der Gruppe enthaltenen Artikel aus und lege dort eines der Artikelbilder als Gruppenbild fest.</p>
+                @else
+                    <p class="mb-0">Um ein Gruppenbild zuzuweisen, füge der Gruppe einen Artikel hinzu und lege dort eines der Artikelbilder als Gruppenbild fest.</p>
+                @endif
             @endif
         </div>
     </div>

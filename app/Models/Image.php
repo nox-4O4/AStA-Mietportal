@@ -22,8 +22,22 @@
 		];
 
 		protected static function booted(): void {
-			static::deleted(function (Image $item) {
-				Storage::disk('public')->delete($item->path);
+			static::created(function (Image $image) {
+				if($image->item->itemGroup && !$image->item->itemGroup->image)
+					$image->item->itemGroup->image()->associate($image)->save();
+			});
+			static::deleted(function (Image $image) {
+				Storage::disk('public')->delete($image->path);
+
+				if($image->item->refresh()->itemGroup && !$image->item->itemGroup->image) {
+					if($image->item->images->isNotEmpty())
+						$newImage = $image->item->images->first();
+					else
+						$newImage = $image->item->itemGroup->itemImages()->first();
+
+					if($newImage)
+						$image->item->itemGroup->image()->associate($newImage)->save();
+				}
 			});
 		}
 

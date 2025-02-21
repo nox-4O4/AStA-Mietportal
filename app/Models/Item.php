@@ -37,6 +37,26 @@
 		];
 
 		protected static function booted(): void {
+			static::updating(function (Item $item) {
+				$oldGroupId   = $item->getOriginal('item_group_id');
+				$currentGroup = $item->itemGroup;
+
+				if($oldGroupId !== $currentGroup?->id) {
+					// check if old group image has to be removed
+					$oldGroup = ItemGroup::find($oldGroupId);
+					if($oldGroup && $oldGroup->image?->item->id == $item->id) {
+						if($newImage = $oldGroup->itemImages()->first())
+							$oldGroup->image()->associate($newImage)->save();
+						else
+							$oldGroup->image()->dissociate()->save();
+					}
+
+					// check if new group image should be set
+					if($currentGroup && !$currentGroup->image && $item->images->isNotEmpty())
+						$currentGroup->image()->associate($item->images->first())
+						             ->save();
+				}
+			});
 			static::deleting(function (Item $item) {
 				// delete group when its last item gets deleted
 				if($item->itemGroup?->items()->whereNot('id', $item->id)->count() === 0)
@@ -88,45 +108,38 @@
 		 */
 		public static function getDisplayItemElements(): array {
 			return DB::select(<<<SQL
-				WITH singleItems AS (SELECT items.id,
-				                            name,
-				                            FIRST_VALUE(images.path) OVER (PARTITION BY item_id ORDER BY images.id) imagePath,
-				                            0                                                                       grouped,
-				                            (SELECT COUNT(DISTINCT orders.id)
-				                             FROM orders
-				                             JOIN order_item ON orders.id = order_item.order_id
-				                             WHERE orders.status != 'cancelled' AND
-				                                   order_item.item_id = items.id)                                   orders,
-				                            visible
+				WITH singleItems AS (SELECT DISTINCT items.id,
+				                                     name,
+				                                     FIRST_VALUE(images.path) OVER (PARTITION BY item_id ORDER BY images.id) imagePath,
+				                                     0                                                                       grouped,
+				                                     (SELECT COUNT(DISTINCT orders.id)
+				                                      FROM orders
+				                                      JOIN order_item ON orders.id = order_item.order_id
+				                                      WHERE orders.status != 'cancelled' AND
+				                                            order_item.item_id = items.id)                                   orders,
+				                                     visible
 				                     FROM items
 				                     LEFT JOIN images ON items.id = images.item_id
 				                     WHERE item_group_id IS NULL),
 				     groupedItems AS (SELECT item_groups.id,
 				                             item_groups.name,
-				                             FIRST_VALUE(images.path) OVER (PARTITION BY item_groups.id ORDER BY images.id IS NULL, items.id,images.id) imagePath,
-				                             1                                                                                                          grouped,
+				                             images.path                                       imagePath,
+				                             1                                                 grouped,
 				                             (SELECT COUNT(DISTINCT orders.id)
 				                              FROM orders
 				                              JOIN order_item ON orders.id = order_item.order_id
 				                              JOIN items innerItems ON order_item.item_id = innerItems.id
 				                              WHERE orders.status != 'cancelled' AND
-				                                    innerItems.item_group_id = item_groups.id)                                                          orders,
-				                             visible
+				                                    innerItems.item_group_id = item_groups.id) orders,
+				                             SUM(visible) > 0
 				                      FROM item_groups
 				                      JOIN items ON item_groups.id = items.item_group_id
-				                      LEFT JOIN images ON items.id = images.item_id)
+				                      LEFT JOIN images ON item_groups.image_id = images.id
+				                      GROUP BY id)
 
-				SELECT id, name, imagePath, grouped, orders
-				FROM singleItems
-				GROUP BY id
-				HAVING SUM(visible) > 0
-
+				SELECT * FROM singleItems
 				UNION ALL
-
-				SELECT id, name, imagePath, grouped, orders
-				FROM groupedItems
-				GROUP BY id
-				HAVING SUM(visible) > 0
+				SELECT * FROM groupedItems
 
 				ORDER BY orders DESC, name
 				SQL

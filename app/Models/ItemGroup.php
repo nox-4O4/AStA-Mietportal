@@ -4,7 +4,9 @@
 
 	use DateTime;
 	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 	/**
 	 * @property int       $id
@@ -27,6 +29,14 @@
 
 		public function items(): HasMany {
 			return $this->hasMany(Item::class)->chaperone();
+		}
+
+		public function itemImages(): HasManyThrough {
+			return $this->hasManyThrough(Image::class, Item::class)->orderBy('item_id')->orderBy('id');
+		}
+
+		public function image(): BelongsTo {
+			return $this->belongsTo(Image::class);
 		}
 
 		public function getSearchFilterValues(bool $includeDescription): array {

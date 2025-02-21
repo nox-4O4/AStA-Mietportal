@@ -1,4 +1,4 @@
-<?php //40a1f91feb86dd4abdca2fbd9673f7e0
+<?php //aec93702052a7b403c82cf9e4ca72259
 /** @noinspection all */
 
 namespace Illuminate\Support\Facades {
@@ -2516,6 +2516,58 @@ namespace Illuminate\Support\Facades {
     class Redirect {}
     
     /**
+     * @see \Illuminate\Redis\Connections\Connection::throttle
+     * @method static \Illuminate\Redis\Limiters\DurationLimiterBuilder throttle(string $name)
+     * @see \Illuminate\Redis\RedisManager::resolve
+     * @method static \Illuminate\Redis\Connections\Connection resolve(null|string $name = null)
+     * @see \Illuminate\Redis\Connections\Connection::funnel
+     * @method static \Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder funnel(string $name)
+     * @see \Illuminate\Redis\RedisManager::purge
+     * @method static void purge(null|string $name = null)
+     * @see \Illuminate\Redis\Connections\Connection::psubscribe
+     * @method static void psubscribe(array|string $channels, \Closure $callback)
+     * @see \Illuminate\Redis\Connections\Connection::setEventDispatcher
+     * @method static void setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $events)
+     * @see \Illuminate\Redis\RedisManager::setDriver
+     * @method static void setDriver(string $driver)
+     * @see \Illuminate\Redis\Connections\Connection::listen
+     * @method static void listen(\Closure $callback)
+     * @see \Illuminate\Support\Traits\Macroable::hasMacro
+     * @method static bool hasMacro(string $name)
+     * @see \Illuminate\Redis\Connections\Connection::getEventDispatcher
+     * @method static \Illuminate\Contracts\Events\Dispatcher|null getEventDispatcher()
+     * @see \Illuminate\Redis\Connections\Connection::client
+     * @method static mixed|\Redis client()
+     * @see \Illuminate\Redis\RedisManager::connection
+     * @method static \Illuminate\Redis\Connections\Connection connection(null|string $name = null)
+     * @see \Illuminate\Redis\RedisManager::connections
+     * @method static array connections()
+     * @see \Illuminate\Redis\Connections\Connection::createSubscription
+     * @method static void createSubscription(array|string $channels, \Closure $callback, string $method = 'subscribe')
+     * @see \Illuminate\Redis\RedisManager::enableEvents
+     * @method static void enableEvents()
+     * @see \Illuminate\Support\Traits\Macroable::macro
+     * @method static void macro(string $name, callable|object $macro)
+     * @see \Illuminate\Redis\Connections\Connection::subscribe
+     * @method static void subscribe(array|string $channels, \Closure $callback)
+     * @see \Illuminate\Redis\RedisManager::disableEvents
+     * @method static void disableEvents()
+     * @see \Illuminate\Redis\Connections\Connection::command
+     * @method static mixed command(string $method, array $parameters = [])
+     * @see \Illuminate\Redis\RedisManager::extend
+     * @method static \Illuminate\Redis\RedisManager extend(string $driver, \Closure $callback)
+     * @see \Illuminate\Redis\Connections\Connection::getName
+     * @method static null|string getName()
+     * @see \Illuminate\Support\Traits\Macroable::mixin
+     * @method static void mixin(object $mixin, bool $replace = true)
+     * @see \Illuminate\Redis\Connections\Connection::setName
+     * @method static \Illuminate\Redis\Connections\Connection setName(string $name)
+     * @see \Illuminate\Redis\Connections\Connection::unsetEventDispatcher
+     * @method static void unsetEventDispatcher()
+     * @see \Illuminate\Support\Traits\Macroable::macroCall
+     * @method static mixed macroCall(string $method, array $parameters)
+     * @see \Illuminate\Support\Traits\Macroable::flushMacros
+     * @method static void flushMacros()
      * @see \Redis::lastSave
      * @method static int lastSave()
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::zunionstore
@@ -2526,8 +2578,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|\Redis|string echo(string $str)
      * @see \Redis::del
      * @method static false|int|\Redis del(array|string $key, string ...$other_keys)
-     * @see \Illuminate\Redis\Connections\PhpRedisConnection::psubscribe
-     * @method static void psubscribe(array|string $channels, \Closure $callback)
      * @see \Redis::sInterStore
      * @method static false|int|\Redis sInterStore(array|string $key, string ...$other_keys)
      * @see \Redis::xrevrange
@@ -2598,10 +2648,6 @@ namespace Illuminate\Support\Facades {
      * @method static mixed evalsha_ro(string $sha1, array $args = [], int $num_keys = 0)
      * @see \Redis::rpoplpush
      * @method static false|\Redis|string rpoplpush(string $srckey, string $dstkey)
-     * @see \Illuminate\Support\Traits\Macroable::hasMacro
-     * @method static bool hasMacro(string $name)
-     * @see \Illuminate\Redis\Connections\Connection::getEventDispatcher
-     * @method static \Illuminate\Contracts\Events\Dispatcher|null getEventDispatcher()
      * @see \Redis::lPop
      * @method static array|bool|\Redis|string lPop(string $key, int $count = 0)
      * @see \Redis::zrangestore
@@ -2644,8 +2690,6 @@ namespace Illuminate\Support\Facades {
      * @method static mixed getAuth()
      * @see \Redis::watch
      * @method static bool|\Redis watch(array|string $key, string ...$other_keys)
-     * @see \Illuminate\Redis\Connections\Connection::unsetEventDispatcher
-     * @method static void unsetEventDispatcher()
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::zrangebyscore
      * @method static array zrangebyscore(string $key, $min, $max, array $options = [])
      * @see \Redis::_unserialize
@@ -2712,8 +2756,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|int|\Redis xdel(string $key, array $ids)
      * @see \Redis::xclaim
      * @method static array|bool|\Redis xclaim(string $key, string $group, string $consumer, int $min_idle, array $ids, array $options)
-     * @see \Illuminate\Support\Traits\Macroable::mixin
-     * @method static void mixin(object $mixin, bool $replace = true)
      * @see \Redis::pfadd
      * @method static int|\Redis pfadd(string $key, array $elements)
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::eval
@@ -2728,8 +2770,6 @@ namespace Illuminate\Support\Facades {
      * @method static bool|\Redis failover(array|null $to = null, bool $abort = false, int $timeout = 0)
      * @see \Redis::pfcount
      * @method static false|int|\Redis pfcount(array|string $key_or_keys)
-     * @see \Illuminate\Support\Traits\Macroable::flushMacros
-     * @method static void flushMacros()
      * @see \Redis::getDBNum
      * @method static int getDBNum()
      * @see \Redis::exec
@@ -2760,8 +2800,6 @@ namespace Illuminate\Support\Facades {
      * @method static array zrevrangebyscore(string $key, $min, $max, array $options = [])
      * @see \Redis::rawcommand
      * @method static mixed rawcommand(string $command, ...$args)
-     * @see \Illuminate\Redis\Connections\Connection::client
-     * @method static mixed|\Redis client()
      * @see \Redis::sUnion
      * @method static array|false|\Redis sUnion(string $key, string ...$other_keys)
      * @see \Redis::xread
@@ -2808,8 +2846,6 @@ namespace Illuminate\Support\Facades {
      * @method static bool|\Redis select(int $db)
      * @see \Redis::zCount
      * @method static false|int|\Redis zCount(string $key, string $start, string $end)
-     * @see \Illuminate\Redis\Connections\Connection::funnel
-     * @method static \Illuminate\Redis\Limiters\ConcurrencyLimiterBuilder funnel(string $name)
      * @see \Redis::zMscore
      * @method static array|false|\Redis zMscore(string $key, $member, ...$other_members)
      * @see \Redis::sUnionStore
@@ -2864,8 +2900,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|int|\Redis dbSize()
      * @see \Redis::sortAsc
      * @method static array sortAsc(string $key, null|string $pattern = null, $get = null, int $offset = -1, int $count = -1, null|string $store = null)
-     * @see \Illuminate\Redis\Connections\Connection::throttle
-     * @method static \Illuminate\Redis\Limiters\DurationLimiterBuilder throttle(string $name)
      * @see \Redis::getPersistentID
      * @method static null|string getPersistentID()
      * @see \Redis::wait
@@ -2904,8 +2938,6 @@ namespace Illuminate\Support\Facades {
      * @method static bool|\Redis bgrewriteaof()
      * @see \Redis::copy
      * @method static bool|\Redis copy(string $src, string $dst, array|null $options = null)
-     * @see \Illuminate\Redis\Connections\PhpRedisConnection::createSubscription
-     * @method static void createSubscription(array|string $channels, \Closure $callback, string $method = 'subscribe')
      * @see \Redis::decrBy
      * @method static false|int|\Redis decrBy(string $key, int $value)
      * @see \Redis::setBit
@@ -2916,8 +2948,6 @@ namespace Illuminate\Support\Facades {
      * @method static array|false|null|\Redis blmpop(float $timeout, array $keys, string $from, int $count = 1)
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::pipeline
      * @method static array|\Redis pipeline(callable|null $callback = null)
-     * @see \Illuminate\Redis\Connections\Connection::getName
-     * @method static null|string getName()
      * @see \Redis::srem
      * @method static false|int|\Redis srem(string $key, $value, ...$other_values)
      * @see \Redis::getRange
@@ -2932,8 +2962,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|int|\Redis setRange(string $key, int $index, string $value)
      * @see \Redis::eval_ro
      * @method static mixed eval_ro(string $script_sha, array $args = [], int $num_keys = 0)
-     * @see \Illuminate\Support\Traits\Macroable::macroCall
-     * @method static mixed macroCall(string $method, array $parameters)
      * @see \Redis::sAdd
      * @method static false|int|\Redis sAdd(string $key, $value, ...$other_values)
      * @see \Redis::zRevRangeByLex
@@ -2954,8 +2982,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|int|\Redis rPushx(string $key, $value)
      * @see \Redis::psetex
      * @method static bool|\Redis psetex(string $key, int $expire, $value)
-     * @see \Illuminate\Redis\Connections\Connection::listen
-     * @method static void listen(\Closure $callback)
      * @see \Redis::function
      * @method static array|bool|\Redis|string function(string $operation, ...$args)
      * @see \Redis::_pack
@@ -2986,8 +3012,6 @@ namespace Illuminate\Support\Facades {
      * @method static false|int|\Redis touch(array|string $key_or_array, string ...$more_keys)
      * @see \Redis::sort
      * @method static mixed sort(string $key, array|null $options = null)
-     * @see \Illuminate\Redis\Connections\Connection::setName
-     * @method static \Illuminate\Redis\Connections\Connection setName(string $name)
      * @see \Redis::hKeys
      * @method static array|false|\Redis hKeys(string $key)
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::hsetnx
@@ -3004,8 +3028,6 @@ namespace Illuminate\Support\Facades {
      * @method static array|false|\Redis keys(string $pattern)
      * @see \Redis::zRemRangeByScore
      * @method static false|int|\Redis zRemRangeByScore(string $key, string $start, string $end)
-     * @see \Illuminate\Redis\Connections\Connection::setEventDispatcher
-     * @method static void setEventDispatcher(\Illuminate\Contracts\Events\Dispatcher $events)
      * @see \Redis::delete
      * @method static false|int|\Redis delete(array|string $key, string ...$other_keys)
      * @see \Redis::xautoclaim
@@ -3028,8 +3050,6 @@ namespace Illuminate\Support\Facades {
      * @method static int zadd(string $key, ...$dictionary)
      * @see \Illuminate\Redis\Connections\PacksPhpRedisValues::serialized
      * @method static bool serialized()
-     * @see \Illuminate\Support\Traits\Macroable::macro
-     * @method static void macro(string $name, callable|object $macro)
      * @see \Redis::move
      * @method static bool|\Redis move(string $key, int $index)
      * @see \Redis::debug
@@ -3042,16 +3062,12 @@ namespace Illuminate\Support\Facades {
      * @method static bool|\Redis restore(string $key, int $ttl, string $value, array|null $options = null)
      * @see \Redis::zRemRangeByRank
      * @method static false|int|\Redis zRemRangeByRank(string $key, int $start, int $end)
-     * @see \Illuminate\Redis\Connections\PhpRedisConnection::subscribe
-     * @method static void subscribe(array|string $channels, \Closure $callback)
      * @see \Redis::setOption
      * @method static bool setOption(int $option, $value)
      * @see \Redis::xinfo
      * @method static mixed xinfo(string $operation, null|string $arg1 = null, null|string $arg2 = null, int $count = -1)
      * @see \Redis::ttl
      * @method static false|int|\Redis ttl(string $key)
-     * @see \Illuminate\Redis\Connections\PhpRedisConnection::command
-     * @method static mixed command(string $method, array $parameters = [])
      * @see \Redis::sunsubscribe
      * @method static array|bool|\Redis sunsubscribe(array $channels)
      * @see \Redis::sMembers
@@ -3066,32 +3082,10 @@ namespace Illuminate\Support\Facades {
      * @method static array|false|mixed sscan(string $key, $cursor, array $options = [])
      * @see \Illuminate\Redis\Connections\PhpRedisConnection::mget
      * @method static array mget(array $keys)
-     * @see \Illuminate\Redis\RedisManager::resolve
-     * @method static \Illuminate\Redis\Connections\Connection resolve(null|string $name = null)
-     * @see \Illuminate\Redis\RedisManager::purge
-     * @method static void purge(null|string $name = null)
-     * @see \Illuminate\Redis\RedisManager::setDriver
-     * @method static void setDriver(string $driver)
-     * @see \Illuminate\Redis\RedisManager::connection
-     * @method static \Illuminate\Redis\Connections\Connection connection(null|string $name = null)
-     * @see \Illuminate\Redis\RedisManager::connections
-     * @method static array connections()
-     * @see \Illuminate\Redis\RedisManager::enableEvents
-     * @method static void enableEvents()
-     * @see \Illuminate\Redis\RedisManager::disableEvents
-     * @method static void disableEvents()
-     * @see \Illuminate\Redis\RedisManager::extend
-     * @method static \Illuminate\Redis\RedisManager extend(string $driver, \Closure $callback)
      */
     class Redis {}
     
     /**
-     * @see \Illuminate\Http\Request::hasValidSignatureWhileIgnoring
-     * @method static bool hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
-     * @see \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring
-     * @method static bool hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
-     * @see \Illuminate\Http\Request::hasValidRelativeSignature
-     * @method static bool hasValidRelativeSignature()
      * @see \Symfony\Component\HttpFoundation\Request::hasPreviousSession
      * @method static bool hasPreviousSession()
      * @see \Symfony\Component\HttpFoundation\Request::isMethod
@@ -3466,6 +3460,12 @@ namespace Illuminate\Support\Facades {
      * @method static mixed user(null|string $guard = null)
      * @see \Symfony\Component\HttpFoundation\Request::getLanguages
      * @method static string[] getLanguages()
+     * @see \Illuminate\Http\Request::hasValidSignatureWhileIgnoring
+     * @method static bool hasValidSignatureWhileIgnoring($ignoreQuery = [], $absolute = true)
+     * @see \Illuminate\Http\Request::hasValidRelativeSignatureWhileIgnoring
+     * @method static bool hasValidRelativeSignatureWhileIgnoring($ignoreQuery = [])
+     * @see \Illuminate\Http\Request::hasValidRelativeSignature
+     * @method static bool hasValidRelativeSignature()
      */
     class Request {}
     

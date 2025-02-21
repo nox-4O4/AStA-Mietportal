@@ -234,9 +234,18 @@
                                 <div class="swiper-zoom-container">
                                     <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
                                 </div>
-                                <div class="image-delete d-flex position-absolute bottom-0 w-100">
-                                    <button class="btn btn-danger mx-auto my-2" wire:click="deleteImage({{$image->id}})">
-                                        <i class="fa-solid fa-trash-can"></i>&nbsp;Löschen
+                                <div class="image-delete d-flex justify-content-center align-items-center flex-wrap position-absolute bottom-0 w-100 pb-1">
+                                    @if($item->itemGroup)
+                                        @if($item->itemGroup->image?->id == $image->id)
+                                            <div class="badge text-bg-secondary mx-2 mb-1">Dies ist das Gruppenbild</div>
+                                        @else
+                                            <button class="btn btn-light mx-2 mb-1 btn-sm text-nowrap" wire:click="setGroupImage({{$image->id}})">
+                                                <i class="fa-solid fa-object-group"></i> Als Gruppenbild festlegen
+                                            </button>
+                                        @endif
+                                    @endif
+                                    <button class="btn btn-danger mx-2 mb-1 btn-sm text-nowrap" wire:click="deleteImage({{$image->id}})">
+                                        <i class="fa-solid fa-trash-can"></i> Löschen
                                     </button>
                                 </div>
                             </div>

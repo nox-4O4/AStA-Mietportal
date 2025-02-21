@@ -97,4 +97,8 @@
 
 			$this->newItem = null;
 		}
+
+		public function render(): View {
+			return view('components.dashboard.items.item-group-detail');
+		}
 	}

@@ -135,4 +135,17 @@
 				$image->delete();
 			}
 		}
+
+		public function setGroupImage(int $imageId): void {
+			if(!$this->item->itemGroup)
+				return;
+
+			$image = Image::find($imageId);
+
+			if($image && $image->item_id == $this->item->id) {
+				$this->item->itemGroup
+					->image()->associate($image)
+					->save();
+			}
+		}
 	}
