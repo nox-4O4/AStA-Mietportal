@@ -2,22 +2,34 @@
 
 	namespace App\Providers;
 
+	use App\Contracts\PriceCalculation;
 	use App\Enums\UserRole;
 	use App\Models\User;
 	use App\Util\Markdown;
 	use Auth;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
+	use Illuminate\Foundation\Application;
 	use Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
+	use League\Config\Exception\InvalidConfigurationException;
 
 	class AppServiceProvider extends ServiceProvider {
 		/**
 		 * Register any application services.
 		 */
 		public function register(): void {
+			$this->app->bind(PriceCalculation::class, function (Application $app): PriceCalculation {
+				/** @var array{class: class-string<PriceCalculation>, configuration: ?array} $config */
+				$config = config('shop.prive_calculation_providers.' . config('shop.price_calculation'));
+
+				if(!isset($config['class']) || !is_a($config['class'], PriceCalculation::class, true))
+					throw new InvalidConfigurationException('configuration shop.price_calculation must be a valid price calculation provider.');
+
+				return $app->make($config['class'], ['configuration' => $config['configuration'] ?? []]);
+			});
 		}
 
 		/**
