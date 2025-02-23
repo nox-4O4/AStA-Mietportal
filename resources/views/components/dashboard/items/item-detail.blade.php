@@ -228,7 +228,7 @@
                 @if($item->images->isEmpty())
                     <p>Zu diesem Artikel wurden noch keine Bilder hinterlegt.</p>
                 @else
-                    <x-swiper id="dashboard-images" class="dashboard-swiper-container">
+                    <x-swiper id="dashboard-images" class="item-image-container">
                         @foreach($item->images as $image)
                             <div class="swiper-slide" data-hash="image-{{$image->id}}">
                                 <div class="swiper-zoom-container">
@@ -283,7 +283,7 @@
                                 <td>
                                     <ul class="my-1 ps-4">
                                         <li>
-                                            <span class="d-sm-none">{{$item->rawName()}}</span>
+                                            <span class="d-sm-none">{{$item->raw_name}}</span>
                                             <span class="d-none d-sm-inline">{{$item->name}}</span>
                                         </li>
                                     </ul>

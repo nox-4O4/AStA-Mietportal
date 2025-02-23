@@ -26,3 +26,23 @@ img[alt]::before {
     max-width: 45rem;
   }
 }
+
+.brand-small {
+  background-image: url('../../public/img/asta_logo.png');
+  background-size: contain;
+  background-origin: content-box;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+// constrain height for item image slider
+.item-image-container {
+  height: min(500px, 80vh);
+  max-height: fit-content;
+}
+
+.fa-xmark { // fix alignment with text and size compared with check icon
+  font-size: 1.1em;
+  position: relative;
+  top: 1px;
+}

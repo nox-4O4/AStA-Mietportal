@@ -43,7 +43,7 @@
 
 		public function mount(Item $item) {
 			$this->item        = $item;
-			$this->name        = $item->rawName();
+			$this->name        = $item->raw_name;
 			$this->description = $item->description;
 			$this->available   = $item->available;
 			$this->visible     = $item->visible;

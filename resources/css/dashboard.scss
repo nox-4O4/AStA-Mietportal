@@ -70,14 +70,6 @@ html, body {
   line-height: 0;
 }
 
-.brand-small {
-  background-image: url('../../public/img/asta_logo.png');
-  background-size: contain;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 /* make sure that text wrapping in breadcrumbs remains indented and does not wrap to separator level */
 .breadcrumb-item {
   & + & {
@@ -88,12 +80,6 @@ html, body {
     margin-left: -1rem;
     padding-right: 0 !important;
   }
-}
-
-// constrain height for item image slider
-.dashboard-swiper-container {
-  height: min(500px, 80vh);
-  max-height: fit-content;
 }
 
 .swiper-thumbs .image-delete {

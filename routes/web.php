@@ -20,11 +20,10 @@
 	use App\Http\Components\Dashboard\UserCreate;
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
+	use App\Http\Components\Shop\Item as ShopItem;
 	use App\Http\Components\Shop\ItemList as ShopItemList;
 	use App\Http\Controllers\LogoutController;
 	use App\Http\Controllers\MiscController;
-	use App\Models\Item;
-	use App\Models\ItemGroup;
 	use Illuminate\Support\Facades\Route;
 
 	Route::group(['middleware' => 'guest'], function () {
@@ -88,12 +87,17 @@
 		});
 	});
 
-	Route::get('/', ShopItemList::class)->name('shop');
-
 	// Setting custom missing callback prevents SubstituteBindings from throwing an exception which breaks Livewire component updates on error pages.
-	Route::group(['missing' => app(MiscController::class)->notFound(...)], function () {
-		Route::get('/artikel/{item}/{slug?}', fn(Item $item, ?string $slug = null) => "Das hier ist die Artikelseite zu $item->name.<br><a href=\"" . route('dashboard') . '" wire:navigate>Zum Dashboard</a>')->name('shop.item.view');
-		Route::get('/artikelgruppe/{group}/{slug?}', fn(ItemGroup $group, ?string $slug = null) => "Das hier ist die Artikelgruppenseite zu $group->name.<br><a href=\"" . route('dashboard') . '" wire:navigate>Zum Dashboard</a>')->name('shop.itemGroup.view');
+	Route::group(['missing' => app(MiscController::class)->notFound(...), 'as' => 'shop'], function () {
+		Route::get('/', ShopItemList::class);
+
+		Route::get('/artikel/{item}/{slug?}', ShopItem::class)
+		     ->name('.item.view')
+		     ->can('view', 'item');
+
+		Route::get('/artikelgruppe/{group}/{slug?}', ShopItem::class)
+		     ->name('.itemGroup.view')
+		     ->can('view', 'group');
 	});
 
 	Route::fallback([MiscController::class, 'notFound']); // fallback route is required to get middlewares executed on 404 page (otherwise session, auth, csrf-token, etc. won't be available)

@@ -2,16 +2,21 @@
 
 	namespace App\Http\Components\Shop;
 
+	use App\Models\DTOs\ItemListEntry;
 	use App\Models\Item;
 	use App\Models\ItemGroup;
+	use App\Util\Helper;
 	use Illuminate\Support\Arr;
-	use Illuminate\Support\Str;
+	use Illuminate\Support\Facades\Gate;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Url;
 	use Livewire\Component;
 	use Transliterator;
 
+	/**
+	 * @property-read array<ItemListEntry> $items See {@see ItemList::items()} for property getter
+	 */
 	#[Layout('layouts.shop')]
 	class ItemList extends Component {
 
@@ -24,6 +29,7 @@
 		#[Computed]
 		public function items(): array {
 			$result = Item::getDisplayItemElements();
+			$result = array_filter($result, fn(ItemListEntry $element): bool => Gate::allows('view', $element));
 
 			if($this->search !== '')
 				$result = self::filterValues($result);
@@ -38,7 +44,10 @@
 				// when our search result contains only a single item group check if the search query is specific enough to identify a single item of that group.
 				// If it is specific enough we redirect the user directly to that item. Otherwise, redirect user to item group.
 				if($item->grouped) {
-					$items  = array_map(fn(Item $item) => (object) ['id' => $item->id, 'grouped' => false, 'name' => $item->name], ItemGroup::find($item->id)->items->all());
+					$items  = array_map(
+						fn(Item $item) => new ItemListEntry($item->id, $item->name, null, false, 0, $item->visible), // only 'id', 'name' and 'grouped' are used
+						ItemGroup::find($item->id)->items->all()
+					);
 					$result = self::filterValues($items);
 
 					if(count($result) == 1) { // specific item found
@@ -46,7 +55,7 @@
 					}
 				}
 
-				$this->redirectRoute($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, Str::slug($item->name)]);
+				$this->redirectRoute($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, Helper::GetItemSlug($item->name)]);
 			}
 
 			$view = view('components.shop.item-list');
@@ -57,6 +66,11 @@
 			return $view;
 		}
 
+		/**
+		 * @param array<ItemListEntry> $elements
+		 *
+		 * @return array<ItemListEntry>
+		 */
 		private function filterValues(array $elements): array {
 			// remove accents, see https://stackoverflow.com/a/76733861
 			$transliterator = Transliterator::createFromRules(':: NFD; :: [:Mn:] Remove; :: NFC;');

@@ -2,6 +2,8 @@
 
 	namespace App\Models;
 
+	use App\Models\DTOs\ItemListEntry;
+	use App\Util\Helper;
 	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
@@ -9,7 +11,6 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Support\Facades\DB;
-	use Illuminate\Support\Str;
 
 	/**
 	 * @property int        $id
@@ -77,11 +78,11 @@
 		}
 
 		protected function slug(): Attribute {
-			return Attribute::get(fn() => Str::slug($this->name, language: 'de'));
+			return Attribute::get(fn() => Helper::GetItemSlug($this->name));
 		}
 
-		public function rawName(): string {
-			return $this->attributes['name'];
+		public function rawName(): Attribute {
+			return Attribute::get(fn() => $this->attributes['name']);
 		}
 
 		public function itemGroup(): BelongsTo {
@@ -104,10 +105,10 @@
 		 * Gets all elements that should be displayed in shop item list. Grouped items will be returned as a single element, ungrouped items will be returned unchanged.
 		 * Result is ordered by the amount of non-cancelled orders that contain the corresponding ungrouped item or an item of the corresponding group.
 		 *
-		 * @return array
+		 * @return array<ItemListEntry>
 		 */
 		public static function getDisplayItemElements(): array {
-			return DB::select(<<<SQL
+			return ItemListEntry::collect(DB::select(<<<SQL
 				WITH singleItems AS (SELECT DISTINCT items.id,
 				                                     name,
 				                                     FIRST_VALUE(images.path) OVER (PARTITION BY item_id ORDER BY images.id) imagePath,
@@ -143,7 +144,7 @@
 
 				ORDER BY orders DESC, name
 				SQL
-			);
+			));
 		}
 
 		/**

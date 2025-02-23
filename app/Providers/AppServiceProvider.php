@@ -50,7 +50,7 @@
 
 			// some blade helpers
 			Blade::directive('money', fn($expression) => <<<PHP
-				<?=number_format(\$x=($expression), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
+				<?=number_format(\$x=(round($expression, 2)), fmod(\$x, 1) ? 2 : 0, ',', '.') . "\u{202F}€"?>
 				PHP
 			);
 

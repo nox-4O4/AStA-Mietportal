@@ -148,7 +148,7 @@
                             <td>
                                 <ul class="m-0 ps-4">
                                     <li>
-                                        <span class="d-sm-none">{{$item->rawName()}}</span>
+                                        <span class="d-sm-none">{{$item->raw_name}}</span>
                                         <span class="d-none d-sm-inline">{{$item->name}}</span>
                                     </li>
                                 </ul>

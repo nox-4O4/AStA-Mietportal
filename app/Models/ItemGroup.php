@@ -2,7 +2,9 @@
 
 	namespace App\Models;
 
+	use App\Util\Helper;
 	use DateTime;
+	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +28,10 @@
 			'name',
 			'description',
 		];
+
+		protected function slug(): Attribute {
+			return Attribute::get(fn() => Helper::GetItemSlug($this->name));
+		}
 
 		public function items(): HasMany {
 			return $this->hasMany(Item::class)->chaperone();

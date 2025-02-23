@@ -4,6 +4,7 @@
 
 	use App\Models\Item;
 	use App\Models\ItemGroup;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
@@ -11,6 +12,9 @@
 	use Livewire\Attributes\Locked;
 	use Livewire\Component;
 
+	/**
+	 * @property-read bool $hasItems See {@see ItemGroupDetail::hasItems()} for getter.
+	 */
 	#[Layout('layouts.dashboard')]
 	class ItemGroupDetail extends Component {
 
@@ -28,7 +32,7 @@
 
 		#[Computed]
 		public function hasItems(): bool {
-			return $this->group->items->count() > 0;
+			return $this->group->items->isNotEmpty();
 		}
 
 		#[Computed]
