@@ -1,5 +1,6 @@
 :root {
   --swiper-theme-color: var(--bs-primary) !important;
+  --swiper-navigation-color: var(--bs-body-color);
 }
 
 .swiper-container {
@@ -47,7 +48,7 @@
 
     img {
       cursor: pointer;
-      font-size: 0.75rem; // smaller font size for error message shown with broken images
+      font-size: 0.7rem; // smaller font size for error message shown with broken images
     }
 
     // decrease padding for error message shown with broken images
@@ -58,6 +59,6 @@
 
   // white border around navigation button arrows
   .swiper-button-prev:after, .swiper-button-next:after {
-    text-shadow: -1px 0px var(--bs-primary-border-subtle), 1px 0px var(--bs-primary-border-subtle), 0px 1px var(--bs-primary-border-subtle), 0px -1px var(--bs-primary-border-subtle);
+    text-shadow: -1px 0px var(--bs-body-bg), 1px 0px var(--bs-body-bg), 0px 1px var(--bs-body-bg), 0px -1px var(--bs-body-bg);
   }
 }

@@ -37,6 +37,10 @@
       }
     }
   }
+
+  .footer a {
+    color: inherit;
+  }
 }
 
 @include color-mode(dark) {

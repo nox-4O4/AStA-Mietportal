@@ -19,7 +19,7 @@
         <div class="shop-content mx-auto w-100 p-3 pt-4 p-lg-4 pt-lg-5 flex-grow-1">
             @yield('main', $slot ?? '')
         </div>
-        <div class="mt-5 bg-body-tertiary shadow-sm border-top">
+        <div class="mt-5 bg-body-tertiary shadow-sm border-top footer">
             <div class="shop-content mx-auto p-3 p-lg-4 text-body-secondary">
                 <div class="row text-center mx-auto max-w-sm">
                     <div class="col-sm">
