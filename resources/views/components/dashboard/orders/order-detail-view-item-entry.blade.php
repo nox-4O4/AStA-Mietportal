@@ -38,7 +38,7 @@
     <td data-sort="{{(int)($element->original_price*100)}}">@money($element->original_price)</td>
     <td data-sort="{{(int)($element->price*100)}}">@money($element->price)</td>
     <td data-sort="{{(int)($element->price*100)}}">
-        <a href="{{route('shop.article.view', ['item' => $element->item->id, 'slug' => $element->item->slug])}}" target="_blank" title="Artikelseite in neuem Tab öffnen" class="text-nowrap w-100 d-inline-block text-center">
+        <a href="{{route('shop.item.view', ['item' => $element->item->id, 'slug' => $element->item->slug])}}" target="_blank" title="Artikelseite in neuem Tab öffnen" class="text-nowrap w-100 d-inline-block text-center">
             <span class="detail-only">Zum Artikel</span><span class="d-none d-md-inline d-lg-none d-xl-inline">Zum Artikel</span><i class="fa-solid fa-arrow-up-right-from-square ps-1"></i>
         </a>
     </td>
