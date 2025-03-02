@@ -57,8 +57,12 @@
     }
   }
 
-  // white border around navigation button arrows
-  .swiper-button-prev:after, .swiper-button-next:after {
-    text-shadow: -1px 0px var(--bs-body-bg), 1px 0px var(--bs-body-bg), 0px 1px var(--bs-body-bg), 0px -1px var(--bs-body-bg);
+  .swiper-button-prev, .swiper-button-next {
+    outline: none;
+
+    // white border around navigation button arrows
+    &:after {
+      text-shadow: -1px 0px var(--bs-body-bg), 1px 0px var(--bs-body-bg), 0px 1px var(--bs-body-bg), 0px -1px var(--bs-body-bg);
+    }
   }
 }
