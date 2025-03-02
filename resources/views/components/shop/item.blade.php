@@ -61,45 +61,9 @@
 
             @if($item)
                 {!! $this->priceCalculator->displayPriceInformation($item) !!}
-
-                <form>
-                    <fieldset>
-                        <legend>Zeitraum wählen</legend>
-                        <div class="row mb-2">
-                            <label for="start" class="col-form-label col-lg-2 col-3">Beginn</label>
-                            <div class="col">
-                                <input type="date" class="form-control" id="start" required>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <label for="end" class="col-form-label col-lg-2 col-3">Ende</label>
-                            <div class="col">
-                                <input type="date" class="form-control" id="end" required>
-                            </div>
-                        </div>
-                        @if(/* no date selected */0)
-                            <div class="row">
-                                <div class="col-auto" title="Bitte erst einen Zeitraum auswählen">
-                                    <button class="btn btn-secondary btn-lg mt-3" disabled><i class="fa-solid fa-cart-plus"></i> In den Warenkorb</button>
-                                </div>
-                            </div>
-                        @endif
-                        <p class="text-success fw-semibold mb-2">In diesem Zeitraum noch 21 Stück verfügbar!</p>
-                        <p class="mb-0">Berechnete Tage: 123</p>
-                        <p>Preis pro Stück: @money(321)</p>
-                    </fieldset>
-                    <div class="row mb-3">
-                        <label for="amount" class="col-form-label col-lg-2 col-3">Anzahl</label>
-                        <div class="col">
-                            <input type="number" step="1" min="1" class="form-control" id="amount" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-primary btn-lg"><i class="fa-solid fa-cart-plus"></i> In den Warenkorb</button>
-                        </div>
-                    </div>
-                </form>
+                @if($item->available)
+                    <livewire:shop.item-add-to-cart :$item />
+                @endif
             @endif
         </div>
     </div>

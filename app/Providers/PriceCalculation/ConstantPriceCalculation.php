@@ -17,4 +17,8 @@
 		public function displayPriceInformation(Item $item): string {
 			return Blade::render('<p>Preis: <b>@money($item->price)</b></p>', ['item' => $item]);
 		}
+
+		public function getChargedDays(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): ?int {
+			return null; // days don't affect price calculation
+		}
 	}

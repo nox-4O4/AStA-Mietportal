@@ -23,7 +23,7 @@
 		}
 
 		public function calculatePrice(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): float {
-			$days   = max(1, (int) $startDate->diffInDays($endDate));
+			$days   = $this->getChargedDays($item, $startDate, $endDate);
 			$factor = $this->startValue + $this->increment * ($days - 1);
 
 			return $item->price * $factor;
@@ -31,10 +31,18 @@
 
 		public function displayPriceInformation(Item $item): string {
 			return Blade::render(/** @lang Blade */ <<<'Blade'
-				<p class="mb-0">Preis für einen Tag: <b>@money($item->price * $startValue)</b></p>
-				<p class="mb-0">Für jeden weiteren Tag: <span class="fw-semibold">@money($item->price * $increment)</span></p>
-				<p class="small text-muted">Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
+				<div class="mb-3">
+					<p class="mb-0">Preis für einen Tag: <b>@money($item->price * $startValue)</b></p>
+					<p class="mb-0">Für jeden weiteren Tag: <span class="fw-semibold">@money($item->price * $increment)</span></p>
+					@if($item->price)
+						<p class="small text-muted mb-0">Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
+					@endif
+				</div>
 				Blade, ['item' => $item, 'startValue' => $this->startValue, 'increment' => $this->increment]
 			);
+		}
+
+		public function getChargedDays(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): int {
+			return max(1, (int) $startDate->diffInDays($endDate));
 		}
 	}

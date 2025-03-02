@@ -98,6 +98,8 @@
 		Route::get('/artikelgruppe/{group}/{slug?}', ShopItem::class)
 		     ->name('.itemGroup.view')
 		     ->can('view', 'group');
+
+		Route::get('/warenkorb', fn() => 'Dies ist der Warenkorb. <a href="/">Zurück zum Shop</a>')->name('.cart');
 	});
 
 	Route::fallback([MiscController::class, 'notFound']); // fallback route is required to get middlewares executed on 404 page (otherwise session, auth, csrf-token, etc. won't be available)

@@ -46,3 +46,8 @@ img[alt]::before {
   position: relative;
   top: 1px;
 }
+
+// constrast ratio is too low with light background
+.text-warning {
+  filter: brightness(0.9);
+}

@@ -2,8 +2,10 @@
 
 	namespace App\Models;
 
+	use App\Models\DTOs\ItemAvailability;
 	use App\Models\DTOs\ItemListEntry;
 	use App\Util\Helper;
+	use Carbon\Carbon;
 	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
@@ -145,6 +147,86 @@
 				ORDER BY orders DESC, name
 				SQL
 			));
+		}
+
+		/**
+		 * @param bool $sparse True to get only days when item stock changes, false to also get days in between.
+		 *
+		 * @return array<ItemAvailability>
+		 */
+		public function getFutureAvailabilities(bool $sparse = true): array {
+			if(!$this->available || !$this->amount)
+				return [];
+
+			/** @var array<ItemAvailability> $sparseAvailabilities */
+			$sparseAvailabilities = ItemAvailability::collect(DB::select(<<<SQL
+				WITH stockChanges AS (SELECT quantity, start date
+				                      FROM order_item
+				                      WHERE item_id = :itemId1 AND
+				                            end > CURRENT_DATE
+				                      UNION
+				                      SELECT -quantity, end date
+				                      FROM order_item
+				                      WHERE item_id = :itemId2 AND
+				                            end > CURRENT_DATE)
+				SELECT DISTINCT date,
+				                GREATEST(0, amount - SUM(quantity) OVER (ORDER BY date)) AS available
+				FROM stockChanges, items
+				WHERE items.id = :itemId3
+				ORDER BY date
+				SQL,
+				[
+					'itemId1' => $this->id,
+					'itemId2' => $this->id,
+					'itemId3' => $this->id,
+				]
+			));
+
+			if($sparse || !$sparseAvailabilities)
+				return $sparseAvailabilities;
+
+			$current = reset($sparseAvailabilities);
+			$next    = next($sparseAvailabilities);
+			for($fullAvailabilities = [$current];
+			    $next;
+			    $fullAvailabilities[] = $current
+			) {
+				if(($nextDay = $current->date->addDay()) < $next->date) {
+					$current = new ItemAvailability($nextDay, $current->available);
+				} else {
+					$current = $next;
+					$next    = next($sparseAvailabilities);
+				}
+			}
+
+			return $fullAvailabilities;
+		}
+
+		public function getMaximumAvailabilityInRange(Carbon $start, Carbon $end): int|true {
+			if(!$this->available)
+				return 0;
+
+			if(!$this->amount)
+				return true;
+
+			if($start->gt($end))
+				return $this->getMaximumAvailabilityInRange($end, $start);
+
+			$availabilities = $this->getFutureAvailabilities();
+			$available      = $this->amount;
+
+			// comments needed to prevent PHPStorm from butchering formatting
+			for(
+				/**/ [$current, $next] = [reset($availabilities), next($availabilities)];
+				/**/ $next;
+				/**/ [$current, $next] = [$next, next($availabilities)]
+			) {
+				if($end->gte($current->date) && $start->lt($next->date)) { // first date inclusive, last date exclusive
+					$available = min($available, $current->available);
+				}
+			}
+
+			return $available;
 		}
 
 		/**

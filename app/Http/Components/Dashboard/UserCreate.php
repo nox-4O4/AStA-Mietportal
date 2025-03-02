@@ -57,7 +57,7 @@
 			$this->redirect(route('dashboard.users.list'), true);
 		}
 
-		public function rules() {
+		protected function rules(): array {
 			return [
 				'forename' => ['required', 'string'],
 				'surname'  => ['required', 'string'],

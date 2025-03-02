@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BladeDebugConfiguration">
+    <cachePath>$PROJECT_DIR$/storage/framework/views</cachePath>
+  </component>
   <component name="LaravelPint">
     <laravel_pint_settings>
       <LaravelPintConfiguration tool_path="$PROJECT_DIR$/vendor/bin/pint" />
@@ -150,5 +153,8 @@
   </component>
   <component name="PsalmOptionsConfiguration">
     <option name="transferred" value="true" />
+  </component>
+  <component name="TwigDebugConfiguration">
+    <cachePath />
   </component>
 </project>

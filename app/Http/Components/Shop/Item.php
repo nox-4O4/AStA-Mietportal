@@ -20,8 +20,6 @@
 
 		protected PriceCalculation $priceCalculator;
 
-		public int $rand;
-
 		public function boot(PriceCalculation $priceCalculator): void {
 			$this->priceCalculator = $priceCalculator;
 		}

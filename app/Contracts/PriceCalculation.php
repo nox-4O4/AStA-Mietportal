@@ -12,5 +12,7 @@
 
 		public function calculatePrice(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): float;
 
+		public function getChargedDays(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): ?int;
+
 		public function displayPriceInformation(Item $item): string;
 	}

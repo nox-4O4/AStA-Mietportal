@@ -3,7 +3,9 @@
 	namespace App\Models;
 
 	use DateTime;
+	use DateTimeInterface;
 	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Support\Facades\DB;
 
 	/**
 	 * @property int       $id
@@ -41,5 +43,22 @@
 				'start'  => 'date',
 				'end'    => 'date',
 			];
+		}
+
+		public static function overlapsWithRange(DateTimeInterface $start, DateTimeInterface $end): bool {
+			return (bool) DB::select(
+				<<<SQL
+				SELECT 1
+				FROM disabled_dates
+				WHERE active AND
+				      :start <= end AND
+				      :end >= start
+				LIMIT 1
+				SQL,
+				[
+					'start' => $start->format('Y-m-d'),
+					'end'   => $end->format('Y-m-d'),
+				]
+			);
 		}
 	}

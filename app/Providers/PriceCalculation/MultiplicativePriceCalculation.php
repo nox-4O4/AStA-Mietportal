@@ -16,7 +16,7 @@
 		}
 
 		public function calculatePrice(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): float {
-			$days          = max(1, (int) $startDate->diffInDays($endDate));
+			$days          = $this->getChargedDays($item, $startDate, $endDate);
 			$multiplierKey = max(array_filter(array_keys($this->multipliers), fn(int $d) => $d <= $days) ?: [0]);
 
 			if($multiplierKey <= 0)
@@ -27,17 +27,25 @@
 
 		public function displayPriceInformation(Item $item): string {
 			return Blade::render(/** @lang Blade */ <<<'Blade'
-				<p class="mb-0">Preis: <b>@money($item->price)</b></p>
-				@if($item->price && $multipliers)
-					<details class="small text-muted mb-3">
-					    <summary>Staffelpreise vorhanden</summary>
-					    <x-multiplicative-price-discount class="mb-1" :price="$item->price" :multipliers="$multipliers" />
-					    <p>Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
-					</details>
-				@else
-					<p class="small text-muted">Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
-				@endif
+				<div class="mb-3">
+					<p class="mb-0">Preis: <b>@money($item->price)</b></p>
+					@if($item->price)
+						@if($multipliers)
+							<details class="small text-muted">
+							    <summary>Staffelpreise vorhanden</summary>
+							    <x-multiplicative-price-discount class="mb-1" :price="$item->price" :multipliers="$multipliers" />
+							    <p class="mb-0">Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
+							</details>
+						@else
+							<p class="small text-muted mb-0">Bei einem Zeitraum von mehreren Tagen wird der letzte Tag nicht mitgezählt.</p>
+						@endif
+					@endif
+				</div>
 				Blade, ['item' => $item, 'multipliers' => $this->multipliers]
 			);
+		}
+
+		public function getChargedDays(Item $item, CarbonInterface $startDate, CarbonInterface $endDate): int {
+			return max(1, (int) $startDate->diffInDays($endDate));
 		}
 	}

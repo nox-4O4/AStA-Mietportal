@@ -1,0 +1,165 @@
+:root {
+  --datepicker-width: 302px; // defined at root element for easier javascript access
+}
+
+html .air-datepicker { // using html tag to increase specificity, required for variable overrides
+  --adp-font-size: var(--bs-body-font-size);
+  --adp-width: var(--datepicker-width);
+  --adp-font-family: var(--bs-body-font-family);
+  --adp-transition-duration: .2s;
+  --adp-background-color: var(--bs-body-bg);
+  --adp-background-color-hover: var(--bs-secondary-bg);
+  --adp-color: var(--bs-body-color);
+  --adp-day-name-color: var(--bs-orange);
+  --adp-day-cell-width: 1fr;
+  --adp-day-cell-height: 42px;
+  --adp-cell-border-color-in-range: transparent;
+
+  // when displaying a different month and range contains invalid cell, change display of all cells in range
+  // TODO it would be nicer to only style those cells that cannot be in range instead of complete range
+  //  this would require using onChangeViewDate event to check if range from first/last currently visible day to selected date is valid
+  //  then add a class that can be used here to only style cells between an invalid cell and the end of range
+  &.-invalid-range-:not(:has(.air-datepicker-cell.-day-.-selected-)) .air-datepicker-cell.-day-:is(.-in-range-,.-range-from-,.-range-to-) {
+    --cell-background: var(--bs-danger-border-subtle);
+
+    .text-danger {
+      filter: saturate(1.5);
+      color: color-mix(in srgb, var(--bs-danger) 60%, var(--bs-body-color)) !important;
+    }
+  }
+
+  .air-datepicker-cell {
+    //
+    // override default colors
+    //
+
+    // reset built-in styles to use custom style
+    color: var(--cell-color) !important;
+    background: var(--cell-background) !important;
+
+    // styling for ranges that span disabled cells
+    &.-day- {
+      &.-disabled-, // affect a ranged cell that is disabled
+      &:has(~ .-selected-):has(~ .-disabled-.-in-range-), // affect cells before a disabled cell when extending selection to the left
+      &.-selected- ~ .-disabled- ~ .air-datepicker-cell { // affect cells after a disabled cell when extending selection to the right
+        &:is(.-in-range-,.-range-from-,.-range-to-) { // only affect ranged cells
+          --cell-background: var(--bs-danger-border-subtle);
+
+          .text-danger {
+            filter: saturate(1.5);
+            color: color-mix(in srgb, var(--bs-danger) 60%, var(--bs-body-color)) !important;
+          }
+        }
+      }
+    }
+
+    &.-disabled- {
+      --cell-color: var(--bs-tertiary-color);
+      --cell-background: var(--bs-tertiary-bg);
+    }
+
+    &.-other-month- {
+      opacity: 0.6;
+      --cell-color: var(--bs-secondary-color);
+    }
+
+    &:not(.-disabled-) {
+      &:hover {
+        --cell-background: var(--bs-secondary-bg)
+      }
+
+      &.-current- {
+        --cell-color: var(--bs-info);
+      }
+
+      &.-in-range-, &.-range-from-, &.-range-to- {
+        --cell-background: color-mix(in srgb, var(--bs-primary) 50%, transparent);
+        --cell-color: var(--bs-emphasis-color);
+
+        &.-current- {
+          --cell-color: var(--bs-info-text-emphasis);
+
+          &:hover {
+            --cell-color: color-mix(in srgb, var(--bs-info) 60%, white);
+          }
+        }
+
+        &:hover {
+          --cell-background: color-mix(in srgb, var(--bs-primary) 80%, transparent);
+          --cell-color: var(--bs-white);
+        }
+
+        .text-success {
+          color: color-mix(in srgb, var(--bs-success) 70%, var(--bs-body-color)) !important;
+        }
+
+        .text-warning {
+          color: var(--bs-warning-text-emphasis) !important;
+        }
+      }
+    }
+
+    // have disabled cells begin / end with rounded borders
+    &.-month-, &.-year- {
+      &:is(.-in-range-, .-range-from-):has(+ .-disabled-) {
+        border-top-right-radius: var(--adp-cell-border-radius);
+        border-bottom-right-radius: var(--adp-cell-border-radius);
+      }
+
+      &.-disabled- + :is(.-in-range-, .-range-from-) {
+        border-top-left-radius: var(--adp-cell-border-radius);
+        border-bottom-left-radius: var(--adp-cell-border-radius);
+      }
+    }
+
+    // prevent rounded borders within groups of disabled cells
+    &.-disabled- {
+      &:has(+ .-disabled-) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      + .-disabled- {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
+    // less distance between icon and day number
+    line-height: 1.1;
+  }
+
+  // iomprove visibility of day names
+  .air-datepicker-body--day-name {
+    font-weight: 600;
+  }
+
+  .air-datepicker-nav--title p {
+    margin: 0;
+  }
+
+  // make enabied state of apply button more noticeable
+  .air-datepicker-buttons button.apply:not(:disabled) {
+    font-weight: 600;
+  }
+
+  // larger buttons for mobile view
+  &.-is-mobile- {
+    .air-datepicker-buttons button {
+      --bs-btn-line-height: 1.75;
+    }
+  }
+}
+
+@media (prefers-reduced-motion) {
+  .air-datepicker {
+    transition: none !important;
+  }
+}
+
+// darker backdrop in dark mode
+@include color-mode(dark) {
+  .air-datepicker-overlay {
+    --adp-overlay-background-color: rgba(0, 0, 0, .5);
+  }
+}

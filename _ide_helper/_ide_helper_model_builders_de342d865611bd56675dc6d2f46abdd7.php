@@ -1,4 +1,4 @@
-<?php //8cb543c3ec3990315b3805b80f0c86af
+<?php //c5de377fa6145bc503cddd77bc0328cf
 /** @noinspection all */
 
 namespace LaravelIdea\Helper {
@@ -133,9 +133,9 @@ namespace LaravelIdea\Helper {
      * @see \Illuminate\Database\Eloquent\Builder::withTrashed
      * @method $this withTrashed($withTrashed = true)
      * @see \Illuminate\Database\Query\Builder::select
-     * @method $this select(array|mixed $columns = ['*'])
+     * @method $this select(array|mixed $columns = ['*'], ...$arguments)
      * @see \Illuminate\Database\Query\Builder::addSelect
-     * @method $this addSelect(array|mixed $column)
+     * @method $this addSelect(array|mixed $column, ...$arguments)
      * @see \Illuminate\Database\Query\Builder::orWhereExists
      * @method $this orWhereExists($callback, bool $not = false)
      * @see \Illuminate\Database\Query\Builder::whereJsonLength
@@ -393,7 +393,7 @@ namespace LaravelIdea\Helper {
      * @see \Illuminate\Database\Query\Builder::forNestedWhere
      * @method $this forNestedWhere()
      * @see \Illuminate\Database\Query\Builder::insertOrIgnoreUsing
-     * @method $this insertOrIgnoreUsing(array $columns, $query)
+     * @method int insertOrIgnoreUsing(array $columns, $query)
      * @see \Illuminate\Database\Eloquent\Concerns\QueriesRelationships::withWhereHas
      * @method $this withWhereHas($relation, \Closure|null $callback = null, string $operator = '>=', int $count = 1)
      * @see \Illuminate\Database\Eloquent\Concerns\QueriesRelationships::orWhereHas
@@ -463,7 +463,7 @@ namespace LaravelIdea\Helper {
      * @see \Illuminate\Database\Query\Builder::insert
      * @method bool insert(array $values)
      * @see \Illuminate\Database\Query\Builder::distinct
-     * @method $this distinct()
+     * @method $this distinct(...$arguments)
      * @see \Illuminate\Database\Concerns\BuildsQueries::chunk
      * @method $this chunk(int $count, callable $callback)
      * @see \Illuminate\Database\Query\Builder::whereYear

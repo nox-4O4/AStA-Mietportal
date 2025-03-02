@@ -34,3 +34,18 @@ $breadcrumb-divider: quote(">");
 
 // change sidebar size
 $offcanvas-horizontal-width: 300px;
+
+// outline-secondary-button looks like it's disabled otherwise
+html .btn-outline-secondary { // using html selector to increase specifity
+  --bs-btn-color: var(--bs-body-color);
+}
+
+@include color-mode(dark) {
+  .btn-outline-secondary {
+    --bs-btn-color: var(--bs-secondary-color);
+  }
+
+  .btn-outline-primary {
+    filter: brightness(120%) saturate(2); // improve contrast ratio
+  }
+}

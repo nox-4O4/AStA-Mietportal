@@ -1,4 +1,4 @@
-.form-control:not(:is(select, input[type=file])):read-only { // same as :disabled style. read-only is used by livewire during form requests. select fields and file input fields are always readonly
+.form-control:not(:is(select, input[type=file], .readonly-default)):read-only { // same as :disabled style. read-only is used by livewire during form requests. select fields and file input fields are always readonly
   background-color: var(--bs-secondary-bg);
   opacity: 1;
 }
@@ -94,4 +94,15 @@ span.link {
 
 .text-shadow-body {
   text-shadow: var(--bs-body-bg) 0 0 1.5px;
+}
+
+.pointer-events-auto {
+  pointer-events: auto !important;
+}
+
+// prevent buttons that were disabled by 'disabled' class from having pointer cursor (only happens when pointer-events are overridden)
+button, [type=button], [type=reset], [type=submit] {
+  &.disabled.pointer-events-auto {
+    cursor: default !important;
+  }
 }

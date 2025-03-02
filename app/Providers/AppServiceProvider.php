@@ -7,6 +7,7 @@
 	use App\Models\User;
 	use App\Util\Markdown;
 	use Auth;
+	use Carbon\CarbonInterface;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 	use Illuminate\Foundation\Application;
 	use Illuminate\Support\Carbon;
@@ -14,6 +15,8 @@
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
+	use IntlDateFormatter;
+	use IntlDatePatternGenerator;
 	use League\Config\Exception\InvalidConfigurationException;
 
 	class AppServiceProvider extends ServiceProvider {
@@ -23,7 +26,7 @@
 		public function register(): void {
 			$this->app->bind(PriceCalculation::class, function (Application $app): PriceCalculation {
 				/** @var array{class: class-string<PriceCalculation>, configuration: ?array} $config */
-				$config = config('shop.prive_calculation_providers.' . config('shop.price_calculation'));
+				$config = config('shop.price_calculation_providers.' . config('shop.price_calculation'));
 
 				if(!isset($config['class']) || !is_a($config['class'], PriceCalculation::class, true))
 					throw new InvalidConfigurationException('configuration shop.price_calculation must be a valid price calculation provider.');
@@ -59,7 +62,31 @@
 				PHP
 			);
 
-			Blade::stringable(fn(Carbon $dateTime) => $dateTime->format('d.m.Y'));
+			Blade::stringable(fn(Carbon $dateTime) => $dateTime->formatLocalDate());
 			Blade::stringable(fn(Markdown $markdown) => $markdown->render());
+
+			Carbon::macro('formatLocalDate', static function (): string {
+				/**
+				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
+				 * @var CarbonInterface $date
+				 */
+				$date    = self::this();
+				$locale  = config('app.locale');
+				$pattern = IntlDatePatternGenerator::create($locale)->getBestPattern('ddMMyyyy');
+
+				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
+			});
+
+			Carbon::macro('formatLocalTime', static function (bool $seconds = true): string {
+				/**
+				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
+				 * @var CarbonInterface $date
+				 */
+				$date    = self::this();
+				$locale  = config('app.locale');
+				$pattern = IntlDatePatternGenerator::create($locale)->getBestPattern('jjmm' . ($seconds ? 'ss' : ''));
+
+				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
+			});
 		}
 	}

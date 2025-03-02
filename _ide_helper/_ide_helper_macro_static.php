@@ -1,4 +1,4 @@
-<?php //64b421b4025dd19e8d30ce9585f50d2c
+<?php //e3477bd942919a87a7c01a416f625eb4
 /** @noinspection all */
 
 namespace Illuminate\Contracts\View {
@@ -46,6 +46,15 @@ namespace Illuminate\Routing {
      * @method static $this lazy($enabled = true)
      */
     class Route {}
+}
+
+namespace Illuminate\Support {
+    
+    /**
+     * @method static string formatLocalDate()
+     * @method static string formatLocalTime(bool $seconds = true)
+     */
+    class Carbon {}
 }
 
 namespace Illuminate\Testing {

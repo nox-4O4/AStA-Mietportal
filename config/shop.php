@@ -1,9 +1,11 @@
 <?php
 
 	return [
-		'price_calculation' => 'asymptotic', // name of one of configured prive_calculation_providers below
+		'booking_ahead_days_min' => 3, // how many days must lie between today and booking start day
+		'booking_ahead_days_max' => 180, // latest end date, 180 = approx. 6 months. Set to zero for unconstraint range.
+		'price_calculation'      => 'asymptotic', // name of one of configured price_calculation_providers below
 
-		'prive_calculation_providers' => [
+		'price_calculation_providers' => [
 			// Price is calculated by base price (start_value factor) plus a reduced amount for any additional day (increment factor).
 			// When calculating resulting discount in terms of price per day, discount will converge asymptotically to increment value (when increment != start_value).
 			'asymptotic'     => [

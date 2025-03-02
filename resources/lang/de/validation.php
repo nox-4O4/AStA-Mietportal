@@ -15,15 +15,15 @@
 		'accepted'             => ':attribute muss akzeptiert werden.',
 		'accepted_if'          => ':attribute muss akzeptiert werden wenn :other dem Wert :value entspricht.',
 		'active_url'           => ':attribute ist keine gültige URL.',
-		'after'                => ':attribute muss nach :date liegen.',
-		'after_or_equal'       => ':attribute darf nicht vor :date liegen.',
+		'after'                => ':attribute muss ein Datum nach dem :date sein.',
+		'after_or_equal'       => ':attribute darf nicht vor dem :date liegen.',
 		'alpha'                => ':attribute darf nur aus Buchstaben bestehen.',
 		'alpha_dash'           => ':attribute darf nur aus Buchstaben, Zahlen, Binde- und Unterstrichen bestehen.',
 		'alpha_num'            => ':attribute darf nur aus Buchstaben und Zahlen bestehen.',
 		'ascii'                => ':attribute darf nur alphanumerische Zeichen und Symbole aus einzelnen Bytes enthalten.',
 		'array'                => ':attribute muss ein Array sein.',
 		'before'               => ':attribute muss ein Datum vor dem :date sein.',
-		'before_or_equal'      => ':attribute muss ein Datum vor dem :date oder gleich dem :date sein.',
+		'before_or_equal'      => ':attribute darf nicht nach dem :date liegen.',
 		'between'              => [
 			'array'   => ':attribute muss zwischen :min und :max Elemente haben.',
 			'file'    => ':attribute muss zwischen :min und :max Kilobytes groß sein.',
@@ -190,6 +190,7 @@
 		*/
 
 		'attributes' => [
+			'amount'                  => 'Anzahl',
 			'available'               => 'Verfügbar',
 			'comment'                 => 'Kommentar',
 			'contentValue'            => 'Inhalt',
