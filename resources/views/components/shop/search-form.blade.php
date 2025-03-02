@@ -12,7 +12,9 @@
     </div>
     <datalist :id="searchInput.trim().length > 2 && 'items'">
         @foreach($this->items as $item)
-            <option value="{{$item->name}}"></option>
+            @can('view', $item)
+                <option value="{{$item->name}}"></option>
+            @endcan
         @endforeach
     </datalist>
 </form>

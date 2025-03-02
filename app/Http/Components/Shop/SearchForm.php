@@ -30,6 +30,6 @@
 
 		#[Computed]
 		public function items(): Collection {
-			return Item::where('visible', true)->get()->sortBy('name', SORT_NATURAL);
+			return Item::all()->sortBy('name', SORT_NATURAL);
 		}
 	}
