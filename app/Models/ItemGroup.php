@@ -3,6 +3,7 @@
 	namespace App\Models;
 
 	use App\Util\Helper;
+	use App\Util\Markdown;
 	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,7 @@
 	/**
 	 * @property int       $id
 	 * @property string    $name
-	 * @property string    $description
+	 * @property Markdown  $description
 	 * @property ?DateTime $created_at
 	 * @property ?DateTime $updated_at
 	 */
@@ -52,6 +53,17 @@
 			return [
 				...($includeDescription ? [$this->description] : []),
 				...($itemValues ?: [$this->name]) // omit own name when items exist as own name is part of item name
+			];
+		}
+
+		/**
+		 * Get the attributes that should be cast.
+		 *
+		 * @return array<string, string>
+		 */
+		protected function casts(): array {
+			return [
+				'description' => Markdown::class,
 			];
 		}
 	}

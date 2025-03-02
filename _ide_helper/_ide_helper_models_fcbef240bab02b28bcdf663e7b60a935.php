@@ -1,4 +1,4 @@
-<?php //c3f21a4774660d9470821841056ce22c
+<?php //dbd48bc6a4f23978dbd34a707d4ded6f
 /** @noinspection all */
 
 namespace App\Models {
@@ -160,7 +160,7 @@ namespace App\Models {
     /**
      * @property int $id
      * @property string $name
-     * @property string $description
+     * @property $description
      * @property int $amount
      * @property bool $available
      * @property bool $visible
@@ -200,7 +200,7 @@ namespace App\Models {
     /**
      * @property int $id
      * @property string $name
-     * @property string|null $description
+     * @property null $description
      * @property Carbon|null $created_at
      * @property Carbon|null $updated_at
      * @property int|null $image_id

@@ -5,6 +5,7 @@
 	use App\Models\DTOs\ItemAvailability;
 	use App\Models\DTOs\ItemListEntry;
 	use App\Util\Helper;
+	use App\Util\Markdown;
 	use Carbon\Carbon;
 	use DateTime;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -19,7 +20,7 @@
 	 * @property string     $name
 	 * @property ?int       $item_group_id
 	 * @property ?ItemGroup $itemGroup
-	 * @property string     $description
+	 * @property Markdown   $description
 	 * @property int        $amount
 	 * @property bool       $available
 	 * @property bool       $visible
@@ -236,11 +237,12 @@
 		 */
 		protected function casts(): array {
 			return [
-				'available' => 'bool',
-				'visible'   => 'bool',
-				'price'     => 'float',
-				'deposit'   => 'float',
-				'amount'    => 'int',
+				'available'   => 'bool',
+				'visible'     => 'bool',
+				'price'       => 'float',
+				'deposit'     => 'float',
+				'amount'      => 'int',
+				'description' => Markdown::class,
 			];
 		}
 	}

@@ -72,9 +72,9 @@
             <div class="col">
                 <h3>Beschreibung</h3>
                 @if($item?->itemGroup)
-                    <p>{{$item->itemGroup->description}}</p>
+                    <p>{!! $item->itemGroup->description !!}</p>
                 @endif
-                <p>{{$element->description}}</p>
+                <p>{!! $element->description !!}</p>
                 @if($item?->deposit)
                     <p>Kaution: @money($item->deposit)</p>
                 @endif
