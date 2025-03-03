@@ -1,4 +1,7 @@
-<div>
+<div x-data="{
+    cleanup: $wire.$js.removeEvent,
+    destroy() {this.cleanup()}
+}">
     @script
     <script>
         const minDate = new Date('{{$this->minDate->format('c')}}')
@@ -288,9 +291,12 @@
                 onBeforeSelect: ({datepicker, date}) => datepicker.selectedDates.length !== 1 || isRangeValid(date, datepicker.selectedDates[0]), // prevent selection of invalid ranges
                 onFocus: ({datepicker, date}) => datepicker.$datepicker.classList.toggle('-invalid-range-', datepicker.selectedDates.length === 1 && !isRangeValid(date, datepicker.selectedDates[0])), // add attribute to style invalid ranges when viewing different months
             })
+            , abortController = new AbortController()
 
         updatePosition()
-        window.addEventListener('resize', updatePosition)
+        window.addEventListener('resize', updatePosition, {signal: abortController.signal})
+        $js('removeEvent', () => abortController.abort())
+
         $wire.on('item-added-to-cart', () => datepicker.clear())
     </script>
     @endscript
