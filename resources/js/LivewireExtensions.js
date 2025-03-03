@@ -6,6 +6,7 @@ document.addEventListener('livewire:init', () => {
     const initializedComponents = {}
     const previouslyRegisteredComponentIds = {}
 
+    // Instead of using wire:rendered alpine has an x-init tag. Unfortunately, x-init is currently broken (see https://github.com/alpinejs/alpine/discussions/4453).
     Livewire.directive('rendered', ({el, directive, component, cleanup}) => {
         componentRenderCallbacks[component.id] = () => Function('element', directive.expression)(el)
         cleanup(() => {
