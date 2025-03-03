@@ -12,13 +12,20 @@
 	use Stringable;
 
 	class Markdown implements CastsAttributes, Stringable {
-		public function __construct(public string $markdownContent = '') { }
+		public function __construct(public ?string $markdownContent = null) { }
+
+		public function isEmpty(): bool {
+			return $this->markdownContent === null || trim($this->markdownContent) === '';
+		}
 
 		public function __toString(): string {
-			return $this->markdownContent;
+			return $this->markdownContent ?? '';
 		}
 
 		public function render(): string {
+			if($this->markdownContent === null)
+				return '';
+
 			return Str::markdown(
 				$this->markdownContent,
 				[
@@ -41,10 +48,13 @@
 			return new static($value);
 		}
 
-		public function set(Model $model, string $key, mixed $value, array $attributes): string {
-			if(!$value instanceof Stringable && !is_string($value))
-				throw new InvalidArgumentException('The given value is not stringable.');
+		public function set(Model $model, string $key, mixed $value, array $attributes): ?string {
+			if($value instanceof Markdown)
+				return $value->markdownContent;
 
-			return $value;
+			if($value instanceof Stringable || is_string($value))
+				return $value;
+
+			throw new InvalidArgumentException('The given value is not stringable.');
 		}
 	}

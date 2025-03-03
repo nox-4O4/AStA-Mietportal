@@ -70,7 +70,14 @@
     @if($element->description || $item?->itemGroup?->description || $item?->deposit)
         <div class="row">
             <div class="col">
-                <h3>Beschreibung</h3>
+                @if(
+                    isset($item->itemGroup->description) && !$item->itemGroup->description->isEmpty() ||
+                    isset($item->description) && !$item->description->isEmpty() ||
+                    $item?->deposit
+                )
+                    <h3>Beschreibung</h3>
+                @endif
+
                 @if($item?->itemGroup)
                     <p>{!! $item->itemGroup->description !!}</p>
                 @endif
