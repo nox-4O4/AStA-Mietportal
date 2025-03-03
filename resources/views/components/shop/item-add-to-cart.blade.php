@@ -1,5 +1,5 @@
 <div x-data="{
-    cleanup: $wire.$js.removeEvent,
+    cleanup: $wire.$js.cleanup,
     destroy() {this.cleanup()}
 }">
     @script
@@ -293,9 +293,16 @@
             })
             , abortController = new AbortController()
 
+        // We have to force initialisation of mobile overlay in case page was cached as reference to previous overlay won't be in DOM any more. (It also does not reference cached DOM element which gets removed below.)
+        // Call to _createMobileOverlay() must occur before first call to updatePosition() as otherwise a second mobile overlay gets created when page was not cached. Also, isMobile must not be set to true in costructor options for the same reason.
+        datepicker._createMobileOverlay()
+
         updatePosition()
         window.addEventListener('resize', updatePosition, {signal: abortController.signal})
-        $js('removeEvent', () => abortController.abort())
+        $js('cleanup', () => {
+            abortController.abort()
+            datepicker.destroy()
+        })
 
         $wire.on('item-added-to-cart', () => datepicker.clear())
     </script>
@@ -398,5 +405,9 @@
         </form>
     @endif
     <x-status-message scope="cart.status" wire:loading.remove class="mt-3" />
+    <script>
+        // remove stale markup when page was cached
+        document.getElementById('air-datepicker-global-container')?.remove()
+    </script>
 </div>
 
