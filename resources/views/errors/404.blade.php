@@ -14,7 +14,7 @@
         <div class="w-75 my-4 headtext">
             {!! File::get(resource_path('img/404.svg')) !!}
         </div>
-        <p class="small text-muted m-0 text-italic">Klausurenphase?</p>
+        <p class="small text-muted m-0 text-italic" aria-hidden="true">Klausurenphase?</p>
         <div class="w-100 subtext">
             {!! File::get(resource_path('img/not-found.svg')) !!}
         </div>
