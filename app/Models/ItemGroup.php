@@ -4,7 +4,7 @@
 
 	use App\Util\Helper;
 	use App\Util\Markdown;
-	use DateTime;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,11 +12,11 @@
 	use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 	/**
-	 * @property int       $id
-	 * @property string    $name
-	 * @property Markdown  $description
-	 * @property ?DateTime $created_at
-	 * @property ?DateTime $updated_at
+	 * @property int              $id
+	 * @property string           $name
+	 * @property Markdown         $description
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class ItemGroup extends Model {
 

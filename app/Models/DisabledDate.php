@@ -2,20 +2,20 @@
 
 	namespace App\Models;
 
-	use DateTime;
+	use Carbon\CarbonImmutable;
 	use DateTimeInterface;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Support\Facades\DB;
 
 	/**
-	 * @property int       $id
-	 * @property DateTime  $start
-	 * @property DateTime  $end
-	 * @property string    $site_notice
-	 * @property string    $comment
-	 * @property bool      $active
-	 * @property ?DateTime $created_at
-	 * @property ?DateTime $updated_at
+	 * @property int              $id
+	 * @property CarbonImmutable  $start
+	 * @property CarbonImmutable  $end
+	 * @property string           $site_notice
+	 * @property string           $comment
+	 * @property bool             $active
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class DisabledDate extends Model {
 

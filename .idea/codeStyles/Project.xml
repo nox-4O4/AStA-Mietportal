@@ -34,6 +34,7 @@
       <option name="ALIGN_ENUM_CASES" value="true" />
       <option name="SPACES_WITHIN_SHORT_ECHO_TAGS" value="false" />
       <option name="FORCE_SHORT_DECLARATION_ARRAY_STYLE" value="true" />
+      <option name="FORCE_EMPTY_CLASSES_IN_ONE_LINE" value="true" />
     </PHPCodeStyleSettings>
     <PowerShellCodeStyleSettings>
       <option name="ALIGN_MULTILINE_CATCH_TYPE_LIST" value="true" />

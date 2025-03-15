@@ -5,7 +5,7 @@
 	use App\Contracts\PriceCalculation;
 	use App\Models\DisabledDate;
 	use App\Models\Item as ItemModel;
-	use Carbon\Carbon;
+	use Carbon\CarbonImmutable;
 	use Closure;
 	use Date;
 	use Illuminate\Contracts\View\View;
@@ -17,16 +17,16 @@
 	use Livewire\Component;
 
 	/**
-	 * @property-read Carbon|\Illuminate\Support\Carbon      $minDate       See {@see ItemAddToCart::minDate()} for getter. \Illuminate\Support\Carbon type in declaration is only used for getting auto-completion of macro functions in IDE.
-	 * @property-read Carbon|\Illuminate\Support\Carbon|null $maxDate       See {@see ItemAddToCart::maxDate()} for getter. \Illuminate\Support\Carbon type in declaration is only used for getting auto-completion of macro functions in IDE.
-	 * @property-read Collection<DisabledDate>               $disabledDates See {@see ItemAddToCart::disabledDates()} for getter.
+	 * @property-read CarbonImmutable          $minDate       See {@see ItemAddToCart::minDate()} for getter.
+	 * @property-read CarbonImmutable|null     $maxDate       See {@see ItemAddToCart::maxDate()} for getter.
+	 * @property-read Collection<DisabledDate> $disabledDates See {@see ItemAddToCart::disabledDates()} for getter.
 	 */
 	class ItemAddToCart extends Component {
 		#[Validate]
-		public ?Carbon $start = null;
+		public ?CarbonImmutable $start = null;
 
 		#[Validate]
-		public ?Carbon $end = null;
+		public ?CarbonImmutable $end = null;
 
 		// no validate attribute for amount as we only want to validate amount when adding items to cart, not during update. Otherwise, validation message for amount might appear when changing date.
 		public int $amount;
@@ -96,14 +96,14 @@
 		}
 
 		#[Computed]
-		public function minDate(): Carbon {
-			return Carbon::now()->startOfDay()->addDays(config('shop.booking_ahead_days_min'));
+		public function minDate(): CarbonImmutable {
+			return CarbonImmutable::now()->startOfDay()->addDays(config('shop.booking_ahead_days_min'));
 		}
 
 		#[Computed]
-		public function maxDate(): ?Carbon {
+		public function maxDate(): ?CarbonImmutable {
 			return config('shop.booking_ahead_days_max')
-				? Carbon::now()->startOfDay()->addDays(config('shop.booking_ahead_days_max'))
+				? CarbonImmutable::now()->startOfDay()->addDays(config('shop.booking_ahead_days_max'))
 				: null;
 		}
 

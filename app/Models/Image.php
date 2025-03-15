@@ -2,18 +2,18 @@
 
 	namespace App\Models;
 
-	use DateTime;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Support\Facades\Storage;
 
 	/**
-	 * @property int       $id
-	 * @property string    $path
-	 * @property int       $item_id
-	 * @property Item      $item
-	 * @property ?DateTime $created_at
-	 * @property ?DateTime $updated_at
+	 * @property int              $id
+	 * @property string           $path
+	 * @property int              $item_id
+	 * @property Item             $item
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class Image extends Model {
 		protected $fillable = [

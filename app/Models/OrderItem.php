@@ -2,24 +2,24 @@
 
 	namespace App\Models;
 
-	use DateTime;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\Pivot;
 
 	/**
-	 * @property int       $id
-	 * @property int       $order_id
-	 * @property Order     $order
-	 * @property int       $item_id
-	 * @property Item      $item
-	 * @property int       $quantity
-	 * @property DateTime  $start stores only date
-	 * @property DateTime  $end   stores only date
-	 * @property float     $original_price
-	 * @property float     $price
-	 * @property string    $comment
-	 * @property ?DateTime $created_at
-	 * @property ?DateTime $updated_at
+	 * @property int              $id
+	 * @property int              $order_id
+	 * @property Order            $order
+	 * @property int              $item_id
+	 * @property Item             $item
+	 * @property int              $quantity
+	 * @property CarbonImmutable  $start stores only date
+	 * @property CarbonImmutable  $end   stores only date
+	 * @property float            $original_price
+	 * @property float            $price
+	 * @property string           $comment
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class OrderItem extends Pivot {
 		/**

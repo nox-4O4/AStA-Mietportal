@@ -3,26 +3,25 @@
 	namespace App\Models;
 
 	use App\Enums\OrderStatus;
-	use DateTime;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
-	use Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\DB;
 
 	/**
-	 * @property int         $id
-	 * @property OrderStatus $status
-	 * @property float       $rate
-	 * @property string      $event_name
-	 * @property string      $note
-	 * @property int         $customer_id
-	 * @property Customer    $customer
-	 * @property float       $deposit
-	 * @property ?DateTime   $created_at
-	 * @property ?DateTime   $updated_at
+	 * @property int              $id
+	 * @property OrderStatus      $status
+	 * @property float            $rate
+	 * @property string           $event_name
+	 * @property string           $note
+	 * @property int              $customer_id
+	 * @property Customer         $customer
+	 * @property float            $deposit
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class Order extends Model {
 
@@ -60,7 +59,7 @@
 		}
 
 		public function commonStart(): Attribute {
-			return Attribute::get(function (): ?DateTime {
+			return Attribute::get(function (): ?CarbonImmutable {
 				$result = DB::select(<<<SQL
 					SELECT start col
 					FROM order_item
@@ -73,13 +72,13 @@
 					['order' => $this->id]
 				);
 
-				return $result ? new Carbon($result[0]->col) : null;
+				return $result ? new CarbonImmutable($result[0]->col) : null;
 			})
 			                ->shouldCache();
 		}
 
 		public function commonEnd(): Attribute {
-			return Attribute::get(function (): ?DateTime {
+			return Attribute::get(function (): ?CarbonImmutable {
 				$result = DB::select(<<<SQL
 					SELECT end col
 					FROM order_item
@@ -92,18 +91,18 @@
 					['order' => $this->id]
 				);
 
-				return $result ? new Carbon($result[0]->col) : null;
+				return $result ? new CarbonImmutable($result[0]->col) : null;
 			})
 			                ->shouldCache();
 		}
 
 		public function firstStart(): Attribute {
-			return Attribute::get(fn(): ?DateTime => $this->orderItems()->reorder('start')->first()?->start)
+			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems()->reorder('start')->first()?->start)
 			                ->shouldCache();
 		}
 
 		public function lastEnd(): Attribute {
-			return Attribute::get(fn(): ?DateTime => $this->orderItems()->reorder('end', 'desc')->first()?->end)
+			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems()->reorder('end', 'desc')->first()?->end)
 			                ->shouldCache();
 		}
 

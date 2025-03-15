@@ -7,11 +7,11 @@
 	use App\Models\User;
 	use App\Util\Markdown;
 	use Auth;
-	use Carbon\CarbonInterface;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 	use Illuminate\Foundation\Application;
-	use Illuminate\Support\Carbon;
 	use Illuminate\Support\Facades\Blade;
+	use Illuminate\Support\Facades\Date;
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
@@ -62,13 +62,14 @@
 				PHP
 			);
 
-			Blade::stringable(fn(Carbon $dateTime) => $dateTime->formatLocalDate());
+			Blade::stringable(fn(CarbonImmutable $dateTime) => $dateTime->formatLocalDate());
 			Blade::stringable(fn(Markdown $markdown) => $markdown->render());
 
-			Carbon::macro('formatLocalDate', static function (): string {
+			Date::use(CarbonImmutable::class);
+			CarbonImmutable::macro('formatLocalDate', static function (): string {
 				/**
 				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
-				 * @var CarbonInterface $date
+				 * @var CarbonImmutable $date
 				 */
 				$date    = self::this();
 				$locale  = config('app.locale');
@@ -77,10 +78,10 @@
 				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
 			});
 
-			Carbon::macro('formatLocalTime', static function (bool $seconds = true): string {
+			CarbonImmutable::macro('formatLocalTime', static function (bool $seconds = true): string {
 				/**
 				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
-				 * @var CarbonInterface $date
+				 * @var CarbonImmutable $date
 				 */
 				$date    = self::this();
 				$locale  = config('app.locale');

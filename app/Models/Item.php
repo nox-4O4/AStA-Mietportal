@@ -6,8 +6,8 @@
 	use App\Models\DTOs\ItemListEntry;
 	use App\Util\Helper;
 	use App\Util\Markdown;
-	use Carbon\Carbon;
-	use DateTime;
+	use Carbon\CarbonImmutable;
+	use Carbon\CarbonInterface;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,18 +16,18 @@
 	use Illuminate\Support\Facades\DB;
 
 	/**
-	 * @property int        $id
-	 * @property string     $name
-	 * @property ?int       $item_group_id
-	 * @property ?ItemGroup $itemGroup
-	 * @property Markdown   $description
-	 * @property int        $amount
-	 * @property bool       $available
-	 * @property bool       $visible
-	 * @property float      $price
-	 * @property float      $deposit
-	 * @property ?DateTime  $created_at
-	 * @property ?DateTime  $updated_at
+	 * @property int              $id
+	 * @property string           $name
+	 * @property ?int             $item_group_id
+	 * @property ?ItemGroup       $itemGroup
+	 * @property Markdown         $description
+	 * @property int              $amount
+	 * @property bool             $available
+	 * @property bool             $visible
+	 * @property float            $price
+	 * @property float            $deposit
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class Item extends Model {
 		protected $fillable = [
@@ -203,7 +203,7 @@
 			return $fullAvailabilities;
 		}
 
-		public function getMaximumAvailabilityInRange(Carbon $start, Carbon $end): int|true {
+		public function getMaximumAvailabilityInRange(CarbonInterface $start, CarbonInterface $end): int|true {
 			if(!$this->available)
 				return 0;
 

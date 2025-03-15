@@ -1,10 +1,11 @@
-<?php //dbd48bc6a4f23978dbd34a707d4ded6f
+<?php //5485b2e6c4080bcc95beed3cae75e43c
 /** @noinspection all */
 
 namespace App\Models {
 
     use App\Enums\OrderStatus;
     use App\Enums\UserRole;
+    use Carbon\CarbonImmutable;
     use Illuminate\Database\Eloquent\Model;
     use Illuminate\Database\Eloquent\Relations\BelongsTo;
     use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -13,7 +14,6 @@ namespace App\Models {
     use Illuminate\Database\Eloquent\Relations\MorphToMany;
     use Illuminate\Notifications\DatabaseNotification;
     use Illuminate\Notifications\DatabaseNotificationCollection;
-    use Illuminate\Support\Carbon;
     use LaravelIdea\Helper\App\Models\_IH_Comment_C;
     use LaravelIdea\Helper\App\Models\_IH_Comment_QB;
     use LaravelIdea\Helper\App\Models\_IH_Content_C;
@@ -41,8 +41,8 @@ namespace App\Models {
      * @property int|null $user_id
      * @property int $order_id
      * @property string $comment
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property Order $order
      * @method BelongsTo|_IH_Order_QB order()
      * @property User|null $user
@@ -66,8 +66,8 @@ namespace App\Models {
      * @property string $name
      * @property string $description
      * @property $content
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @method static _IH_Content_QB onWriteConnection()
      * @method _IH_Content_QB newQuery()
      * @method static _IH_Content_QB on(null|string $connection = null)
@@ -92,8 +92,8 @@ namespace App\Models {
      * @property string|null $city
      * @property string $email
      * @property string $mobile
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property-read string $name attribute
      * @property _IH_Order_C|Order[] $orders
      * @property-read int $orders_count
@@ -114,13 +114,13 @@ namespace App\Models {
     
     /**
      * @property int $id
-     * @property Carbon $start
-     * @property Carbon $end
+     * @property CarbonImmutable $start
+     * @property CarbonImmutable $end
      * @property string $site_notice
      * @property string $comment
      * @property bool $active
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @method static _IH_DisabledDate_QB onWriteConnection()
      * @method _IH_DisabledDate_QB newQuery()
      * @method static _IH_DisabledDate_QB on(null|string $connection = null)
@@ -138,8 +138,8 @@ namespace App\Models {
      * @property int $id
      * @property int $item_id
      * @property string $path
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property Item $item
      * @method BelongsTo|_IH_Item_QB item()
      * @method static _IH_Image_QB onWriteConnection()
@@ -167,8 +167,8 @@ namespace App\Models {
      * @property float $price
      * @property float $deposit
      * @property int|null $item_group_id
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property-read mixed $raw_name attribute
      * @property-read string $slug attribute
      * @property _IH_Image_C|Image[] $images
@@ -201,8 +201,8 @@ namespace App\Models {
      * @property int $id
      * @property string $name
      * @property null $description
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property int|null $image_id
      * @property-read string $slug attribute
      * @property Image|null $image
@@ -236,12 +236,12 @@ namespace App\Models {
      * @property string $note
      * @property int $customer_id
      * @property float $deposit
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
-     * @property-read \DateTime|null $common_end attribute
-     * @property-read \DateTime|null $common_start attribute
-     * @property-read \DateTime|null $first_start attribute
-     * @property-read \DateTime|null $last_end attribute
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
+     * @property-read CarbonImmutable|null $common_end attribute
+     * @property-read CarbonImmutable|null $common_start attribute
+     * @property-read CarbonImmutable|null $first_start attribute
+     * @property-read CarbonImmutable|null $last_end attribute
      * @property-read float $total attribute
      * @property-read float $total_discount attribute
      * @property _IH_Comment_C|Comment[] $comments
@@ -286,13 +286,13 @@ namespace App\Models {
      * @property int $order_id
      * @property int $item_id
      * @property int $quantity
-     * @property Carbon $start
-     * @property Carbon $end
+     * @property CarbonImmutable $start
+     * @property CarbonImmutable $end
      * @property float $original_price
      * @property float $price
      * @property string $comment
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property Item $item
      * @method BelongsTo|_IH_Item_QB item()
      * @property Order $order
@@ -320,10 +320,10 @@ namespace App\Models {
      * @property mixed|null $password
      * @property UserRole $role
      * @property bool $enabled
-     * @property Carbon|null $last_login
+     * @property CarbonImmutable|null $last_login
      * @property string|null $remember_token
-     * @property Carbon|null $created_at
-     * @property Carbon|null $updated_at
+     * @property CarbonImmutable|null $created_at
+     * @property CarbonImmutable|null $updated_at
      * @property-read string $name attribute
      * @property _IH_Comment_C|Comment[] $comments
      * @property-read int $comments_count

@@ -1,5 +1,14 @@
-<?php //e3477bd942919a87a7c01a416f625eb4
+<?php //0b35299b5023173ca11af92ee27fd111
 /** @noinspection all */
+
+namespace Carbon {
+    
+    /**
+     * @method static string formatLocalDate()
+     * @method static string formatLocalTime(bool $seconds = true)
+     */
+    class CarbonImmutable {}
+}
 
 namespace Illuminate\Contracts\View {
     
@@ -46,15 +55,6 @@ namespace Illuminate\Routing {
      * @method static $this lazy($enabled = true)
      */
     class Route {}
-}
-
-namespace Illuminate\Support {
-    
-    /**
-     * @method static string formatLocalDate()
-     * @method static string formatLocalTime(bool $seconds = true)
-     */
-    class Carbon {}
 }
 
 namespace Illuminate\Testing {
