@@ -44,6 +44,18 @@ document.addEventListener('livewire:init', () => {
     })
 
     //
+    // reload when page expired
+    //
+    Livewire.hook('request', ({fail}) => {
+        fail(({status, preventDefault}) => {
+            if (status === 419) {
+                preventDefault()
+                location.reload()
+            }
+        })
+    })
+
+    //
     // adds a new livewire directive to refresh a component if it is cached on navigation
     //
     const refreshComponents = {}
