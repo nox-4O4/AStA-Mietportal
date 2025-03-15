@@ -5,6 +5,7 @@
 	use App\Contracts\PriceCalculation;
 	use App\Enums\UserRole;
 	use App\Models\User;
+	use App\Util\DTOSynth;
 	use App\Util\Markdown;
 	use Auth;
 	use Carbon\CarbonImmutable;
@@ -18,6 +19,7 @@
 	use IntlDateFormatter;
 	use IntlDatePatternGenerator;
 	use League\Config\Exception\InvalidConfigurationException;
+	use Livewire\Livewire;
 
 	class AppServiceProvider extends ServiceProvider {
 		/**
@@ -50,6 +52,8 @@
 
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
+
+			Livewire::propertySynthesizer(DTOSynth::class);
 
 			// some blade helpers
 			Blade::directive('money', fn($expression) => <<<PHP

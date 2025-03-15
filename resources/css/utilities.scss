@@ -106,3 +106,11 @@ button, [type=button], [type=reset], [type=submit] {
     cursor: default !important;
   }
 }
+
+.fa-animate-once {
+  --fa-animation-iteration-count: 1;
+}
+
+.btn.baseline-alignment {
+ margin-top: calc(-1 * (var(--bs-btn-padding-y)));
+}

@@ -49,3 +49,13 @@ html .btn-outline-secondary { // using html selector to increase specifity
     filter: brightness(120%) saturate(2); // improve contrast ratio
   }
 }
+
+// add "loading" validation state
+$form-validation-states: map-merge($form-validation-states, ("loading": (
+        "color": var(--bs-secondary-color),
+        "icon": url("data:image/svg+xml,<svg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z' fill='#{$secondary}'><animateTransform attributeName='transform' type='rotate' dur='0.75s' values='0 12 12;360 12 12' repeatCount='indefinite'/></path></svg>"),
+        "tooltip-color": #fff,
+        "tooltip-bg-color": var(--bs-secondary),
+        "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--bs-secondary-rgb), $input-btn-focus-color-opacity),
+        "border-color": var(--bs-secondary-border-subtle),
+)));

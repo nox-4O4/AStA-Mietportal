@@ -17,6 +17,16 @@ img[alt]::before {
   content: "\274C\a" attr(alt) " konnte nicht geladen werden.";
 }
 
+.img-small {
+  img {
+    font-size: 0.7rem; // smaller font size for error message shown with broken images
+    &::before {
+      // decrease padding for error message shown with broken images
+      padding: 0.5rem;
+    }
+  }
+}
+
 .error-page {
   .headtext {
     max-width: 20rem;
@@ -50,4 +60,8 @@ img[alt]::before {
 // constrast ratio is too low with light background
 .text-warning {
   filter: brightness(0.9);
+}
+
+#livewire-error iframe {
+  background-color: var(--bs-light) !important;
 }

@@ -150,26 +150,49 @@
 			));
 		}
 
+		public function getFutureAvailabilities(bool $sparse = true): array {
+			return $this->getAvailabilitiesInRange($sparse, from: CarbonImmutable::now());
+		}
+
 		/**
 		 * @param bool $sparse True to get only days when item stock changes, false to also get days in between.
 		 *
 		 * @return array<ItemAvailability>
 		 */
-		public function getFutureAvailabilities(bool $sparse = true): array {
+		public function getAvailabilitiesInRange(bool $sparse = true, ?CarbonInterface $from = null, ?CarbonInterface $to = null): array {
 			if(!$this->available || !$this->amount)
 				return [];
+
+			$rangeParams      = [];
+			$rangeConstraints = ['', ''];
+			if($from) {
+				$rangeConstraints[0] .= ' AND end >= :from1';
+				$rangeConstraints[1] .= ' AND end >= :from2';
+				$rangeParams         += [
+					'from1' => $from->format('Y-m-d'),
+					'from2' => $from->format('Y-m-d'),
+				];
+			}
+			if($to) {
+				$rangeConstraints[0] .= ' AND start <= :to1';
+				$rangeConstraints[1] .= ' AND start <= :to2';
+				$rangeParams         += [
+					'to1' => $to->format('Y-m-d'),
+					'to2' => $to->format('Y-m-d'),
+				];
+			}
 
 			/** @var array<ItemAvailability> $sparseAvailabilities */
 			$sparseAvailabilities = ItemAvailability::collect(DB::select(<<<SQL
 				WITH stockChanges AS (SELECT quantity, start date
 				                      FROM order_item
-				                      WHERE item_id = :itemId1 AND
-				                            end > CURRENT_DATE
-				                      UNION
-				                      SELECT -quantity, end date
+				                      WHERE item_id = :itemId1
+				                        $rangeConstraints[0]
+				                      UNION ALL
+				                      SELECT -quantity, DATE_ADD(end, INTERVAL 1 DAY) date
 				                      FROM order_item
-				                      WHERE item_id = :itemId2 AND
-				                            end > CURRENT_DATE)
+				                      WHERE item_id = :itemId2
+				                        $rangeConstraints[1])
 				SELECT DISTINCT date,
 				                GREATEST(0, amount - SUM(quantity) OVER (ORDER BY date)) AS available
 				FROM stockChanges, items
@@ -180,6 +203,7 @@
 					'itemId1' => $this->id,
 					'itemId2' => $this->id,
 					'itemId3' => $this->id,
+					...$rangeParams,
 				]
 			));
 
@@ -213,7 +237,7 @@
 			if($start->gt($end))
 				return $this->getMaximumAvailabilityInRange($end, $start);
 
-			$availabilities = $this->getFutureAvailabilities();
+			$availabilities = $this->getAvailabilitiesInRange(from: $start, to: $end);
 			$available      = $this->amount;
 
 			// comments needed to prevent PHPStorm from butchering formatting
@@ -222,7 +246,7 @@
 				/**/ $next;
 				/**/ [$current, $next] = [$next, next($availabilities)]
 			) {
-				if($end->gte($current->date) && $start->lt($next->date)) { // first date inclusive, last date exclusive
+				if($end->gte($current->date) && $start->lte($next->date)) {
 					$available = min($available, $current->available);
 				}
 			}

@@ -2,7 +2,7 @@
 
 <div class="swiper-container {{$class}}" wire:rendered="initSwiper('{{$id}}')">
     <div id="swiper-main-{{$id}}" class="swiper swiper-large">{{$slot}}</div>
-    <div id="swiper-thumbs-{{$id}}" class="swiper swiper-thumbs">{{$slot}}</div>
+    <div id="swiper-thumbs-{{$id}}" class="swiper swiper-thumbs img-small">{{$slot}}</div>
 </div>
 
 {{-- without @script tags the script won't be executed when it first appears during livewire refresh and initSwiper won't be available --}}

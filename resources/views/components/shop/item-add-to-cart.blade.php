@@ -397,6 +397,15 @@
                     @enderror
                 </div>
             </div>
+            @if($this->cartRepository->containsItem($item))
+                <div class="row mb-2">
+                    <div class="col-auto">
+                        <div class="alert-primary alert small p-2 m-0">
+                            Dieser Artikel befindet sich bereits im Warenkorb.
+                        </div>
+                    </div>
+                </div>
+            @endif
             <div class="row">
                 <div class="col">
                     <button wire:key="{{rand()}}" class="btn btn-lg" :class="amount && $el.form.checkValidity() ? 'btn-primary' : 'btn-outline-primary'"><i class="fa-solid fa-cart-plus"></i> In den Warenkorb</button>

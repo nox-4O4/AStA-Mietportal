@@ -41,6 +41,11 @@
   .footer a {
     color: inherit;
   }
+
+  .cart-image {
+    width: 100px;
+    max-width: 15vw;
+  }
 }
 
 @include color-mode(dark) {

@@ -20,6 +20,7 @@
 	use App\Http\Components\Dashboard\UserCreate;
 	use App\Http\Components\Dashboard\UserDetail;
 	use App\Http\Components\Dashboard\UserList;
+	use App\Http\Components\Shop\Cart;
 	use App\Http\Components\Shop\Item as ShopItem;
 	use App\Http\Components\Shop\ItemList as ShopItemList;
 	use App\Http\Controllers\LogoutController;
@@ -99,7 +100,8 @@
 		     ->name('.itemGroup.view')
 		     ->can('view', 'group');
 
-		Route::get('/warenkorb', fn() => 'Dies ist der Warenkorb. <a href="/">Zurück zum Shop</a>')->name('.cart');
+		Route::get('/warenkorb', Cart::class)->name('.cart');
+		Route::get('/checkout', fn() => 'Hier ist der Checkout.')->name('.checkout');
 	});
 
 	Route::fallback([MiscController::class, 'notFound']); // fallback route is required to get middlewares executed on 404 page (otherwise session, auth, csrf-token, etc. won't be available)

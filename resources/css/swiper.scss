@@ -47,12 +47,6 @@
 
     img {
       cursor: pointer;
-      font-size: 0.7rem; // smaller font size for error message shown with broken images
-    }
-
-    // decrease padding for error message shown with broken images
-    img::before {
-      padding: 0.5rem;
     }
   }
 

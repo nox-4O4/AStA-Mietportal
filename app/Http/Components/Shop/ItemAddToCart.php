@@ -4,7 +4,11 @@
 
 	use App\Contracts\PriceCalculation;
 	use App\Models\DisabledDate;
+	use App\Models\DTOs\CartItem;
 	use App\Models\Item as ItemModel;
+	use App\Repositories\CartRepository;
+	use App\Rules\MustNotExceedAmount;
+	use App\Traits\TrimWhitespaces;
 	use Carbon\CarbonImmutable;
 	use Closure;
 	use Date;
@@ -22,6 +26,8 @@
 	 * @property-read Collection<DisabledDate> $disabledDates See {@see ItemAddToCart::disabledDates()} for getter.
 	 */
 	class ItemAddToCart extends Component {
+		use TrimWhitespaces;
+		
 		#[Validate]
 		public ?CarbonImmutable $start = null;
 
@@ -38,14 +44,16 @@
 		public ItemModel $item;
 
 		protected PriceCalculation $priceCalculator;
+		protected CartRepository   $cartRepository;
 
 		public function mount(): void {
 			$this->start = session()->get('cart.lastStartDate');
 			$this->end   = session()->get('cart.lastEndDate');
 		}
 
-		public function boot(PriceCalculation $priceCalculator): void {
+		public function boot(PriceCalculation $priceCalculator, CartRepository $cartRepository): void {
 			$this->priceCalculator = $priceCalculator;
+			$this->cartRepository  = $cartRepository;
 		}
 
 		protected function rules(): array {
@@ -67,13 +75,7 @@
 				'amount'  => [
 					'required',
 					'gt:0',
-					Rule::when($this->start && $this->end, function () {
-						$available = $this->item->getMaximumAvailabilityInRange($this->start, $this->end);
-
-						return $available === true
-							? []
-							: ["lte:$available"];
-					}),
+					Rule::when($this->start && $this->end, fn() => new MustNotExceedAmount($this->item, $this->start, $this->end)),
 				],
 				'comment' => [
 					'nullable',
@@ -87,7 +89,6 @@
 			return [
 				'start.after_or_equal' => "Der Beginn darf nicht vor dem {$this->minDate->formatLocalDate()} liegen.",
 				'end.before_or_equal'  => $this->maxDate ? "Das Ende darf nicht nach dem {$this->maxDate->formatLocalDate()} liegen." : 'Das Ende darf nicht nach dem :date liegen.',
-				'amount.lte'           => 'Es sind nicht genügend Artikel verfügbar.',
 			];
 		}
 
@@ -114,10 +115,11 @@
 			                   ->get();
 		}
 
-		public function addToCart(): void {
+		public function addToCart(CartRepository $repository): void {
 			$this->validate();
 
-			// TODO add to cart
+			$cartItem = new CartItem($this->item, $this->start, $this->end, $this->amount, $this->comment);
+			$repository->addCartItem($cartItem);
 
 			session()->put('cart.lastStartDate', $this->start);
 			session()->put('cart.lastEndDate', $this->end);
@@ -125,6 +127,8 @@
 			$this->reset('start', 'end', 'amount', 'comment');
 
 			$this->dispatch('item-added-to-cart');
+			$this->dispatch('cart-changed');
+
 			session()->flash(
 				'cart.status.success', /** @lang Blade */
 				'Artikel erfolgreich in den Warenkorb gelegt.<br><a href="' . route('shop.cart') . '" wire:navigate><i class="fa-solid fa-arrow-right me-1"></i>Zum Warenkorb</a>'
