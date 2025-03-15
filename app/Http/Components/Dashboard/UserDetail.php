@@ -73,7 +73,7 @@
 
 				if(!auth()->user()->enabled || !auth()->user()->can('manage-users')) {
 					$this->confirmation = 2; // hack: we're using any non-bool value (to still get a validation error when the old value is used) that evaluates to true when used as checkbox model binding (so it won't flash unchecked before redirecting the user)
-					$this->redirectRoute(config('app.dashboard.defaultRoute'), navigate: true);
+					$this->redirectRoute(config('shop.dashboard.defaultRoute'), navigate: true);
 				} else {
 					$this->confirmation = false;
 				}

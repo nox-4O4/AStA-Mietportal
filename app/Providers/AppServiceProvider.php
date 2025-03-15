@@ -51,7 +51,7 @@
 			Gate::define('manage-users', fn(User $user) => $user->role == UserRole::ADMIN);
 
 			// default routes for authenticated / unauthenticated requests
-			RedirectIfAuthenticated::redirectUsing(fn() => route(config('app.dashboard.defaultRoute')));
+			RedirectIfAuthenticated::redirectUsing(fn() => route(config('shop.dashboard.defaultRoute')));
 
 			Livewire::propertySynthesizer(DTOSynth::class);
 

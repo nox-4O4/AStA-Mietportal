@@ -136,8 +136,4 @@
 			'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
 			'store'  => env('APP_MAINTENANCE_STORE', 'database'),
 		],
-
-		'dashboard' => [
-			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'dashboard.orders.list'),
-		],
 	];

@@ -37,7 +37,7 @@
 	Route::get('logout', [LogoutController::class, 'action'])->name('logout');
 
 	Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard'], function () {
-		Route::get('/', fn() => redirect()->route(config('app.dashboard.defaultRoute')));
+		Route::get('/', fn() => redirect()->route(config('shop.dashboard.defaultRoute')));
 
 		Route::get('/profile', Profile::class)->name('.profile');
 

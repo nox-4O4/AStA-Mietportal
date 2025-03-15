@@ -108,8 +108,8 @@
                     <button type="submit" class="btn btn-primary">Änderungen übernehmen</button>
                 @else
                     <button type="submit"
-                            id="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
                             class="btn btn-outline-primary"
+                            wire:key="btn_{{rand()}}" {{-- to prevent livewire from reusing button with error condition --}}
                             wire:dirty.class="btn-primary"
                             wire:dirty.class.remove="btn-outline-primary"
                             wire:target="forename,surname,email,username,role,enabled,confirmation">

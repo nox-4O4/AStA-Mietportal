@@ -20,6 +20,6 @@
 
 			Session::regenerate();
 
-			$this->redirectIntended(default: route(config('app.dashboard.defaultRoute'), absolute: false), navigate: true);
+			$this->redirectIntended(default: route(config('shop.dashboard.defaultRoute'), absolute: false), navigate: true);
 		}
 	}
