@@ -56,6 +56,22 @@
 
 		/*
 		|--------------------------------------------------------------------------
+		| Additionally Trusted Hosts
+		|--------------------------------------------------------------------------
+		|
+		| Hosts specified here are trusted in addition to APP_URL host.
+		| Configure this when the site is available using multiple host names.
+		|
+		*/
+
+		'trusted_hosts' => [
+			...array_filter(
+				explode('|', env('APP_HOSTS', ''))
+			),
+		],
+
+		/*
+		|--------------------------------------------------------------------------
 		| Application Timezone
 		|--------------------------------------------------------------------------
 		|
