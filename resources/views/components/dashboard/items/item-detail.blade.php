@@ -232,7 +232,7 @@
                         @foreach($item->images as $image)
                             <div class="swiper-slide" data-hash="image-{{$image->id}}">
                                 <div class="swiper-zoom-container">
-                                    <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild">
+                                    <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild" class="object-fit-{{config('shop.image_sizing')}}">
                                 </div>
                                 <div class="image-delete d-flex justify-content-center align-items-center flex-wrap position-absolute bottom-0 w-100 pb-1">
                                     @if($item->itemGroup)

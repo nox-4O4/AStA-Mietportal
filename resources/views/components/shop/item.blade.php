@@ -14,7 +14,7 @@
                     @foreach($item->images ?? [$group->image] as $image)
                         <div class="swiper-slide" data-hash="image-{{$image->id}}">
                             <div class="swiper-zoom-container">
-                                <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild {{htmlspecialchars($element->name)}}">
+                                <img src="{{\Illuminate\Support\Facades\Storage::url($image->path)}}" alt="Produktbild {{htmlspecialchars($element->name)}}" class="object-fit-{{config('shop.image_sizing')}}">
                             </div>
                         </div>
                     @endforeach

@@ -71,7 +71,7 @@
                 <div class="position-relative w-100 h-100 d-none d-md-block d-lg-none d-xl-block">
                     <div class="position-absolute d-flex w-100 h-100 flex-column">
                         <div class="min-h-0">
-                            <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="w-100 h-100 object-fit-contain">
+                            <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="w-100 h-100 object-fit-{{config('shop.image_sizing')}}">
                         </div>
                         <p class="small text-muted mt-1">
                             Um das Gruppenbild zu ändern, wähle einen in der Gruppe enthaltenen Artikel aus und lege dort eines der Artikelbilder als Gruppenbild fest.
@@ -80,7 +80,7 @@
                 </div>
                 <div class="row d-md-none d-lg-flex d-xl-none">
                     <div class="col col-sm-auto">
-                        <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="object-fit-contain group-image-small">
+                        <img src="{{\Illuminate\Support\Facades\Storage::url($group->image->path)}}" alt="Gruppenbild {{htmlspecialchars($group->name)}}" class="object-fit-{{config('shop.image_sizing')}} group-image-small">
                     </div>
                     <p class="col-sm small text-muted mt-1 mt-sm-0 mb-0">
                         Um das Gruppenbild zu ändern, wähle einen in der Gruppe enthaltenen Artikel aus und lege dort eines der Artikelbilder als Gruppenbild fest.

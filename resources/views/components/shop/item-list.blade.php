@@ -39,7 +39,7 @@
             <div class="col-8 offset-2 offset-sm-0 col-sm-6 col-md-4 col-lg-3 gutter-even aspect-1">
                 <a class="w-100 h-100 position-relative d-block text-body" href="{{route($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, \App\Util\Helper::GetItemSlug($item->name)])}}" wire:navigate>
                     @if($item->imagePath)
-                        <img src="{{\Illuminate\Support\Facades\Storage::url($item->imagePath)}}" alt="Produktbild {{htmlspecialchars($item->name,encoding: 'UTF-8')}}" class="w-100 h-100 object-fit-contain">
+                        <img src="{{\Illuminate\Support\Facades\Storage::url($item->imagePath)}}" alt="Produktbild {{htmlspecialchars($item->name)}}" class="w-100 h-100 object-fit-{{config('shop.image_sizing')}}">
                     @else
                         {!! File::get(resource_path('img/product-placeholder.svg')) !!}
                     @endif

@@ -35,4 +35,6 @@
 				'class' => \App\Providers\PriceCalculation\ConstantPriceCalculation::class,
 			],
 		],
+
+		'image_sizing' => 'cover', // 'cover': fill space completly, cropping image borders if required. 'contain': scale image to fit, leaving bars if required.
 	];
