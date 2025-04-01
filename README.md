@@ -13,7 +13,11 @@ Das Mietportal für den AStA HKA.
 * Datenbank initialisieren `php artisan migrate --seed --force`
 * Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`
 * Cronjob einrichten: `* * * * * php artisan schedule:run`
-* Konfiguration u. Ä. cachen: `php artisan optimize`
+* Konfiguration u. Ä. cachen: `php artisan optimize`  
+  (Dieser Befehl kann in `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Setups, zu Problemen bei absoluten Pfaden führen. Im Zweifelsfall weglassen oder den Konfigurations-Cache bei Problemen mit `php artisan config:clear` wieder löschen.)
+* Initialen Benutzer anlegen: `php artisan user:create`
+
+Das Dashboard kann unter `/login` aufgerufen werden.
 
 ### Aktualisierung
 
