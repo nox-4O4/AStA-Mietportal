@@ -19,20 +19,22 @@
 </head>
 <body>
 @yield('content')
-<div class="position-fixed text-right p-3" style="top:70px;right:0;z-index: 999999">
-    <p class="m-0 d-sm-none">[none]</p>
-    <p class="m-0 d-none d-sm-block d-md-none">sm</p>
-    <p class="m-0 d-none d-md-block d-lg-none">md</p>
-    <p class="m-0 d-none d-lg-block d-xl-none">lg</p>
-    <p class="m-0 d-none d-xl-block d-xxl-none">xl</p>
-    <p class="m-0 d-none d-xxl-block">xxl</p>
-</div>
-<div class="position-fixed text-right p-3 small" style="bottom:70px;right:0;z-index: 999999">
-    <a href="{{route('dashboard')}}" wire:navigate>Dashboard</a><br>
-    <button class="btn btn-link p-0 btn-sm" onclick="Livewire.all().forEach(c=>c.$wire.$refresh())">Refresh Components</button>
-    <br>
-    <livewire:random />
-</div>
+@if(config('app.debug'))
+    <div class="position-fixed text-right p-3" style="top:70px;right:0;z-index: 999999">
+        <p class="m-0 d-sm-none">[none]</p>
+        <p class="m-0 d-none d-sm-block d-md-none">sm</p>
+        <p class="m-0 d-none d-md-block d-lg-none">md</p>
+        <p class="m-0 d-none d-lg-block d-xl-none">lg</p>
+        <p class="m-0 d-none d-xl-block d-xxl-none">xl</p>
+        <p class="m-0 d-none d-xxl-block">xxl</p>
+    </div>
+    <div class="position-fixed text-right p-3 small" style="bottom:70px;right:0;z-index: 999999">
+        <a href="{{route('dashboard')}}" wire:navigate>Dashboard</a><br>
+        <button class="btn btn-link p-0 btn-sm" onclick="Livewire.all().forEach(c=>c.$wire.$refresh())">Refresh Components</button>
+        <br>
+        <livewire:random />
+    </div>
+@endif
 @yield('body_end')
 </body>
 </html>
