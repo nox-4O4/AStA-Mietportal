@@ -34,36 +34,40 @@
         </div>
     </div>
 
-    <div class="row">
-        @foreach($this->items as $item)
-            <div class="col-8 offset-2 offset-sm-0 col-sm-6 col-md-4 col-lg-3 gutter-even aspect-1">
-                <a class="w-100 h-100 position-relative d-block text-body" href="{{route($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, \App\Util\Helper::GetItemSlug($item->name)])}}" wire:navigate>
-                    @if($item->imagePath)
-                        <img src="{{\Illuminate\Support\Facades\Storage::url($item->imagePath)}}" alt="Produktbild {{htmlspecialchars($item->name)}}" class="w-100 h-100 object-fit-{{config('shop.image_sizing')}}">
-                    @else
-                        {!! File::get(resource_path('img/product-placeholder.svg')) !!}
-                    @endif
+    @if(!$this->items && !$this->search)
+        <p>Es wurden noch keine Artikel hinterlegt.</p>
+    @else
+        <div class="row">
+            @foreach($this->items as $item)
+                <div class="col-8 offset-2 offset-sm-0 col-sm-6 col-md-4 col-lg-3 gutter-even aspect-1">
+                    <a class="w-100 h-100 position-relative d-block text-body" href="{{route($item->grouped ? 'shop.itemGroup.view' : 'shop.item.view', [$item->id, \App\Util\Helper::GetItemSlug($item->name)])}}" wire:navigate>
+                        @if($item->imagePath)
+                            <img src="{{\Illuminate\Support\Facades\Storage::url($item->imagePath)}}" alt="Produktbild {{htmlspecialchars($item->name)}}" class="w-100 h-100 object-fit-{{config('shop.image_sizing')}}">
+                        @else
+                            {!! File::get(resource_path('img/product-placeholder.svg')) !!}
+                        @endif
 
-                    <span @if($item->grouped && !$item->visible)
-                              title="Unterschiedliche Varianten vorhanden; Artikel nicht sichtbar"
-                          @elseif($item->grouped)
-                              title="Unterschiedliche Varianten vorhanden"
-                          @elseif(!$item->visible)
-                              title="Artikel nicht sichtbar"
-                          @endif
-                          class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body">
+                        <span @if($item->grouped && !$item->visible)
+                                  title="Unterschiedliche Varianten vorhanden; Artikel nicht sichtbar"
+                              @elseif($item->grouped)
+                                  title="Unterschiedliche Varianten vorhanden"
+                              @elseif(!$item->visible)
+                                  title="Artikel nicht sichtbar"
+                              @endif
+                              class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body">
 
                         {{$item->name}}
 
-                        @if($item->grouped)
-                            <i class="fa-solid fa-grip" title="Unterschiedliche Varianten vorhanden"></i>
-                        @endif
-                        @if(!$item->visible)
-                            <i class="fa-regular fa-eye-slash" title="Artikel nicht sichtbar"></i>
-                        @endif
+                            @if($item->grouped)
+                                <i class="fa-solid fa-grip" title="Unterschiedliche Varianten vorhanden"></i>
+                            @endif
+                            @if(!$item->visible)
+                                <i class="fa-regular fa-eye-slash" title="Artikel nicht sichtbar"></i>
+                            @endif
                     </span>
-                </a>
-            </div>
-        @endforeach
-    </div>
+                    </a>
+                </div>
+            @endforeach
+        </div>
+    @endif
 </div>
