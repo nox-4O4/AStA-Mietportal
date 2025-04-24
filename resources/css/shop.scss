@@ -38,6 +38,7 @@
     }
   }
 
+  // muted color for footer links
   .footer a {
     color: inherit;
   }
@@ -45,6 +46,19 @@
   .cart-image {
     width: 100px;
     max-width: 15vw;
+  }
+
+  --bs-breadcrumb-divider: '—';
+}
+
+// Hide divider on small screens and add some spacing between items
+@include media-breakpoint-down(sm) {
+  .breadcrumb {
+    --bs-breadcrumb-item-padding-x: 1rem;
+
+    .breadcrumb-item + .breadcrumb-item::before {
+      display: none;
+    }
   }
 }
 

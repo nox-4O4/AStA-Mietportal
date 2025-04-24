@@ -7,6 +7,8 @@
 @if(session("$scope.raw"))
     @if(session("$scope.error"))
         <div class="alert alert-danger {{$class}}" {{$attributes}}>{!! session("$scope.error") !!}</div>
+    @elseif(session("$scope.warning"))
+        <div class="alert alert-warning {{$class}}" {{$attributes}}>{!! session("$scope.warning") !!}</div>
     @elseif(session("$scope.info"))
         <div class="alert alert-primary {{$class}}" {{$attributes}}>{!! session("$scope.info") !!}</div>
     @elseif(session("$scope.success"))
@@ -17,6 +19,8 @@
 @else
     @if(session("$scope.error"))
         <div class="alert alert-danger {{$class}}" {{$attributes}}>{{session("$scope.error")}}</div>
+    @elseif(session("$scope.warning"))
+        <div class="alert alert-warning {{$class}}" {{$attributes}}>{{session("$scope.warning")}}</div>
     @elseif(session("$scope.info"))
         <div class="alert alert-primary {{$class}}" {{$attributes}}>{{session("$scope.info")}}</div>
     @elseif(session("$scope.success"))

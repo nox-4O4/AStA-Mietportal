@@ -1,7 +1,15 @@
+<x-slot:breadcrumbs>
+    <li class="breadcrumb-item text-center fw-semibold"><i class="fa-solid fa-cart-shopping me-1"></i>Warenkorb</li>
+    <li class="breadcrumb-item text-center text-muted"><i class="fa-solid fa-table-list me-1"></i><span class="text-nowrap">Daten angeben</span></li>
+    <li class="breadcrumb-item text-center text-muted"><i class="fa-regular fa-square-check me-1"></i>Bestätigen</li>
+</x-slot:breadcrumbs>
+
 <div x-data="{items: $persist($wire.entangle('items').live).as('cart-items')}"
      @@storage.window="$event.key == 'cart-items' && $wire.$refresh()"
 >
     <h1>Warenkorb</h1>
+
+    <x-status-message />
 
     @if($items)
         <p>
@@ -104,15 +112,15 @@
                 <div class="row">
                     <div class="col-sm-auto">
                         @if($errors->hasAny('items.*'))
-                            <button class="btn btn-outline-primary w-100" disabled><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Checkout</button>
+                            <button class="btn btn-outline-primary w-100" disabled><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</button>
                         @else
-                            <a href="{{route('shop.checkout')}}" class="btn btn-primary w-100" wire:navigate><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Checkout</a>
+                            <a href="{{route('shop.checkout')}}" class="btn btn-primary w-100" wire:navigate><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</a>
                         @endif
                     </div>
                 </div>
                 @if($errors->hasAny('items.*'))
                     <p class="text-danger small m-0">
-                        Der Warenkorb enthält ungültige Elemente. Korrigiere oder entferne diese, um mit dem Checkout fortzufahren.
+                        Der Warenkorb enthält ungültige Elemente. Korrigiere oder entferne diese, um mit dem Check-out fortzufahren.
                     </p>
                 @endif
             </div>

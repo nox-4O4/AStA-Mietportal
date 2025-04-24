@@ -48,4 +48,15 @@
 		public function offsetUnset(mixed $offset): void {
 			unset($this->$offset);
 		}
+
+		public function getHash(): string {
+			return sha1(implode("\0", [
+				$this->item?->id,
+				$this->item?->price,
+				$this->start->timestamp,
+				$this->end->timestamp,
+				$this->amount,
+				$this->comment,
+			]));
+		}
 	}

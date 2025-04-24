@@ -16,7 +16,7 @@
             <label for="contentValue" class="col-form-label">{{$content->description}}</label>
             <div class="col">
                 <div class="autogrow-textarea @error('contentValue')is-invalid @enderror" data-replicated-value="{{$contentValue}}">
-                    <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model.live.debounce.150ms="contentValue" rows="5" id="contentValue" class="form-control @error('contentValue')is-invalid @enderror" required></textarea>
+                    <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model.live.debounce.150ms="contentValue" rows="5" id="contentValue" class="form-control @error('contentValue')is-invalid @enderror"></textarea>
                 </div>
                 @error('contentValue')
                 <div class="invalid-feedback">{{$message}}</div>

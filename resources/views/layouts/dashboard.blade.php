@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="container-fluid p-0 d-flex h-100">
+    <div class="container-fluid dashboard p-0 d-flex h-100">
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto">
             <div class="d-flex mb-3">
                 <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>

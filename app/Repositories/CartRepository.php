@@ -2,20 +2,36 @@
 
 	namespace App\Repositories;
 
+	use App\Contracts\PriceCalculation;
 	use App\Exceptions\AmountExceededException;
+	use App\Models\DisabledDate;
 	use App\Models\DTOs\CartItem;
 	use App\Models\DTOs\ItemAvailability;
 	use App\Models\Item;
+	use Carbon\CarbonImmutable;
 	use Illuminate\Support\Arr;
 
 	class CartRepository {
+		private static bool $fresh = false;
+
+		public function __construct(private readonly PriceCalculation $priceCalculator) { }
 
 		/**
 		 * @return array<CartItem>
 		 * @noinspection PhpDocMissingThrowsInspection this won't throw; PHPStorm is confused about the implementation
 		 */
 		public function getCartItems(): array {
-			return session()->get('cart.items', []);
+			/** @var array<CartItem> $items */
+			$items = session()->get('cart.items', []);
+
+			if(!self::$fresh) {
+				foreach($items as $cartItem)
+					$cartItem->item->refresh();
+
+				self::$fresh = true;
+			}
+
+			return $items;
 		}
 
 		public function addCartItem(CartItem $cartItem): void {
@@ -80,8 +96,79 @@
 			foreach($amountChanges as $amountChange) {
 				$booked += $amountChange->available;
 				if($booked > ($availabilities[$amountChange->date->format('c')] ?? $newItem->item->amount)) {
-					throw  AmountExceededException::forDate($amountChange->date);
+					throw AmountExceededException::forDate($amountChange->date);
 				}
 			}
+		}
+
+		/**
+		 * @return array<CartItem>
+		 */
+		public function getCartItemsSorted(): array {
+			$itemBuckets = [];
+
+			foreach($this->getCartItems() as $id => $item)
+				$itemBuckets[$item->item->id][$id] = $item;
+
+			foreach($itemBuckets as &$items)
+				uasort($items, fn(CartItem $a, CartItem $b) => [$a->start, $a->end, $a->comment] <=> [$b->start, $b->end, $b->comment]);
+
+			return array_merge(...$itemBuckets);
+		}
+
+		public function getItemValidationErrors(): array {
+			$minDate = CarbonImmutable::now()->startOfDay()->addDays(config('shop.booking_ahead_days_min'));
+			$maxDate = config('shop.booking_ahead_days_max')
+				? CarbonImmutable::now()->startOfDay()->addDays(config('shop.booking_ahead_days_max'))
+				: null;
+
+			$validItems = [];
+			$errors     = [];
+
+			foreach($this->getCartItemsSorted() as $id => $cartItem) {
+				if($cartItem->end->lt($cartItem->start))
+					$errors["items.$id.range"][] = 'Das Ende darf nicht vor dem Start liegen.';
+
+				else if($cartItem->start->lt($minDate))
+					$errors["items.$id.range"][] = "Der Beginn darf nicht vor dem {$minDate->formatLocalDate()} liegen.";
+
+				else if($maxDate && $cartItem->end->gt($maxDate))
+					$errors["items.$id.range"][] = "Das Ende darf nicht nach dem {$maxDate->formatLocalDate()} liegen.";
+
+				else if(DisabledDate::overlapsWithRange($cartItem->start, $cartItem->end))
+					$errors["items.$id.range"][] = 'Der Mietservice steht in diesem Zeitraum nicht zur Verfügung.';
+
+				else if($cartItem->amount === null)
+					$errors["items.$id.amount"][] = 'Bitte die Menge angeben.';
+
+				else if(($available = $cartItem->item->getMaximumAvailabilityInRange($cartItem->start, $cartItem->end)) !== true && $cartItem->amount > $available)
+					$errors["items.$id.amount"][] = $available ? 'Es sind nicht genügend Artikel verfügbar.' : 'Dieser Artikel ist nicht verfügbar.';
+
+				else try {
+					$this->validateAvailabilityForNewItem($cartItem, $validItems);
+
+					$validItems[$id] = $cartItem;
+				} catch(AmountExceededException $e) {
+					$errors["items.$id.amount"][] = "Der Artikel befindet sich bereits im Warenkorb, wodurch der verfügbare Bestand am {$e->date->formatLocalDate()} überschritten wird.";
+				}
+			}
+
+			return $errors;
+		}
+
+		public function totalAmount(): float {
+			$total = 0;
+			foreach($this->getCartItems() as $cartItem)
+				$total += $this->priceCalculator->calculatePrice($cartItem->item, $cartItem->start, $cartItem->end) * $cartItem->amount;
+
+			return $total;
+		}
+
+		public function getHash(): string {
+			$itemHash = '';
+			foreach($this->getCartItems() as $cartItem)
+				$itemHash .= $cartItem->getHash();
+
+			return sha1($itemHash);
 		}
 	}

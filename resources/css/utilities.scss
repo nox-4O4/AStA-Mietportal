@@ -112,5 +112,10 @@ button, [type=button], [type=reset], [type=submit] {
 }
 
 .btn.baseline-alignment {
- margin-top: calc(-1 * (var(--bs-btn-padding-y)));
+  margin-top: calc(-1 * (var(--bs-btn-padding-y)));
+}
+
+// last paragraph in markdown content should not have bottom margin (quick and dirty way to have single lines appear as if inline)
+p.md-paragraph:not(:has(+p)) {
+  margin-bottom: 0;
 }

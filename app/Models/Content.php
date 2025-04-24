@@ -34,6 +34,10 @@
 			return static::where('name', $name)->first();
 		}
 
+		public function isNotEmpty(): bool {
+			return (bool) strlen(trim($this->render()));
+		}
+
 		/**
 		 * Get the attributes that should be cast.
 		 *

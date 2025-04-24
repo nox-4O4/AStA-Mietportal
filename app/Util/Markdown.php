@@ -9,6 +9,7 @@
 	use League\CommonMark\Extension\CommonMark\Node\Block\BlockQuote;
 	use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
 	use League\CommonMark\Extension\Table\Table;
+	use League\CommonMark\Node\Block\Paragraph;
 	use Stringable;
 
 	class Markdown implements CastsAttributes, Stringable {
@@ -36,6 +37,7 @@
 						// add bootstrap styling
 						Table::class      => ['class' => 'table'],
 						BlockQuote::class => ['class' => 'blockquote'],
+						Paragraph::class  => ['class' => 'md-paragraph'],
 					],
 				],
 				[

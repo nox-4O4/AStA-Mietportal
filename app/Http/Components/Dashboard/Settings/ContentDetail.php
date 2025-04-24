@@ -27,7 +27,7 @@
 		}
 
 		public function save() {
-			$this->validate(['contentValue' => 'string|required']);
+			$this->validate(['contentValue' => 'string|sometimes']);
 
 			$this->content->content = $this->contentValue;
 			$this->content->save();

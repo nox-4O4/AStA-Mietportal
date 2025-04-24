@@ -2,7 +2,7 @@
 
 	return [
 		'booking_ahead_days_min' => 3, // how many days must lie between today and booking start day
-		'booking_ahead_days_max' => 180, // latest end date, 180 = approx. 6 months. Set to zero for unconstraint range.
+		'booking_ahead_days_max' => 180, // latest end date, 180 = approx. 6 months. Set to zero for unconstrained range.
 		'price_calculation'      => 'asymptotic', // name of one of configured price_calculation_providers below
 
 		'price_calculation_providers' => [
@@ -40,5 +40,16 @@
 
 		'dashboard' => [
 			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'dashboard.orders.list'),
+		],
+
+		'hka_student_discount' => [
+			// max. amount => discount
+			30  => 1,   // 100% discount for total price up to 30 €
+			300 => 0.5, // 50% discount for total price up to 300 €
+		],
+
+		'deposit_steps' => [
+			// Total deposit will get rounded down to nearest step. Deposit below first step will remain unchanged.
+			10, 15, 20, 25, 30, 35, 40, 45, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 200, 250, 300, 350, 400, 500,
 		],
 	];

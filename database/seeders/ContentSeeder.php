@@ -8,7 +8,9 @@
 	class ContentSeeder extends Seeder {
 
 		private static array $defaultContents = [
-			'shop.top' => 'Wird am Anfang der Übersichtsseite im Shop oberhalb der Artikel dargestellt.',
+			'shop.top'         => 'Wird am Anfang der Übersichtsseite im Shop oberhalb der Artikel dargestellt.',
+			'checkout.tos'     => 'Der Text, dem Benutzer beim Aufgeben der Bestellung zustimmen müssen. Leer lassen, um keine Bestätigung zu erfordern.',
+			'checkout.success' => 'Wird angezeigt, nachdem eine Bestellung erfolgreich getätigt wurde.',
 		];
 
 		public function run(): void {

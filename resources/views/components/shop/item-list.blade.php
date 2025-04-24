@@ -1,7 +1,7 @@
 <div>
     <h1>AStA-Mietportal</h1>
 
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
             @if($search)
                 <p class="mb-0">
