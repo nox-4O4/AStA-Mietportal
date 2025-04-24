@@ -19,7 +19,7 @@
 				$table->string('zipcode')->nullable();
 				$table->string('city')->nullable();
 				$table->string('email');
-				$table->string('mobile');
+				$table->string('mobile')->nullable();
 				$table->timestamps();
 			});
 		}

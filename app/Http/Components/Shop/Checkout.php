@@ -34,7 +34,7 @@
 		public string $email;
 
 		#[Validate('sometimes|nullable|string')]
-		public string $mobile;
+		public ?string $mobile = null;
 
 		#[Validate('required|string|in:personal,organisation')]
 		public string $rentalType;

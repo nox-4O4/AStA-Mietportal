@@ -14,7 +14,7 @@
 			public string  $zip,
 			public string  $city,
 			public string  $email,
-			public string  $mobile,
+			public ?string $mobile,
 			public float   $rate,
 			public string  $note,
 			public string  $eventName,
