@@ -5,6 +5,13 @@
       <webServer id="15a82e4c-bcb1-4b94-97a4-b9a48a3c9e28" name="Local PHP8.4 Deployment" url="https://asta-mietportal.dev.localhost/">
         <fileTransfer accessType="LOCAL" port="0" />
       </webServer>
+      <webServer id="c9335682-c97c-4f35-9caa-197457a3bf1d" name="asta-hka.de Live" url="https://mieten.asta-hka.de">
+        <fileTransfer rootFolder="/mieten.asta-hka.de" accessType="SFTP" host="ae840.netcup.net" port="22" sshConfigId="00b8c248-b4b5-4df1-9524-bea0308e1c51" sshConfig="asta-hka.de" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

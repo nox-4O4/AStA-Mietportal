@@ -11,7 +11,8 @@ Das Mietportal für den AStA HKA.
 * Composer-Pakete installieren: `composer install`
 * Frontend-Assets generieren: `npm ci && npm run build`
 * Datenbank initialisieren `php artisan migrate --seed --force`
-* Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`
+* Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`  
+  In `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Systemen, kann es sein, dass der Link nicht korrekt gesetzt wird. In diesem Fall kann auch ein relativer Link manuell hinterlegt werden: dazu muss `public/storage` auf `../storage/app/public` zeigen.
 * Cronjob einrichten: `* * * * * php artisan schedule:run`
 * Konfiguration u. Ä. cachen: `php artisan optimize`  
   (Dieser Befehl kann in `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Setups, zu Problemen bei absoluten Pfaden führen. Im Zweifelsfall weglassen oder den Konfigurations-Cache bei Problemen mit `php artisan config:clear` wieder löschen.)
