@@ -7,6 +7,7 @@
 	use Illuminate\Support\Str;
 	use InvalidArgumentException;
 	use League\CommonMark\Extension\CommonMark\Node\Block\BlockQuote;
+	use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 	use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
 	use League\CommonMark\Extension\Table\Table;
 	use League\CommonMark\Node\Block\Paragraph;
@@ -38,6 +39,17 @@
 						Table::class      => ['class' => 'table'],
 						BlockQuote::class => ['class' => 'blockquote'],
 						Paragraph::class  => ['class' => 'md-paragraph'],
+						Link::class       => [
+							'target' => static function (Link $link) {
+								$linkHost = parse_url($link->getUrl(), PHP_URL_HOST);
+								$appHost  = parse_url(config('app.url'), PHP_URL_HOST);
+
+								if($linkHost != $appHost)
+									return '_blank';
+
+								return null;
+							}
+						]
 					],
 				],
 				[
