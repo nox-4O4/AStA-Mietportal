@@ -171,4 +171,25 @@
 
 			return sha1($itemHash);
 		}
+
+		public function setCartId(string $cartId): void {
+			session()->put('cart.id', $cartId);
+		}
+
+		public function getCartId(): string {
+			if(!session()->has('cart.id'))
+				$this->setCartId(bin2hex(random_bytes(16)));
+
+			return session()->get('cart.id');
+		}
+
+		public function getOldCartId(): ?string {
+			return session()->get('cart.oldId');
+		}
+
+		public function clearAllData(): void {
+			$oldId = $this->getCartId();
+			session()->forget('cart');
+			session()->put('cart.oldId', $oldId);
+		}
 	}

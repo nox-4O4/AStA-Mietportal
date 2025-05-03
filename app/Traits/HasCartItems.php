@@ -5,12 +5,16 @@
 	use App\Models\DTOs\CartItem;
 	use App\Repositories\CartRepository;
 	use Illuminate\Support\Facades\Gate;
+	use Livewire\Attributes\Locked;
 
 	trait HasCartItems {
 		/**
 		 * @var array<CartItem>
 		 */
 		public array $items;
+
+		#[Locked]
+		public string $cartId;
 
 		public function bootHasCartItems(CartRepository $repository): void {
 			$sessionItems      = $repository->getCartItems();
@@ -19,6 +23,10 @@
 				$repository->setCartItems($validSessionItems);
 
 			$this->items = $validSessionItems;
+		}
+
+		public function mountHasCartItems(CartRepository $repository): void {
+			$this->cartId = $repository->getCartId();
 		}
 
 		/**
@@ -39,6 +47,26 @@
 		public function updatedHasCartItems($name, $value, CartRepository $repository): void {
 			if($name != 'items')
 				return;
+
+			if($this->cartId != $repository->getCartId()) {
+				// different cart between component creation and now
+				// two possibilities:
+				// - checkout was performed (this changes cart id)
+				// - session expired while page was open in browser
+
+				if(!$repository->getOldCartId()) {
+					// session probably expired, update cart id and continue with updating items
+					$repository->setCartId($this->cartId);
+				} else {
+					// - session not expired but cart id mismatch
+					// - oldId equals to current id (unless tab was offline for some time and in another tab of the same session multiple checkouts occured)
+					// -> prevent update of items (this keeps data from session) and update cart id
+
+					$this->cartId = $repository->getCartId();
+
+					return;
+				}
+			} // else: cart matches, perform update
 
 			$newItems   = CartItem::collect($value);
 			$validItems = $this->removeInvalidItems($newItems);

@@ -156,7 +156,7 @@
 			});
 
 			if($order) {
-				session()->forget('cart');
+				$this->cartRepository->clearAllData();
 				$this->dispatch('cart-changed');
 
 				// TODO send confirmation email
