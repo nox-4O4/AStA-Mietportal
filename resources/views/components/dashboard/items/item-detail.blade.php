@@ -212,7 +212,7 @@
                             <div x-cloak x-show="requested" class="alert alert-warning small p-2 mb-2">Dies ist der einzige Artikel in der Gruppe „{{$this->item->itemGroup->name}}“. Beim Löschen des Artikels wird auch die Gruppe entfernt.</div>
                             <button x-cloak x-show="requested" wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
 
-                            <button x-show="!requested" @@click="requested=true" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
+                            <button x-show="!requested" @click="requested=true" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
                         @else
                             <button wire:click="delete" wire:confirm="Soll dieser Artikel wirklich gelöscht werden?" class="btn btn-danger"><i class="fa-solid fa-trash-can"></i>&nbsp;Artikel löschen</button>
                         @endif
