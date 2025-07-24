@@ -22,7 +22,7 @@
 	class Checkout extends Component {
 		use TrimWhitespaces;
 
-		private const array PREFILLABLE = ['forename', 'surname', 'email', 'mobile', 'rentalType', 'studying', 'legalname', 'street', 'number', 'zip', 'city', 'storePrefill'];
+		private const array PREFILLABLE = ['forename', 'surname', 'email', 'mobile', 'rentalType', 'studying', 'legalname', 'street', 'number', 'zipcode', 'city', 'storePrefill'];
 
 		#[Validate('required|string')]
 		public string $forename;
@@ -52,7 +52,7 @@
 		public string $number;
 
 		#[Validate('required|string')]
-		public string $zip;
+		public string $zipcode;
 
 		#[Validate('required|string')]
 		public string $city;

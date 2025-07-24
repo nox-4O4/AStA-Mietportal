@@ -32,7 +32,7 @@
                 <p class="my-0">{{$this->checkoutData->forename}} {{$this->checkoutData->surname}}</p>
                 <p class="my-0">{{$this->checkoutData->legalname}}</p>
                 <p class="my-0">{{$this->checkoutData->street}} {{$this->checkoutData->number}}</p>
-                <p class="my-0">{{$this->checkoutData->zip}} {{$this->checkoutData->city}}</p>
+                <p class="my-0">{{$this->checkoutData->zipcode}} {{$this->checkoutData->city}}</p>
             </div>
             <div>
                 <p class="my-0"><a href="mailto:{{htmlspecialchars($this->checkoutData->email)}}">{{$this->checkoutData->email}}</a></p>

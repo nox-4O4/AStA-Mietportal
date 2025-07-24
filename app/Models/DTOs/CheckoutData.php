@@ -11,7 +11,7 @@
 			public ?string $legalname,
 			public string  $street,
 			public string  $number,
-			public string  $zip,
+			public string  $zipcode,
 			public string  $city,
 			public string  $email,
 			public ?string $mobile,

@@ -128,8 +128,8 @@
                     </div>
                     <div class="row">
                         <div class="col-5 col-sm-4">
-                            <input class="form-control @error('zip')is-invalid @enderror" id="zip" wire:model="zip" required placeholder="Postleitzahl">
-                            @error('zip')
+                            <input class="form-control @error('zipcode')is-invalid @enderror" id="zipcode" wire:model="zipcode" required placeholder="Postleitzahl">
+                            @error('zipcode')
                             <div class="invalid-feedback">{{$message}}</div>
                             @enderror
                         </div>

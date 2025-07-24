@@ -228,6 +228,6 @@
 			'surname'                 => 'Nachname',
 			'username'                => 'Benutzername',
 			'visible'                 => 'Sichtbar',
-			'zip'                     => 'Postleitzahl',
+			'zipcode'                 => 'Postleitzahl',
 		]
 	];
