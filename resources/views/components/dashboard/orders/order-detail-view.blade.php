@@ -4,76 +4,41 @@
     <li class="breadcrumb-item">Bestellung #{{$order->id}}</li>
 </x-slot:breadcrumbs>
 
-<div>
-    <h1 class="mb-4">
-        Bestellung #{{$order->id}}
-        <x-dashboard.orders.status-badge :status="$order->status" class="fs-6" />
-    </h1>
-
-    <x-status-message />
-
-    <div class="row">
-        <div class="mb-3 col-xl-3 col-sm-6">
-            <h5>Besteller</h5>
-            <div class="mb-1">
-                <p class="my-0">{{$order->customer->name}}</p>
-                <p class="my-0">{{$order->customer->legalname}}</p>
-                <p class="my-0">{{$order->customer->street}} {{$order->customer->number}}</p>
-                <p class="my-0">{{$order->customer->zipcode}} {{$order->customer->city}}</p>
-            </div>
+<div x-data="{edit: false}">
+    <form wire:submit="updateOrder">
+        <h1 class="mb-4 d-flex justify-content-between flex-wrap gap-3">
             <div>
-                <p class="my-0"><a href="mailto:{{htmlspecialchars($order->customer->email)}}">{{$order->customer->email}}</a></p>
-                @if($order->customer->mobile)
-                    <p class="my-0">Telefon: <a href="tel:{{htmlspecialchars($order->customer->mobile)}}">{{$order->customer->mobile}}</a></p>
-                @endif
+                Bestellung #{{$order->id}}
+                <x-dashboard.orders.status-badge :status="$order->status" class="fs-6" />
+            </div>
+            <div x-show="!edit">
+                <button type="button" class="btn btn-outline-primary" @click="edit=true">
+                    <i class="fa-solid fa-pen-to-square"></i>&nbsp;Bearbeiten
+                </button>
+            </div>
+            <div x-show="edit" x-cloak>
+                <button type="button" wire:click="cancel()" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
+                <button type="submit" class="btn btn-primary">Speichern</button>
+            </div>
+        </h1>
+
+        <x-status-message />
+
+        <div class="row" x-show="!edit">
+            @include('components.dashboard.orders.order-detail-view.common-information')
+        </div>
+
+        <div class="row mb-3" x-show="edit" x-cloak>
+            @include('components.dashboard.orders.order-detail-view.edit-form')
+        </div>
+        <div class="row mb-3" x-show="edit" x-cloak>
+            <div class="col">
+                <button type="button" wire:click="cancel()" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
+                <button type="submit" class="btn btn-primary">Speichern</button>
             </div>
         </div>
-        <div class="mb-3 col-xl-6 order-1 order-xl-0">
-            <h5>Bestellung</h5>
-            <div class="row">
-                <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Bestelldatum</div>
-                <div class="col">{{$order->created_at}}</div>
-            </div>
-            <div class="row mt-2 mt-sm-1">
-                <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Veranstaltung</div>
-                <div class="col">{{$order->event_name}}</div>
-            </div>
-            @if($order->orderItems->isNotEmpty())
-                <div class="row mt-2 mt-sm-1">
-                    <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Mietzeitraum</div>
-                    <div class="col">
-                        {{$order->firstStart}} &ndash; {{$order->lastEnd}}
-                        @if(!$order->hasSinglePeriod())
-                            <p class="alert alert-warning m-0 p-0 px-1 fw-bold small d-inline-block">Produkte mit abweichenden Zeiträumen gebucht!</p>
-                        @endif
-                    </div>
-                </div>
-            @endif
-            @if($order->note)
-                <div class="row mt-2 mt-sm-1">
-                    <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Bemerkung</div>
-                    <div class="col">{{$order->note}}</div>
-                </div>
-            @endif
-        </div>
-        <div class="mb-3 col-xl-3 col-sm">
-            <h5>Infos</h5>
-            <p class="my-0">
-                <span class="fw-semibold">Mietbetrag:</span>
-                @money($order->total)
-            </p>
-            <p class="my-0">
-                <span class="fw-semibold">Kaution:</span>
-                @money($order->deposit)
-            </p>
-            @if($order->totalDiscount)
-                <p class="my-0">
-                    <span class="fw-semibold">Gewährter Rabatt:</span>
-                    @money($order->totalDiscount)
-                </p>
-            @endif
-        </div>
-    </div>
+    </form>
+
     @if($order->comments->isNotEmpty())
         <div class="row mb-3">
             <div class="col-auto">
@@ -103,8 +68,8 @@
                         class="child-responsive"
                         :elements="$order->orderItems"
                         :element-attributes="['data-hide-empty-children' => true]"
-                        item-component="dashboard.orders.order-detail-view-item-entry"
-                        :item-component-data="['individualPeriod' => !$order->hasSinglePeriod()]"
+                        item-component="dashboard.orders.order-detail-view.item-entry"
+                        :item-component-data="['order' => $order]"
                 />
             @else
                 <p>Diese Bestellung enthält noch keine Artikel.</p>

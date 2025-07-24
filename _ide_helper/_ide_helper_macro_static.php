@@ -1,4 +1,4 @@
-<?php //0b35299b5023173ca11af92ee27fd111
+<?php //0849994ff0be47f2c80c51b258081394
 /** @noinspection all */
 
 namespace Carbon {
@@ -98,21 +98,21 @@ namespace Laravel\Dusk {
     /**
      * @method static $this assertAttributeMissing($selector, $attribute)
      * @method static $this assertClassMissing($selector, $className)
-     * @method static $this assertConsoleLogHasWarning($expectedMessage)
-     * @method static $this assertConsoleLogMissingWarning($expectedMessage)
+     * @method static $this|void assertConsoleLogHasWarning($expectedMessage)
+     * @method static $this|void assertConsoleLogMissingWarning($expectedMessage)
      * @method static $this assertHasClass($selector, $className)
-     * @method static $this assertInViewPort($selector, $invert = false)
+     * @method static $this|void assertInViewPort($selector, $invert = false)
      * @method static \Closure assertNotInViewPort($selector)
-     * @method static $this assertNotPresent($selector)
-     * @method static $this assertNotVisible($selector)
-     * @method static $this assertScript($js, $expects = true)
-     * @method static void offline()
-     * @method static void online()
+     * @method static $this|void assertNotPresent($selector)
+     * @method static $this|void assertNotVisible($selector)
+     * @method static $this|void assertScript($js, $expects = true)
+     * @method static mixed offline()
+     * @method static mixed online()
      * @method static $this runScript($js)
      * @method static $this scrollTo($selector)
      * @method static $this selectMultiple($field, $values = [])
      * @method static object waitForLivewire($callback = null)
-     * @method static void waitForLivewireToLoad()
+     * @method static mixed waitForLivewireToLoad()
      * @method static object waitForNavigate($callback = null)
      * @method static object waitForNavigateRequest($callback = null)
      * @method static object waitForNoLivewire($callback = null)

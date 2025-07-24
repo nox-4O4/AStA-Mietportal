@@ -1,4 +1,4 @@
-<?php //5485b2e6c4080bcc95beed3cae75e43c
+<?php //3a789549a82228523c1f977ea10fc45f
 /** @noinspection all */
 
 namespace App\Models {
@@ -91,7 +91,7 @@ namespace App\Models {
      * @property string|null $zipcode
      * @property string|null $city
      * @property string $email
-     * @property string $mobile
+     * @property string|null $mobile
      * @property CarbonImmutable|null $created_at
      * @property CarbonImmutable|null $updated_at
      * @property-read string $name attribute
@@ -241,6 +241,8 @@ namespace App\Models {
      * @property-read CarbonImmutable|null $common_end attribute
      * @property-read CarbonImmutable|null $common_start attribute
      * @property-read CarbonImmutable|null $first_start attribute
+     * @property-read bool $has_single_period attribute
+     * @property-read float $item_discount attribute
      * @property-read CarbonImmutable|null $last_end attribute
      * @property-read float $total attribute
      * @property-read float $total_discount attribute

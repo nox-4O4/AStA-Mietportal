@@ -7,8 +7,10 @@
 	use Illuminate\Support\Str;
 	use Illuminate\View\View;
 	use Livewire\Attributes\Locked;
+	use Livewire\Attributes\On;
 	use Livewire\Component;
 
+	#[On('refresh-data-table')]
 	class DataTable extends Component {
 
 		public Enumerable $elements;

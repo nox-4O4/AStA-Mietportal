@@ -2,9 +2,11 @@
 
 	namespace App\Models;
 
+	use App\Contracts\PriceCalculation;
 	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\Pivot;
+	use Illuminate\Support\Facades\App;
 
 	/**
 	 * @property int              $id
@@ -42,6 +44,16 @@
 			'price',
 			'comment',
 		];
+
+		protected static function booted(): void {
+			$priceCalculator = App::make(PriceCalculation::class);
+
+			static::saving(function (OrderItem $orderItem) use ($priceCalculator) {
+				$orderItem->original_price = $priceCalculator->calculatePrice($orderItem->item, $orderItem->start, $orderItem->end) * $orderItem->quantity;
+				if(!isset($orderItem->price))
+					$orderItem->price = $orderItem->original_price;
+			});
+		}
 
 		public function order(): BelongsTo {
 			return $this->belongsTo(Order::class);

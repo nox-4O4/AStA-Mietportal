@@ -143,12 +143,11 @@
 					$orderItem = new OrderItem();
 					$orderItem->order()->associate($order);
 					$orderItem->item()->associate($cartItem->item);
-					$orderItem->quantity       = $cartItem->amount;
-					$orderItem->start          = $cartItem->start;
-					$orderItem->end            = $cartItem->end;
-					$orderItem->original_price = $this->priceCalculator->calculatePrice($cartItem->item, $cartItem->start, $cartItem->end) * $cartItem->amount;
-					$orderItem->price          = $orderItem->original_price;
-					$orderItem->comment        = $cartItem->comment;
+					$orderItem->quantity = $cartItem->amount;
+					$orderItem->start    = $cartItem->start;
+					$orderItem->end      = $cartItem->end;
+					$orderItem->comment  = $cartItem->comment;
+					// price gets calculated by save event
 					$orderItem->save();
 				}
 

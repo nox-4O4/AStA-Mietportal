@@ -119,3 +119,7 @@ button, [type=button], [type=reset], [type=submit] {
 p.md-paragraph:not(:has(+p)) {
   margin-bottom: 0;
 }
+
+.ws-pre-wrap {
+  white-space: pre-wrap;
+}

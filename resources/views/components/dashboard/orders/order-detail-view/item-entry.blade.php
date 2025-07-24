@@ -1,14 +1,15 @@
 @props([
-    'element'          => null,
-    'individualPeriod' => false,
+    'element' => null,
+    'order'   => null,
 ])
 
-@php(/** @var \App\Models\OrderItem $element */'')
+@php(/** @var \App\Models\OrderItem|null $element */'')
+@php(/** @var \App\Models\Order $order */'')
 
 @if(!$element)
     <th data-responsive-priority="10" class="all">Artikel</th>
     <th class="none">Anmerkung</th>
-    @if($individualPeriod)
+    @if(!$order->hasSinglePeriod)
         <th data-responsive-priority="50">Zeitraum</th>
     @endif
     <th data-responsive-priority="20">Anzahl</th>
@@ -23,13 +24,13 @@
         @endif
     </td>
     <td>{{$element->comment}}</td>
-    @if($individualPeriod)
+    @if(!$order->hasSinglePeriod)
         <td data-sort="{{$element->start->format('c')}}">
-            <span @if($element->start != $element->order->commonStart) class="fw-bold" @endif>
+            <span @if($order->commonStart && $element->start != $order->commonStart) class="fw-bold" @endif>
                 {{$element->start}}
             </span>
             &ndash;
-            <span @if($element->end != $element->order->commonEnd) class="fw-bold" @endif>
+            <span @if($order->commonEnd && $element->end != $order->commonEnd) class="fw-bold" @endif>
                 {{$element->end}}
             </span>
         </td>

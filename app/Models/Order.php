@@ -54,46 +54,74 @@
 			return $this->hasMany(Comment::class)->orderBy('created_at')->chaperone();
 		}
 
-		public function hasSinglePeriod(): bool {
-			return $this->orderItems()->distinct(['start', 'end'])->count() <= 1;
+		public function hasSinglePeriod(): Attribute {
+			return Attribute::get(fn(): bool => $this->orderItems()->distinct(['start', 'end'])->count() <= 1)
+			                ->shouldCache();
 		}
 
+		/**
+		 * When there is a distinct maximum occurence of a single start date, return this date.
+		 *
+		 * Examples: with dates `a`, `a`, `b`, `c` this function returns `a`;
+		 *           with `a`, `a`, `b`, `b` it returns null;
+		 *           with `a`, `a`, `b`, `b`, `b` it returns `b`;
+		 *           with `a` it returns `a`;
+		 *           with `a`, `b`, `c` it returns null.
+		 *
+		 * @return Attribute
+		 */
 		public function commonStart(): Attribute {
 			return Attribute::get(function (): ?CarbonImmutable {
 				$result = DB::select(<<<SQL
-					SELECT start col
-					FROM order_item
-					WHERE order_id = :order
-					GROUP BY col
-					HAVING COUNT(*) > 1
-					ORDER BY COUNT(*) DESC
+					WITH occurrences
+						     AS (SELECT start    col,
+						                COUNT(*) c
+						         FROM order_item
+						         WHERE order_id = :order
+						         GROUP BY col)
+					SELECT col,
+					       COUNT(*) OVER (PARTITION BY c) = 1 isUnique
+					FROM occurrences
+					ORDER BY c DESC
 					LIMIT 1
 					SQL,
 					['order' => $this->id]
 				);
 
-				return $result ? new CarbonImmutable($result[0]->col) : null;
-			})
-			                ->shouldCache();
+				return $result && $result[0]->isUnique
+					? new CarbonImmutable($result[0]->col)
+					: null;
+			})->shouldCache();
 		}
 
+		/**
+		 * When there is a distinct maximum occurence of a single end date, return this date.
+		 * See {@see Order::commonStart()} for examples.
+		 *
+		 * @return Attribute
+		 */
 		public function commonEnd(): Attribute {
 			return Attribute::get(function (): ?CarbonImmutable {
 				$result = DB::select(<<<SQL
-					SELECT end col
-					FROM order_item
-					WHERE order_id = :order
-					GROUP BY col
-					HAVING COUNT(*) > 1
-					ORDER BY COUNT(*) DESC
+					WITH occurrences
+						     AS (SELECT end      col,
+						                COUNT(*) c
+						         FROM order_item
+						         WHERE order_id = :order
+						         GROUP BY col)
+					SELECT col,
+					       COUNT(*) OVER (PARTITION BY c) = 1 isUnique
+					FROM occurrences
+					ORDER BY c DESC
 					LIMIT 1
 					SQL,
 					['order' => $this->id]
 				);
 
-				return $result ? new CarbonImmutable($result[0]->col) : null;
-			})
-			                ->shouldCache();
+				return $result && $result[0]->isUnique
+					? new CarbonImmutable($result[0]->col)
+					: null;
+			})->shouldCache();
 		}
 
 		public function firstStart(): Attribute {
@@ -108,6 +136,15 @@
 
 		public function total(): Attribute {
 			return Attribute::get(fn(): float => $this->orderItems()->sum('price') * $this->rate);
+		}
+
+		public function itemDiscount(): Attribute {
+			return Attribute::get(function (): float {
+				$originalPrice = $this->orderItems()->sum('original_price');
+				$currentPrice  = $this->orderItems()->sum('price');
+
+				return $originalPrice - $currentPrice;
+			})->shouldCache();
 		}
 
 		public function totalDiscount(): Attribute {

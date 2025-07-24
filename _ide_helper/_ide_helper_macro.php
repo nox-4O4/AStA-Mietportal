@@ -1,4 +1,4 @@
-<?php //91680cccfefb62510b28b71f9e6fa575
+<?php //b5e1241eb869452a66a474db8c5acc80
 /** @noinspection all */
 
 namespace Carbon {
@@ -107,21 +107,21 @@ namespace Laravel\Dusk {
     /**
      * @method $this assertAttributeMissing($selector, $attribute)
      * @method $this assertClassMissing($selector, $className)
-     * @method $this assertConsoleLogHasWarning($expectedMessage)
-     * @method $this assertConsoleLogMissingWarning($expectedMessage)
+     * @method $this|void assertConsoleLogHasWarning($expectedMessage)
+     * @method $this|void assertConsoleLogMissingWarning($expectedMessage)
      * @method $this assertHasClass($selector, $className)
-     * @method $this assertInViewPort($selector, $invert = false)
+     * @method $this|void assertInViewPort($selector, $invert = false)
      * @method \Closure assertNotInViewPort($selector)
-     * @method $this assertNotPresent($selector)
-     * @method $this assertNotVisible($selector)
-     * @method $this assertScript($js, $expects = true)
-     * @method void offline()
-     * @method void online()
+     * @method $this|void assertNotPresent($selector)
+     * @method $this|void assertNotVisible($selector)
+     * @method $this|void assertScript($js, $expects = true)
+     * @method mixed offline()
+     * @method mixed online()
      * @method $this runScript($js)
      * @method $this scrollTo($selector)
      * @method $this selectMultiple($field, $values = [])
      * @method object waitForLivewire($callback = null)
-     * @method void waitForLivewireToLoad()
+     * @method mixed waitForLivewireToLoad()
      * @method object waitForNavigate($callback = null)
      * @method object waitForNavigateRequest($callback = null)
      * @method object waitForNoLivewire($callback = null)

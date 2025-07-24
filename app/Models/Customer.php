@@ -17,7 +17,7 @@
 	 * @property ?string          $zipcode
 	 * @property ?string          $city
 	 * @property string           $email
-	 * @property string           $mobile
+	 * @property ?string          $mobile
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
