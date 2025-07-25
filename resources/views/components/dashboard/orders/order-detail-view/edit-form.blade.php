@@ -2,52 +2,6 @@
 
 @script
 <script>
-    const field = {
-            start: document.getElementById('start'),
-            end: document.getElementById('end')
-        }
-        , lastUserValue = {start: null, end: null}
-
-        /**
-         * Makes start and end fields of date range follow each other, so that `start <= end` always holds true.
-         *
-         * @param {Element} element The input field that was changed.
-         */
-        , changeHandler = element => {
-            // get the field index  for the field that was changed by user (primary)
-            // and the index for the one that should be adjusted (secondary)
-            const primary = element.id
-                , secondary = primary === 'start' ? 'end' : 'start'
-
-            // update / initialize user-provided values
-            lastUserValue[primary] = field[primary].value
-            if (!lastUserValue[secondary])
-                lastUserValue[secondary] = field[secondary].value
-
-            // only adjust secondary field when the current field got a value
-            if (field[primary].value) {
-                // The range is incomplete or invalid, set the secondary field to the primary field value.
-                if (!lastUserValue[secondary] || lastUserValue['end'] < lastUserValue['start'])
-                    $wire.editOrderForm[secondary] = field[primary].value
-
-                // The range is not invalid (any more). If the secondary field has previously been adjusted, reset it to the last user-provided value.
-                else if (field[secondary].value !== lastUserValue[secondary])
-                    $wire.editOrderForm[secondary] = lastUserValue[secondary]
-            }
-        }
-
-    field['start'].addEventListener('change', () => changeHandler(field['start']))
-    field['end'].addEventListener('change', () => changeHandler(field['end']))
-
-    // Store submitted values / reset values on form reset.
-    $wire.$hook('commit', ({succeed}) => {
-        // succeed is called when user cancels or submits form
-        succeed(() => {
-            lastUserValue['start'] = $wire.editOrderForm['start']
-            lastUserValue['end'] = $wire.editOrderForm['end']
-        })
-    })
-
     // initialize bootstrap tooltips
     document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(e => new bootstrap.Tooltip(e))
 </script>
@@ -176,18 +130,9 @@
         </div>
     </div>
     <div class="row mb-3">
-        <label for="start" class="col-sm-4 col-form-label">Zeitraum</label>
+        <label for="start_ordermeta" class="col-sm-4 col-form-label">Zeitraum</label>
         <div class="col">
-            <div class="input-group has-validation mb-1">
-                <input class="form-control @error('editOrderForm.start')is-invalid @enderror" id="start" type="date" wire:model="editOrderForm.start" min="2000-01-01" max="2099-12-31">
-                <span class="input-group-text">–</span>
-                <input class="form-control @error('editOrderForm.end')is-invalid @enderror" id="end" type="date" wire:model="editOrderForm.end" min="2000-01-01" max="2099-12-31">
-                @if($errors->hasAny('editOrderForm.start', 'editOrderForm.end'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('editOrderForm.start') ?: $errors->first('editOrderForm.end') }}
-                    </div>
-                @endif
-            </div>
+            <x-linked-date-range class="mb-1" model-prefix="editOrderForm." id-suffix="_ordermeta" />
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="recalculatePrice" wire:model="editOrderForm.recalculatePrice">
                 <label class="form-check-label" for="recalculatePrice">Betrag neu berechnen</label>
