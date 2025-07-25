@@ -42,7 +42,10 @@
             </div>
         </div>
         <div class="mb-3 col-sm-6">
-            <h6 class="mb-0">Veranstaltungs&shy;name / Verwendungs&shy;zweck</h6>
+            <h6 class="mb-0">
+                Veranstaltungs&shy;name / Verwendungs&shy;zweck
+                <a href="{{route('shop.checkout')}}" wire:navigate class="small fw-normal text-secondary" title="Daten bearbeiten"><i class="fa-solid fa-pen-to-square"></i></a>
+            </h6>
             <p class="mb-0">{{$this->checkoutData->eventName}}</p>
 
             @if($this->checkoutData->note)
