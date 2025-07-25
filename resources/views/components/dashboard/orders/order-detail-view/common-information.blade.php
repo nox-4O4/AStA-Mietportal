@@ -53,11 +53,17 @@
         <span class="fw-semibold">Kaution:</span>
         @money($order->deposit)
     </p>
-    @if($order->totalDiscount)
+    @if($order->totalDiscount || $order->itemDiscount)
         <p class="my-0">
-            <span class="fw-semibold">Gewährter Rabatt:</span>
+            <span class="fw-semibold">
+                @if($order->totalDiscount < 0)
+                    Enthaltener Aufschlag:
+                @else
+                    Gewährter Rabatt:
+                @endif
+            </span>
             <span class="text-nowrap">
-                @money($order->totalDiscount)
+                @money(abs($order->totalDiscount))
 
                 @if(!$order->itemDiscount)
                     ({{ round((1 - $order->rate) * 100) }}&#x202f;%)
@@ -71,7 +77,14 @@
         @if($order->itemDiscount && $order->rate != 1)
             <p class="mb-0">Bestehend aus</p>
             <ul>
-                <li>Artikelrabatt (@money($order->itemDiscount))</li>
+                <li>
+                    @if($order->itemDiscount < 0)
+                        Artikelzuschlag
+                    @else
+                        Artikelrabatt
+                    @endif
+                    (@money(abs($order->itemDiscount)))
+                </li>
                 <li>Prozentualer Abzug ({{ round((1 - $order->rate) * 100) }}&#x202f;%)</li>
             </ul>
         @endif
