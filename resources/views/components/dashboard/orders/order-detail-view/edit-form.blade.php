@@ -178,7 +178,7 @@
     <div class="row mb-3">
         <label for="start" class="col-sm-4 col-form-label">Zeitraum</label>
         <div class="col">
-            <div class="input-group mb-1">
+            <div class="input-group has-validation mb-1">
                 <input class="form-control @error('editOrderForm.start')is-invalid @enderror" id="start" type="date" wire:model="editOrderForm.start" min="2000-01-01" max="2099-12-31">
                 <span class="input-group-text">–</span>
                 <input class="form-control @error('editOrderForm.end')is-invalid @enderror" id="end" type="date" wire:model="editOrderForm.end" min="2000-01-01" max="2099-12-31">
@@ -206,7 +206,7 @@
     <div class="row mb-3">
         <label for="deposit" class="col-sm-4 col-form-label">Kaution</label>
         <div class="col">
-            <div class="input-group">
+            <div class="input-group has-validation">
                 <input class="form-control @error('editOrderForm.deposit')is-invalid @enderror" id="deposit" type="number" min="0" wire:model="editOrderForm.deposit" required>
                 <span class="input-group-text">€</span>
                 @error('editOrderForm.deposit')
@@ -218,7 +218,7 @@
     <div class="row">
         <label for="discount" class="col-sm-4 col-form-label">Rabattierung</label>
         <div class="col">
-            <div class="input-group">
+            <div class="input-group has-validation">
                 <input class="form-control @error('editOrderForm.discount')is-invalid @enderror" id="discount" type="number" min="0" max="100" wire:model="editOrderForm.discount" required>
                 <span class="input-group-text">%</span>
                 @error('editOrderForm.discount')

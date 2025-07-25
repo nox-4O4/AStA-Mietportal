@@ -128,7 +128,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col-sm-4">
-                                <div class="input-group">
+                                <div class="input-group has-validation">
                                     <input type="number" required min="0" max="9999" step="0.01" class="form-control @error('price')is-invalid @enderror" id="price" wire:model="price">
                                     <span class="input-group-text">€</span>
                                     @error('price')
@@ -145,7 +145,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col-sm-4">
-                                <div class="input-group">
+                                <div class="input-group has-validation">
                                     <input type="number" required min="0" max="9999" class="form-control @error('deposit')is-invalid @enderror" id="deposit" wire:model="deposit">
                                     <span class="input-group-text">€</span>
                                     @error('deposit')
