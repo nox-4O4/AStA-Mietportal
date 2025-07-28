@@ -70,4 +70,12 @@
 		private function loadInitialData(): void {
 			$this->editOrderForm->loadOrder($this->order);
 		}
+
+		public function recalculateItemPrices(): void {
+			foreach($this->order->orderItems as $orderItem) {
+				unset($orderItem->price);
+				$orderItem->update(); // saving event calculates and sets price
+			}
+			$this->dispatch('refresh-data-table');
+		}
 	}

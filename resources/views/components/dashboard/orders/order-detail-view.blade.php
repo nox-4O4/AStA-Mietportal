@@ -64,6 +64,10 @@
         <div class="col">
             <h5>Artikel</h5>
             @if($order->orderItems->isNotEmpty())
+                <button type="button" class="btn btn-outline-primary" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
+                    <i class="fa-solid fa-calculator"></i>&nbsp;Alle Preise erneut berechnen
+                </button>
+
                 <livewire:data-table
                         class="child-responsive"
                         :elements="$order->orderItems"
