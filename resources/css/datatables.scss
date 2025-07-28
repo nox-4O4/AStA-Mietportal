@@ -63,6 +63,10 @@
       .detail-hide {
         display: none;
       }
+
+      .detail-flex-wrap {
+        flex-wrap: wrap;
+      }
     }
 
     &.column-title:after {
@@ -97,7 +101,7 @@
     }
 
     td {
-      padding: 0.5rem 0 0.5rem 1.5rem !important; // single cells
+      padding: 0.5rem 1.5rem !important; // single cells
 
       &:has( + td) { // non-single top cell
         font-weight: 600;

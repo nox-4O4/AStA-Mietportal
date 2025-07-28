@@ -159,26 +159,34 @@
 		 *
 		 * @return array<ItemAvailability>
 		 */
-		public function getAvailabilitiesInRange(bool $sparse = true, ?CarbonInterface $from = null, ?CarbonInterface $to = null): array {
+		public function getAvailabilitiesInRange(bool $sparse = true, ?CarbonInterface $from = null, ?CarbonInterface $to = null, ?int $excludeOrderItem = null): array {
 			if(!$this->available || !$this->amount)
 				return [];
 
-			$rangeParams      = [];
-			$rangeConstraints = ['', ''];
+			$constraintParams = [];
+			$constraints      = ['', ''];
 			if($from) {
-				$rangeConstraints[0] .= ' AND end >= :from1';
-				$rangeConstraints[1] .= ' AND end >= :from2';
-				$rangeParams         += [
+				$constraints[0]   .= ' AND end >= :from1';
+				$constraints[1]   .= ' AND end >= :from2';
+				$constraintParams += [
 					'from1' => $from->format('Y-m-d'),
 					'from2' => $from->format('Y-m-d'),
 				];
 			}
 			if($to) {
-				$rangeConstraints[0] .= ' AND start <= :to1';
-				$rangeConstraints[1] .= ' AND start <= :to2';
-				$rangeParams         += [
+				$constraints[0]   .= ' AND start <= :to1';
+				$constraints[1]   .= ' AND start <= :to2';
+				$constraintParams += [
 					'to1' => $to->format('Y-m-d'),
 					'to2' => $to->format('Y-m-d'),
+				];
+			}
+			if($excludeOrderItem) {
+				$constraints[0]   .= ' AND order_item.id != :orderItem1';
+				$constraints[1]   .= ' AND order_item.id != :orderItem2';
+				$constraintParams += [
+					'orderItem1' => $excludeOrderItem,
+					'orderItem2' => $excludeOrderItem,
 				];
 			}
 
@@ -186,13 +194,17 @@
 			$sparseAvailabilities = ItemAvailability::collect(DB::select(<<<SQL
 				WITH stockChanges AS (SELECT quantity, start date
 				                      FROM order_item
+				                      JOIN orders ON order_item.order_id = orders.id
 				                      WHERE item_id = :itemId1
-				                        $rangeConstraints[0]
+				                          AND orders.status != 'cancelled'
+				                          $constraints[0]
 				                      UNION ALL
 				                      SELECT -quantity, DATE_ADD(end, INTERVAL 1 DAY) date
 				                      FROM order_item
+				                      JOIN orders ON order_item.order_id = orders.id
 				                      WHERE item_id = :itemId2
-				                        $rangeConstraints[1])
+				                          AND orders.status != 'cancelled'
+				                          $constraints[1])
 				SELECT DISTINCT date,
 				                GREATEST(0, amount - SUM(quantity) OVER (ORDER BY date)) AS available
 				FROM stockChanges, items
@@ -203,7 +215,7 @@
 					'itemId1' => $this->id,
 					'itemId2' => $this->id,
 					'itemId3' => $this->id,
-					...$rangeParams,
+					...$constraintParams,
 				]
 			));
 
@@ -227,7 +239,7 @@
 			return $fullAvailabilities;
 		}
 
-		public function getMaximumAvailabilityInRange(CarbonInterface $start, CarbonInterface $end): int|true {
+		public function getMaximumAvailabilityInRange(CarbonInterface $start, CarbonInterface $end, ?int $excludeOrderItem = null): int|true {
 			if(!$this->available)
 				return 0;
 
@@ -235,9 +247,9 @@
 				return true;
 
 			if($start->gt($end))
-				return $this->getMaximumAvailabilityInRange($end, $start);
+				return $this->getMaximumAvailabilityInRange($end, $start, $excludeOrderItem);
 
-			$availabilities = $this->getAvailabilitiesInRange(from: $start, to: $end);
+			$availabilities = $this->getAvailabilitiesInRange(from: $start, to: $end, excludeOrderItem: $excludeOrderItem);
 			$available      = $this->amount;
 
 			// comments needed to prevent PHPStorm from butchering formatting

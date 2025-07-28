@@ -80,4 +80,19 @@
             @endif
         </div>
     </div>
+
+    <div>
+        <div class="modal fade" id="editOrderItem" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
+                <div class="modal-content overflow-auto">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5">Bestellung #{{$order->id}} &ndash; Artikel bearbeiten</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
+                    </div>
+                    <livewire:dashboard.orders.order-item-editing :order="$order" />
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

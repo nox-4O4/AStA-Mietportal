@@ -8,8 +8,10 @@
 	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
+	use Livewire\Attributes\On;
 	use Livewire\Component;
 
+	#[On('refresh-order-meta')]
 	#[Layout('layouts.dashboard')]
 	class OrderDetailView extends Component {
 		use TrimWhitespaces;
@@ -50,6 +52,9 @@
 			                                                                $this->order->common_start->notEqualTo($this->editOrderForm->start) ||
 			                                                                $this->order->common_end->notEqualTo($this->editOrderForm->end))
 			) {
+				// TODO display disabledDates and item amount validation in FE when changing dates. Should also consider changed dates
+				// (e.g., item amount = 2, two order items exist with differing dates and each amount = 2, it's okay if dates don't overlap, with changed dates total amount would be 4)
+
 				foreach($this->order->orderItems as $orderItem) {
 					$orderItem->start = $this->editOrderForm->start;
 					$orderItem->end   = $this->editOrderForm->end;
@@ -69,6 +74,14 @@
 
 		private function loadInitialData(): void {
 			$this->editOrderForm->loadOrder($this->order);
+		}
+
+		public function removeItem(int $orderItemId): void {
+			if(!$orderItem = $this->order->orderItems()->where('id', $orderItemId)->first())
+				return;
+
+			$orderItem->delete();
+			$this->dispatch('refresh-data-table');
 		}
 
 		public function recalculateItemPrices(): void {

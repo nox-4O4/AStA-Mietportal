@@ -4,6 +4,7 @@
 
 	use Carbon\CarbonImmutable;
 	use DateTimeInterface;
+	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Support\Facades\DB;
 
@@ -60,5 +61,17 @@
 					'end'   => $end->format('Y-m-d'),
 				]
 			);
+		}
+
+		/**
+		 * @return Collection<static>
+		 */
+		public static function getOverlappingRanges(DateTimeInterface $start, DateTimeInterface $end): Collection {
+			return static::where('active', true)
+			             ->where('start', '<=', $end)
+			             ->where('end', '>=', $start)
+			             ->orderBy('start')
+			             ->orderBy('end')
+			             ->get();
 		}
 	}

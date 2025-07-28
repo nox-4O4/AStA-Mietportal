@@ -55,7 +55,7 @@
 		}
 
 		public function hasSinglePeriod(): Attribute {
-			return Attribute::get(fn(): bool => $this->orderItems()->distinct(['start', 'end'])->count() <= 1)
+			return Attribute::get(fn(): bool => $this->orderItems()->distinct(['start', 'end'])->count() == 1)
 			                ->shouldCache();
 		}
 

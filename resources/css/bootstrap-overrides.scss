@@ -59,3 +59,7 @@ $form-validation-states: map-merge($form-validation-states, ("loading": (
         "focus-box-shadow": 0 0 $input-btn-focus-blur $input-focus-width rgba(var(--bs-secondary-rgb), $input-btn-focus-color-opacity),
         "border-color": var(--bs-secondary-border-subtle),
 )));
+
+// decrease modal transition duration
+$modal-transition: transform .15s ease-out;
+$modal-fade-transform: scale(.9);
