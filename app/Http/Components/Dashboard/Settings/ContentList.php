@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard\Settings;
 
 	use App\Models\Content;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
@@ -12,7 +13,7 @@
 	#[Title('Inhalte')]
 	#[Layout('layouts.dashboard')]
 	class ContentList extends Component {
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.settings.content-list');
 		}
 

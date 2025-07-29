@@ -12,6 +12,7 @@
 	use App\Models\OrderItem;
 	use App\Repositories\CartRepository;
 	use App\Traits\HasCartItems;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\DB;
 	use Illuminate\Validation\ValidationException;
 	use Livewire\Attributes\Computed;
@@ -43,7 +44,7 @@
 			$this->cartRepository  = $cartRepository;
 		}
 
-		public function render() {
+		public function render(): View|string {
 			if(!$this->validateCheckoutData())
 				return '<div></div>';
 

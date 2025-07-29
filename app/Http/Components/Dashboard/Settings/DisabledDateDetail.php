@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard\Settings;
 
 	use App\Models\DisabledDate;
+	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Validate;
@@ -29,7 +30,7 @@
 		#[Validate('required|boolean')]
 		public bool $active = true;
 
-		public function mount() {
+		public function mount(): void {
 			if($this->disabledDate) {
 				$this->fill($this->disabledDate->only(['comment', 'site_notice', 'active']));
 				$this->start = $this->disabledDate->start->format('Y-m-d');
@@ -37,12 +38,12 @@
 			}
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.settings.disabled-date-detail')
 				->title('Deaktivierten Zeitraum ' . ($this->disabledDate ? 'bearbeiten' : 'anlegen'));
 		}
 
-		public function save() {
+		public function save(): void {
 			$this->validate();
 
 			if($this->disabledDate) {

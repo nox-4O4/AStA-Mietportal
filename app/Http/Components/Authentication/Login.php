@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Authentication;
 
 	use App\Http\Forms\LoginForm;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\Session;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
@@ -21,5 +22,9 @@
 			Session::regenerate();
 
 			$this->redirectIntended(default: route(config('shop.dashboard.defaultRoute'), absolute: false), navigate: true);
+		}
+
+		public function render(): View {
+			return view('components.authentication.login');
 		}
 	}

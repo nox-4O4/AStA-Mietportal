@@ -4,6 +4,7 @@
 
 	use App\Models\User;
 	use App\Traits\TrimWhitespaces;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rule;
@@ -82,5 +83,9 @@
 
 		private function loadProfileData(): void {
 			$this->fill(auth()->user()->only(['forename', 'surname', 'email', 'username']));
+		}
+
+		public function render(): View {
+			return view('components.dashboard.profile');
 		}
 	}

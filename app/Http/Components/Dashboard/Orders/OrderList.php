@@ -4,6 +4,7 @@
 
 	use App\Enums\OrderStatus;
 	use App\Models\Order;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
@@ -27,7 +28,7 @@
 				: Order::count();
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.orders.order-list');
 		}
 	}

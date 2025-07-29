@@ -9,6 +9,7 @@
 	use App\Models\OrderItem;
 	use App\Traits\TrimWhitespaces;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
@@ -172,7 +173,7 @@
 			$this->js('closeModal()');
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.orders.order-item-editing');
 		}
 

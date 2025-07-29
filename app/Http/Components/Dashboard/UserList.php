@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard;
 
 	use App\Models\User;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
@@ -18,5 +19,9 @@
 			return User::orderBy('last_login', 'desc')
 			           ->orderBy('updated_at', 'desc')
 			           ->get();
+		}
+
+		public function render(): View {
+			return view('components.dashboard.user-list');
 		}
 	}

@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Shop;
 
 	use App\Traits\HasCartItems;
+	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\On;
 	use Livewire\Component;
 
@@ -13,7 +14,7 @@
 		public bool $newItem = false;
 		public bool $cleared = false;
 
-		public function render() {
+		public function render(): View {
 			return view('components.shop.cart-badge');
 		}
 

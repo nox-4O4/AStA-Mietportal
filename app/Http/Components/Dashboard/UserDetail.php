@@ -5,6 +5,7 @@
 	use App\Enums\UserRole;
 	use App\Models\User;
 	use App\Traits\TrimWhitespaces;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\Password;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Layout;
@@ -95,5 +96,9 @@
 			} else {
 				session()->flash('status.error', __($status));
 			}
+		}
+
+		public function render(): View {
+			return view('components.dashboard.user-detail');
 		}
 	}

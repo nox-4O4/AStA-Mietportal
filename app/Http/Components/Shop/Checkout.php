@@ -7,6 +7,7 @@
 	use App\Repositories\CartRepository;
 	use App\Traits\TrimWhitespaces;
 	use Arr;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Validation\ValidationException;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
@@ -77,7 +78,7 @@
 			$this->cartRepository = $cartRepository;
 		}
 
-		public function mount() {
+		public function mount(): void {
 			if(!$this->filled) {
 				if(session()->has('cart.checkout.formData')) {
 					$this->fill(session('cart.checkout.formData'));
@@ -98,7 +99,7 @@
 			}
 		}
 
-		public function render() {
+		public function render(): View|string {
 			if($this->cartRepository->getItemValidationErrors()) {
 				session()->flash('status.error', 'Die Bestellung konnte nicht abgeschickt werden, der Warenkorb ungültige Elemente enthält. Korrigiere diese, um fortzufahren.');
 				$this->redirectRoute('shop.cart');

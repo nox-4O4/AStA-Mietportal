@@ -2,10 +2,10 @@
 
 	namespace App\Http\Components;
 
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Enumerable;
 	use Illuminate\Support\Facades\Route;
 	use Illuminate\Support\Str;
-	use Illuminate\View\View;
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\On;
 	use Livewire\Component;

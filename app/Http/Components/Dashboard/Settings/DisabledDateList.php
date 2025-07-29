@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard\Settings;
 
 	use App\Models\DisabledDate;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
@@ -20,7 +21,7 @@
 			                   ->get();
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.settings.disabled-date-list');
 		}
 

@@ -5,6 +5,7 @@
 	use App\Models\Item;
 	use App\Models\ItemGroup;
 	use App\Traits\TrimWhitespaces;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
@@ -34,7 +35,7 @@
 		#[Locked]
 		public string $itemGroupPrefill = '';
 
-		public function mount() {
+		public function mount(): void {
 			if($this->itemGroupPrefill && $group = ItemGroup::find($this->itemGroupPrefill))
 				$this->itemGroup = $group->id;
 			else
@@ -46,11 +47,11 @@
 			return ItemGroup::orderBy('name')->get();
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.items.item-detail');
 		}
 
-		public function saveItem() {
+		public function saveItem(): void {
 			$this->validate(
 				[
 					'name'        => ['required', 'string'],

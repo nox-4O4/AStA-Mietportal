@@ -3,9 +3,9 @@
 	namespace App\Http\Components\Authentication;
 
 	use Illuminate\Auth\Events\PasswordReset as PasswordResetEvent;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\Hash;
 	use Illuminate\Support\Facades\Password;
-	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rules\Password as PasswordRule;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
@@ -64,7 +64,7 @@
 			}
 		}
 
-		public function render() {
+		public function render(): View {
 			if(is_null($user = Password::getUser($this->only('email'))) || !Password::getRepository()->exists($user, $this->token))
 				$this->addError('token', 'invalid');
 

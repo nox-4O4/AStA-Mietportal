@@ -6,6 +6,7 @@
 	use App\Models\Item;
 	use App\Models\ItemGroup;
 	use App\Util\Helper;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Arr;
 	use Illuminate\Support\Facades\Gate;
 	use Livewire\Attributes\Computed;
@@ -37,7 +38,7 @@
 			return $result;
 		}
 
-		public function render() {
+		public function render(): View {
 			if($this->search !== '' && count($this->items) == 1) {
 				$item = Arr::first($this->items);
 

@@ -2,6 +2,7 @@
 
 	namespace App\Http\Components\Shop;
 
+	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
@@ -10,7 +11,7 @@
 	#[Layout('layouts.shop')]
 	class Success extends Component {
 
-		public function render() {
+		public function render(): View|string {
 			if(!session()->has('order_success')) {
 				$this->redirectRoute('shop');
 				return '<div></div>';

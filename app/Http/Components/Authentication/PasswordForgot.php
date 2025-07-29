@@ -2,6 +2,7 @@
 
 	namespace App\Http\Components\Authentication;
 
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\Password;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
@@ -32,5 +33,9 @@
 				default:
 					$this->addError('email', __($status));
 			}
+		}
+
+		public function render(): View {
+			return view('components.authentication.password-forgot');
 		}
 	}

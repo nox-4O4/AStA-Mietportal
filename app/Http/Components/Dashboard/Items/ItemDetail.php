@@ -6,6 +6,7 @@
 	use App\Models\Item;
 	use App\Models\ItemGroup;
 	use App\Traits\TrimWhitespaces;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Arr;
 	use Illuminate\Support\Collection;
 	use Illuminate\Support\Facades\Validator;
@@ -41,7 +42,7 @@
 		 */
 		public array $images = [];
 
-		public function mount(Item $item) {
+		public function mount(Item $item): void {
 			$this->item        = $item;
 			$this->name        = $item->raw_name;
 			$this->description = $item->description;
@@ -63,12 +64,12 @@
 			return ItemGroup::orderBy('name')->get();
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.items.item-detail')
 				->title("Artikel „{$this->item->name}“ bearbeiten");
 		}
 
-		public function saveItem() {
+		public function saveItem(): void {
 			$values = $this->validate(
 				[
 					'name'        => ['required', 'string'],
@@ -93,14 +94,14 @@
 			$this->item->update();
 		}
 
-		public function delete() {
+		public function delete(): void {
 			$this->item->delete();
 
 			session()->flash('status.success', "Der Artikel „{$this->item->name}“ wurde gelöscht.");
 			$this->redirectRoute('dashboard.items.list', navigate: true);
 		}
 
-		public function updatedImages() {
+		public function updatedImages(): void {
 			// we want to store any valid images and discard invalid images only.
 			// as laravels validator does not support extracting valid elements from an array if only part of the array was invalid, we have to build a separate rule for each image
 			$rules = $data = [];

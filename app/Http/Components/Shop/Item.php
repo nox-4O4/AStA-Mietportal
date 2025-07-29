@@ -5,6 +5,7 @@
 	use App\Contracts\PriceCalculation;
 	use App\Models\Item as ItemModel;
 	use App\Models\ItemGroup;
+	use Illuminate\Contracts\View\View;
 	use Illuminate\Http\RedirectResponse;
 	use Livewire\Attributes\Layout;
 	use Livewire\Component;
@@ -39,7 +40,7 @@
 			$this->element = $this->item ?? $this->group;
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.shop.item')
 				->title($this->element->name);
 		}

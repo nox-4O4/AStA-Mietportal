@@ -3,6 +3,7 @@
 	namespace App\Http\Components\Dashboard\Items;
 
 	use App\Models\ItemGroup;
+	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Validate;
 	use Livewire\Component;
@@ -24,5 +25,9 @@
 
 			session()->flash('status.success', 'Gruppe erfolgreich angelegt.');
 			$this->redirect(route('dashboard.groups.edit', $group->id));
+		}
+
+		public function render(): View {
+			return view('components.dashboard.items.item-group-create');
 		}
 	}

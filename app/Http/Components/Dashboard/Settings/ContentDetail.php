@@ -4,6 +4,7 @@
 
 	use App\Models\Content;
 	use App\Util\Markdown;
+	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Title;
@@ -18,15 +19,15 @@
 
 		public string $contentValue;
 
-		public function mount() {
+		public function mount(): void {
 			$this->contentValue = $this->content->content;
 		}
 
-		public function render() {
+		public function render(): View {
 			return view('components.dashboard.settings.content-detail');
 		}
 
-		public function save() {
+		public function save(): void {
 			$this->validate(['contentValue' => 'string|sometimes']);
 
 			$this->content->content = $this->contentValue;
