@@ -40,13 +40,16 @@
     <td data-sort="{{(int)($element->price*100)}}">@money($element->price)</td>
     <td>
         <div class="d-flex detail-flex-wrap gap-2">
-            <a href="{{route('shop.item.view', ['item' => $element->item->id, 'slug' => $element->item->slug])}}" target="_blank" title="Artikelseite in neuem Tab öffnen" class="btn btn-outline-info btn-sm w-100">
+            <a class="btn btn-outline-info btn-sm w-100" title="Artikelseite in neuem Tab öffnen"
+               href="{{route('shop.item.view', ['item' => $element->item->id, 'slug' => $element->item->slug])}}" target="_blank">
                 <span class="detail-only pe-1">Zum Artikel</span><i class="fa-solid fa-arrow-up-right-from-square fa-fw"></i>
             </a>
-            <button type="button" class="btn btn-outline-danger btn-sm w-100" title="Artikel aus der Bestellung entfernen" wire:confirm="Möchtest du den Artikel „{{$element->item->name}}“ aus dieser Bestellung entfernen?" wire:click="$parent.removeItem({{$element->id}})">
+            <button type="button" class="btn btn-outline-danger btn-sm w-100" title="Artikel aus der Bestellung entfernen"
+                    wire:confirm="Möchtest du den Artikel „{{$element->item->name}}“ aus dieser Bestellung entfernen?" wire:click.stop="$parent.removeItem({{$element->id}})">
                 <span class="detail-only pe-1">Entfernen</span><i class="fa-solid fa-trash-can fa-fw"></i>
             </button>
-            <button type="button" class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="{{$element->id}}" title="Bestellten Artikel bearbeiten">
+            <button type="button" class="btn btn-outline-primary btn-sm w-100" title="Bestellten Artikel bearbeiten"
+                    data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="{{$element->id}}" @click.stop="{{-- to prevent row from toggling detail state on click --}}">
                 <span class="detail-only pe-1">Bearbeiten</span><i class="fa-solid fa-pen-to-square fa-fw"></i>
             </button>
         </div>

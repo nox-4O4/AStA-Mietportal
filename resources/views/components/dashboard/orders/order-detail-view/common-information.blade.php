@@ -70,7 +70,7 @@
                 @endif
             </span>
 
-            @if($order->rate == 1)
+            @if($order->rate == 1 && $order->totalDiscount > 0)
                 (Artikelrabatt)
             @endif
         </p>

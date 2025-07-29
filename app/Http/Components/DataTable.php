@@ -10,7 +10,7 @@
 	use Livewire\Attributes\On;
 	use Livewire\Component;
 
-	#[On('refresh-data-table')]
+	#[On('order-items-changed')]
 	class DataTable extends Component {
 
 		public Enumerable $elements;

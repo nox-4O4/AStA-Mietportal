@@ -10,6 +10,7 @@
 	use App\Traits\TrimWhitespaces;
 	use Carbon\CarbonImmutable;
 	use Illuminate\Support\Collection;
+	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Locked;
 	use Livewire\Component;
@@ -21,14 +22,14 @@
 		public Order $order;
 
 		#[Locked]
-		public OrderItem $orderItem;
+		public ?int $orderItemId = null;
 
-		public int     $item;
-		public ?string $start = null;
-		public ?string $end   = null;
+		public ?int    $itemId  = null;
+		public ?string $start   = null;
+		public ?string $end     = null;
 		public int     $quantity;
 		public float   $price;
-		public string  $comment;
+		public string  $comment = "";
 
 		protected PriceCalculation $priceCalculator;
 
@@ -36,27 +37,38 @@
 			$this->priceCalculator = $priceCalculator;
 		}
 
-		public function loadOrderItem(?int $orderItemId): bool {
+		public function loadOrderItem(int $orderItemId): bool {
 			if(!$orderItemId || !$orderItem = $this->order->orderItems()->where('id', $orderItemId)->first()) {
 				return false;
 			}
 
-			$this->orderItem = $orderItem;
-			$this->item      = $orderItem->item_id;
-			$this->start     = $orderItem->start->format('Y-m-d');
-			$this->end       = $orderItem->end->format('Y-m-d');
-			$this->quantity  = $orderItem->quantity;
-			$this->price     = $orderItem->price;
-			$this->comment   = $orderItem->comment;
+			$this->orderItemId = $orderItemId;
+			$this->itemId      = $orderItem->item_id;
+			$this->start       = $orderItem->start->format('Y-m-d');
+			$this->end         = $orderItem->end->format('Y-m-d');
+			$this->quantity    = $orderItem->quantity;
+			$this->price       = $orderItem->price;
+			$this->comment     = $orderItem->comment;
 
 			$this->resetValidation();
 
 			return true;
 		}
 
+		public function resetOrderItem(): void {
+			$this->resetExcept('order');
+
+			// prefill common values for when creating new order items
+			$this->start    = session()->get('editOrderItem.lastStartDate', $this->order->common_start?->format('Y-m-d'));
+			$this->end      = session()->get('editOrderItem.lastEndDate', $this->order->common_end?->format('Y-m-d'));
+			$this->quantity = 1;
+
+			$this->resetValidation();
+		}
+
 		public function rules(): array {
 			return [
-				'item'     => [
+				'itemId'   => [
 					'required',
 					'exists:items,id',
 				],
@@ -72,6 +84,7 @@
 				'quantity' => [
 					'required',
 					'integer',
+					Rule::when(!$this->orderItemId, 'gte:1'),
 				],
 				'price'    => [
 					'required',
@@ -84,23 +97,43 @@
 			];
 		}
 
-		public function updateOrderItem(): void {
+		public function saveOrderItem(): void {
 			$this->validate();
 
-			if(!$this->quantity) {
-				$this->orderItem->delete();
+			if($this->orderItemId && !$this->quantity) { // remove an existing order item that got its quantity set to zero
+				OrderItem::find($this->orderItemId)?->delete();
+
 			} else {
-				$this->orderItem->item_id  = $this->item;
-				$this->orderItem->start    = $this->start;
-				$this->orderItem->end      = $this->end;
-				$this->orderItem->quantity = $this->quantity;
-				$this->orderItem->price    = $this->price;
-				$this->orderItem->comment  = $this->comment;
-				$this->orderItem->save();
-				$this->dispatch('refresh-order-meta');
+				if($this->orderItemId) {
+					$orderItem = OrderItem::find($this->orderItemId);
+
+					// hash for the datatable component won't change when only editing an item, so manually dispatch refresh event
+					$this->dispatch('order-items-changed');
+
+				} else { // Create a new order item. This also changes collection hash, leading to datatable refresh.
+					$orderItem = new OrderItem();
+					$orderItem->order()->associate($this->order);
+					$resetAfterSave = true;
+				}
+
+				$orderItem->item_id  = $this->itemId;
+				$orderItem->start    = $this->start;
+				$orderItem->end      = $this->end;
+				$orderItem->quantity = $this->quantity;
+				$orderItem->price    = $this->price;
+				$orderItem->comment  = $this->comment;
+				$orderItem->save();
+
+				session()->put('editOrderItem.lastStartDate', $this->start);
+				session()->put('editOrderItem.lastEndDate', $this->end);
+
+				// when creating a new item, reset form after saving so old content won't flash when re-opening form
+				if(isset($resetAfterSave))
+					$this->resetOrderItem();
+
+				$this->dispatch('order-meta-changed');
 			}
 
-			$this->dispatch('refresh-data-table');
 			$this->js('closeModal()');
 		}
 
@@ -118,20 +151,24 @@
 
 		#[Computed]
 		public function available(): int|true|null {
-			if(!$this->start || !$this->end)
+			if(!$this->start || !$this->end || !$this->itemId)
 				return null;
 
-			return Item::find($this->item)?->getMaximumAvailabilityInRange(
+			return Item::find($this->itemId)?->getMaximumAvailabilityInRange(
 				start:            CarbonImmutable::make($this->start),
 				end:              CarbonImmutable::make($this->end),
-				excludeOrderItem: $this->orderItem->id, // exclude the order item that is currently being edited from availability calculation
+				excludeOrderItem: $this->orderItemId, // exclude the order item that is currently being edited from availability calculation
 			);
 		}
 
 		public function deleteItem(): void {
-			$this->orderItem->delete();
-			$this->dispatch('refresh-order-meta');
-			$this->dispatch('refresh-data-table');
+			if($this->orderItemId) {
+				OrderItem::find($this->orderItemId)?->delete();
+
+				// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
+				$this->dispatch('order-meta-changed');
+			}
+
 			$this->js('closeModal()');
 		}
 
@@ -149,7 +186,7 @@
 
 		#[Computed]
 		public function singleItemAmount(): ?float {
-			if(!$this->start || !$this->end || !$item = Item::find($this->item))
+			if(!$this->start || !$this->end || !$this->itemId || !$item = Item::find($this->itemId))
 				return null;
 
 			return $this->priceCalculator->calculatePrice($item, CarbonImmutable::make($this->start), CarbonImmutable::make($this->end));

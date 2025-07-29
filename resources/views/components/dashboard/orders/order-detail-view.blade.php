@@ -64,12 +64,19 @@
         <div class="col">
             <h5>Artikel</h5>
             @if($order->orderItems->isNotEmpty())
-                <button type="button" class="btn btn-outline-primary" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
-                    <i class="fa-solid fa-calculator"></i>&nbsp;Alle Preise erneut berechnen
-                </button>
+                <div class="d-flex justify-content-between flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-primary"
+                            data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="">
+                        <i class="fa-solid fa-plus"></i>&nbsp;Artikel hinzufügen
+                    </button>
+                    <button type="button" class="btn btn-outline-primary" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
+                        <i class="fa-solid fa-calculator"></i>&nbsp;Alle Preise erneut berechnen
+                    </button>
+                </div>
 
                 <livewire:data-table
                         class="child-responsive"
+                        wire:key="{{\App\Util\Helper::HashCollection($order->orderItems)}}"
                         :elements="$order->orderItems"
                         :element-attributes="['data-hide-empty-children' => true]"
                         item-component="dashboard.orders.order-detail-view.item-entry"
@@ -77,6 +84,10 @@
                 />
             @else
                 <p>Diese Bestellung enthält noch keine Artikel.</p>
+                <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="">
+                    <i class="fa-solid fa-plus"></i>&nbsp;Artikel hinzufügen
+                </button>
             @endif
         </div>
     </div>
@@ -86,7 +97,7 @@
             <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
                 <div class="modal-content overflow-auto">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5">Bestellung #{{$order->id}} &ndash; Artikel bearbeiten</h1>
+                        <h1 class="modal-title fs-5">Bestellung #{{$order->id}} &ndash; Artikel <span id="modalAction">bearbeiten</span></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Schließen"></button>
                     </div>
                     <livewire:dashboard.orders.order-item-editing :order="$order" />

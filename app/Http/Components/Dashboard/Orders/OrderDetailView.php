@@ -11,7 +11,7 @@
 	use Livewire\Attributes\On;
 	use Livewire\Component;
 
-	#[On('refresh-order-meta')]
+	#[On('order-meta-changed')]
 	#[Layout('layouts.dashboard')]
 	class OrderDetailView extends Component {
 		use TrimWhitespaces;
@@ -63,7 +63,7 @@
 					$orderItem->update();
 				}
 
-				$this->dispatch('refresh-data-table');
+				$this->dispatch('order-items-changed');
 			}
 
 			$this->editOrderForm->recalculatePrice = true; // reset to initial state
@@ -81,7 +81,8 @@
 				return;
 
 			$orderItem->delete();
-			$this->dispatch('refresh-data-table');
+
+			// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
 		}
 
 		public function recalculateItemPrices(): void {
@@ -89,6 +90,6 @@
 				unset($orderItem->price);
 				$orderItem->update(); // saving event calculates and sets price
 			}
-			$this->dispatch('refresh-data-table');
+			$this->dispatch('order-items-changed');
 		}
 	}
