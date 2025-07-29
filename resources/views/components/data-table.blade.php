@@ -19,7 +19,7 @@
     <table id="{{$id}}"
            wire:rendered="CreateDataTable(element.id)"
            wire:refresh-when-cached
-           class="table table-hover responsive d-none fancy-datatable {{$class}}"
+           class="table table-hover responsive fancy-datatable {{$class}}"
            @if($elements->count() <= 10)data-paging="false" @endif
             {!! collect($elementAttributes)->map(fn($value, $name) => $name . '="' . htmlspecialchars($value) . '"')->join(' ') !!}>
         <thead>
@@ -40,6 +40,11 @@
         @endforeach
         </tbody>
     </table>
+
+    <div class="loading-indicator text-center">
+        <p><i class="fa-4x fas fa-spinner fa-pulse"></i></p>
+        <p>Liste wird geladen...</p>
+    </div>
 
     <script>
         // Remove stale markup to prevent flashing old table during refresh.

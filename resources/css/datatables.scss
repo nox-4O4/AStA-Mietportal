@@ -1,4 +1,17 @@
+.dt-container.loaded {
+  table.fancy-datatable {
+    display: table;
+  }
+
+  ~ .loading-indicator {
+    display: none;
+  }
+}
+
 .fancy-datatable {
+  // hide while not loaded
+  display: none;
+
   // make hover rows darker
   &.table-hover tr:hover,
   &.table-hover tr.parent:hover + tr.child {
