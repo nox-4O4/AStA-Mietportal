@@ -35,7 +35,7 @@
 		public string $email;
 
 		#[Validate('nullable|string')]
-		public string $mobile;
+		public ?string $mobile;
 
 		#[Validate]
 		public string $status;

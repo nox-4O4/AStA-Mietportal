@@ -2,6 +2,8 @@
 
 	namespace App\Traits;
 
+	use TypeError;
+
 	trait TrimWhitespaces {
 		/**
 		 * @param string $name
@@ -13,6 +15,14 @@
 			}
 
 			$value = trim($value);
+
+			if($value === '') {
+				try {
+					data_set($this, $name, null);
+					return;
+				} catch(TypeError) {
+				}
+			}
 
 			data_set($this, $name, $value);
 		}
