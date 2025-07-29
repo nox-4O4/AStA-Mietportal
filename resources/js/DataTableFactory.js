@@ -5,7 +5,7 @@ export default id => {
 
     const table = tableElement.dataTable({
         initComplete: () => table.api().table().container().classList.add('loaded'), // show table only after initialisation to prevent flashing unstyled table
-        language: {url: 'https://cdn.datatables.net/plug-ins/2.2.1/i18n/de-DE.json'},
+        language: {url: '/static/de-DE.json'},
         pageLength: 50,
         lengthMenu: [[10, 25, 50, 100, 200, -1], [10, 25, 50, 100, 200, 'Alle']],
         order: [],

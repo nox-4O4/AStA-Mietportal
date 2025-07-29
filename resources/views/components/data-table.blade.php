@@ -1,6 +1,6 @@
 @assets
-<link rel="stylesheet" href="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/fh-4.0.1/r-3.0.3/datatables.min.css" integrity="sha384-da66bu6P8r0okiL41GigAdrH0vl8Q4dzVMWiMjj50mjIDUh8KIB4UOVKaxieAosy" crossorigin="anonymous">
-<script src="https://cdn.datatables.net/v/bs5/jq-3.7.0/dt-2.2.1/fh-4.0.1/r-3.0.3/datatables.min.js" integrity="sha384-A4d9of2hRmPrBlPk1pQZLQMSG7/Uo3H0cZ1X0gMzIPON+P5/usUt1fK7oA9SU/8J" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/datatables.css" integrity="sha384-faFFLRSCeSKhXw5yqEuilNYybh/M8lFS9UrsllicczmVEHePhIsWBX/EN39tpy+E" crossorigin="anonymous">
+<script src="/static/datatables.js" integrity="sha384-GxaTBPyY1o9/G9GlhDCEwMtbkd6TU/o9jxyeUNo4wJ9GXf42Iga/QGL41h4q7LdK" crossorigin="anonymous"></script>
 @endassets
 
 <div>
