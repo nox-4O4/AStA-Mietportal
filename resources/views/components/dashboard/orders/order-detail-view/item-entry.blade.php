@@ -45,11 +45,11 @@
                 <span class="detail-only pe-1">Zum Artikel</span><i class="fa-solid fa-arrow-up-right-from-square fa-fw"></i>
             </a>
             <button type="button" class="btn btn-outline-danger btn-sm w-100" title="Artikel aus der Bestellung entfernen"
-                    wire:confirm="Möchtest du den Artikel „{{$element->item->name}}“ aus dieser Bestellung entfernen?" wire:click.stop="$parent.removeItem({{$element->id}})">
+                    wire:confirm="Möchtest du den Artikel „{{$element->item->name}}“ aus dieser Bestellung entfernen?" wire:click="$parent.removeItem({{$element->id}})">
                 <span class="detail-only pe-1">Entfernen</span><i class="fa-solid fa-trash-can fa-fw"></i>
             </button>
             <button type="button" class="btn btn-outline-primary btn-sm w-100" title="Bestellten Artikel bearbeiten"
-                    data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="{{$element->id}}" @click.stop="{{-- to prevent row from toggling detail state on click --}}">
+                    data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="{{$element->id}}">
                 <span class="detail-only pe-1">Bearbeiten</span><i class="fa-solid fa-pen-to-square fa-fw"></i>
             </button>
         </div>

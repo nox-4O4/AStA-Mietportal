@@ -1,7 +1,7 @@
 export default id => {
     const additionalHeaderOffset = parseInt(window.getComputedStyle(document.body).getPropertyValue('--fixed-table-header-offset'), 10)
     const tableElement = $('#' + id)
-    tableElement.children('tbody').on('click', 'tr[tabindex] a', e => e.stopImmediatePropagation()); // prevent row from toggling when clicking on link
+    tableElement.children('tbody').on('click', 'tr[tabindex] a, tr[tabindex] button', e => e.stopImmediatePropagation()); // prevent row from toggling when clicking on link or button
 
     const table = tableElement.dataTable({
         initComplete: () => document.getElementById(id).classList.remove('d-none'), // show table only after initialisation to prevent flashing unstyled table
