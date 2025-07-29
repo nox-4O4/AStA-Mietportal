@@ -17,7 +17,7 @@
 				$table->string('surname');
 				$table->string('email')->unique();
 				$table->string('password')->nullable();
-				$table->integer('role')->default(UserRole::OPERATOR);
+				$table->integer('role')->default(UserRole::ASSISTANT);
 				$table->boolean('enabled')->default(true);
 				$table->timestamp('last_login')->nullable();
 				$table->rememberToken();

@@ -43,7 +43,7 @@
                     <div class="invalid-feedback">{{$message}}</div>
                     @enderror
                 @else
-                    <input class="form-control" id="username" disabled>
+                    <input class="form-control" id="username" disabled value="{{$username}}">
                     <div class="form-text">Nur ein Administrator kann deinen Benutzernamen ändern.</div>
                 @endcan
             </div>

@@ -44,28 +44,32 @@
 
 		Route::get('/profile', Profile::class)->name('.profile');
 
-		Route::group(['prefix' => '/items', 'as' => '.items'], function () {
-			Route::get('/', ItemList::class)->name('.list');
-			Route::get('/create', ItemCreate::class)->name('.create');
-			Route::get('/{item}', ItemDetail::class)->name('.edit');
+		Route::group(['middleware' => 'can:manage-orders'], function () {
+			Route::group(['prefix' => '/orders', 'as' => '.orders'], function () {
+				Route::get('/', OrderList::class)->name('.list');
+				Route::get('/create', Dummy::class)->name('.create');
+				Route::get('/view/{order}', OrderDetailView::class)->name('.view');
+			});
+
+			Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
+				Route::get('/', fn() => redirect()->route('dashboard.reports.availability'));
+				Route::get('/availability', Dummy::class)->name('.availability');
+				Route::get('/last-bookings', Dummy::class)->name('.last-bookings');
+			});
 		});
 
-		Route::group(['prefix' => '/groups', 'as' => '.groups'], function () {
-			Route::get('/', ItemGroupList::class)->name('.list');
-			Route::get('/create', ItemGroupCreate::class)->name('.create');
-			Route::get('/edit/{group}', ItemGroupDetail::class)->name('.edit');
-		});
+		Route::group(['middleware' => 'can:manage-items'], function () {
+			Route::group(['prefix' => '/items', 'as' => '.items'], function () {
+				Route::get('/', ItemList::class)->name('.list');
+				Route::get('/create', ItemCreate::class)->name('.create');
+				Route::get('/{item}', ItemDetail::class)->name('.edit');
+			});
 
-		Route::group(['prefix' => '/orders', 'as' => '.orders'], function () {
-			Route::get('/', OrderList::class)->name('.list');
-			Route::get('/create', Dummy::class)->name('.create');
-			Route::get('/view/{order}', OrderDetailView::class)->name('.view');
-		});
-
-		Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
-			Route::get('/', fn() => redirect()->route('dashboard.reports.availability'));
-			Route::get('/availability', Dummy::class)->name('.availability');
-			Route::get('/last-bookings', Dummy::class)->name('.last-bookings');
+			Route::group(['prefix' => '/groups', 'as' => '.groups'], function () {
+				Route::get('/', ItemGroupList::class)->name('.list');
+				Route::get('/create', ItemGroupCreate::class)->name('.create');
+				Route::get('/edit/{group}', ItemGroupDetail::class)->name('.edit');
+			});
 		});
 
 		Route::group(['middleware' => 'can:manage-users', 'prefix' => '/users', 'as' => '.users'], function () {
@@ -74,7 +78,7 @@
 			Route::get('/edit/{user}', UserDetail::class)->name('.edit');
 		});
 
-		Route::group(['prefix' => '/settings', 'as' => '.settings'], function () {
+		Route::group(['middleware' => 'can:manage-settings', 'prefix' => '/settings', 'as' => '.settings'], function () {
 			Route::get('/', fn() => redirect()->route('dashboard.settings.disabledDates.list'));
 
 			Route::group(['prefix' => '/disabledDates', 'as' => '.disabledDates'], function () {
@@ -87,7 +91,6 @@
 				Route::get('/', ContentList::class)->name('.list');
 				Route::get('/edit/{content}', ContentDetail::class)->name('.edit');
 			});
-
 		});
 	});
 

@@ -3,7 +3,6 @@
 	namespace App\Providers;
 
 	use App\Contracts\PriceCalculation;
-	use App\Enums\UserRole;
 	use App\Models\User;
 	use App\Util\DTOSynth;
 	use App\Util\Markdown;
@@ -48,7 +47,10 @@
 			Password::defaults(Password::default()->rules('not_regex:/asta/i'));
 
 			// register auth policies and gates
-			Gate::define('manage-users', fn(User $user) => $user->role == UserRole::ADMIN);
+			Gate::define('manage-users', fn(User $user) => $user->role->hasCapability('manage-users'));
+			Gate::define('manage-items', fn(User $user) => $user->role->hasCapability('manage-items'));
+			Gate::define('manage-settings', fn(User $user) => $user->role->hasCapability('manage-settings'));
+			Gate::define('manage-orders', fn(User $user) => $user->role->hasCapability('manage-orders'));
 
 			// default routes for authenticated / unauthenticated requests
 			RedirectIfAuthenticated::redirectUsing(fn() => route(config('shop.dashboard.defaultRoute')));
