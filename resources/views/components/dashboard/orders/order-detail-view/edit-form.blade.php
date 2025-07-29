@@ -154,9 +154,9 @@
             <div class="input-group has-validation">
                 <input class="form-control @error('editOrderForm.deposit')is-invalid @enderror" id="deposit" type="number" min="0" wire:model="editOrderForm.deposit" required>
                 <span class="input-group-text">€</span>
-                @error('editOrderForm.deposit')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
+                <div class="invalid-feedback">
+                    @error('editOrderForm.deposit'){{$message}}@enderror
+                </div>
             </div>
         </div>
     </div>
@@ -166,9 +166,9 @@
             <div class="input-group has-validation">
                 <input class="form-control @error('editOrderForm.discount')is-invalid @enderror" id="discount" type="number" min="0" max="100" wire:model="editOrderForm.discount" required>
                 <span class="input-group-text">%</span>
-                @error('editOrderForm.discount')
-                <div class="invalid-feedback">{{$message}}</div>
-                @enderror
+                <div class="invalid-feedback">
+                    @error('editOrderForm.discount'){{$message}}@enderror
+                </div>
             </div>
         </div>
     </div>

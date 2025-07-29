@@ -64,9 +64,9 @@
     <input class="form-control @error("{$modelPrefix}start")is-invalid @enderror" id="start{{$idSuffix}}" type="date" wire:model{{$live ? '.live' : ''}}="{{$modelPrefix}}start" min="2000-01-01" max="2099-12-31" data-role="start" {{$required ? 'required' : ''}}>
     <span class="input-group-text">&ndash;</span>
     <input class="form-control @error("{$modelPrefix}end")is-invalid @enderror" id="end{{$idSuffix}}" type="date" wire:model{{$live ? '.live' : ''}}="{{$modelPrefix}}end" min="2000-01-01" max="2099-12-31" data-role="end" {{$required ? 'required' : ''}}>
-    @if($errors->hasAny("{$modelPrefix}start", "{$modelPrefix}end"))
-        <div class="invalid-feedback">
+    <div class="invalid-feedback">
+        @if($errors->hasAny("{$modelPrefix}start", "{$modelPrefix}end"))
             {{ $errors->first("{$modelPrefix}start") ?: $errors->first("{$modelPrefix}end") }}
-        </div>
-    @endif
+        @endif
+    </div>
 </div>

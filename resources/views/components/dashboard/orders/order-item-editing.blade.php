@@ -152,9 +152,9 @@
                                 wire:loading.attr="disabled">
                             <i class="fa-solid fa-rotate-left"></i>
                         </button>
-                        @error('price')
-                        <div class="invalid-feedback">{{$message}}</div>
-                        @enderror
+                        <div class="invalid-feedback">
+                            @error('price'){{$message}}@enderror
+                        </div>
                     </div>
                     @if($this->singleItemAmount !== null)
                         <div class="form-text">
