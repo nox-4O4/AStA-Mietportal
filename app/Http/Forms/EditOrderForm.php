@@ -74,7 +74,7 @@
 			$this->fill($order->customer);
 
 			$this->eventName = $order->event_name;
-			$this->discount  = (1 - $order->rate) * 100;
+			$this->discount  = round((1 - $order->rate) * 100);
 
 			if($order->hasSinglePeriod) {
 				$this->start = $order->common_start->format('Y-m-d');
