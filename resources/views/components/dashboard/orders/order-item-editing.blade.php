@@ -148,7 +148,7 @@
                                 @else
                                     @click="$wire.price = ($wire.quantity * {{$this->singleItemAmount}})"
                                 @endif
-                                title="Berechneten Betrag übernehmen"
+                                title="Gewöhnlichen Betrag übernehmen (automatisch berechnet)"
                                 wire:loading.attr="disabled">
                             <i class="fa-solid fa-rotate-left"></i>
                         </button>
