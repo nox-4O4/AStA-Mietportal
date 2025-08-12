@@ -8,6 +8,7 @@
     "php": "^8.4",
     "ext-intl": "*",
     "ext-pdo": "*",
+    "dompdf/dompdf": "^3.1",
     "laravel/framework": "^11.31",
     "laravel/tinker": "^2.9",
     "league/commonmark": "^2.6",

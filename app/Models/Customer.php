@@ -6,6 +6,8 @@
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Notifications\Notifiable;
+	use Illuminate\Notifications\Notification;
 
 	/**
 	 * @property int              $id
@@ -22,6 +24,7 @@
 	 * @property ?CarbonImmutable $updated_at
 	 */
 	class Customer extends Model {
+		use Notifiable;
 
 		/**
 		 * The attributes that are mass assignable.
@@ -39,6 +42,15 @@
 			'email',
 			'mobile',
 		];
+
+		/**
+		 * Change the email recipient so that it contains the name as well.
+		 *
+		 * @see MailChannel::getRecipients()
+		 */
+		public function routeNotificationForMail(Notification $notification): array|string {
+			return [$this->email => $this->name];
+		}
 
 		public function orders(): HasMany {
 			return $this->hasMany(Order::class)->orderBy('id')->chaperone();

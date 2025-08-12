@@ -10,6 +10,7 @@
 	use App\Models\DTOs\CheckoutData;
 	use App\Models\Order;
 	use App\Models\OrderItem;
+	use App\Notifications\OrderReceiptConfirmation;
 	use App\Repositories\CartRepository;
 	use App\Traits\HasCartItems;
 	use Illuminate\Contracts\View\View;
@@ -159,7 +160,8 @@
 				$this->cartRepository->clearAllData();
 				$this->dispatch('cart-changed');
 
-				// TODO send confirmation email
+				$order->customer->notify(new OrderReceiptConfirmation($order));
+				// TODO send notification email
 
 				session()->put('order_success', $order->id); // using put and forget manually (instead of flash) as subcomponents might refresh prior to displaying success page, which leads to flash data being cleared prematurely.
 

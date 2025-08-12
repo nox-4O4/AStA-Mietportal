@@ -9,7 +9,9 @@
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
+	use Illuminate\Notifications\Channels\MailChannel;
 	use Illuminate\Notifications\Notifiable;
+	use Illuminate\Notifications\Notification;
 	use SensitiveParameter;
 
 	/**
@@ -79,6 +81,15 @@
 
 			else
 				$this->notify(new ResetPassword($token, $this));
+		}
+
+		/**
+		 * Change the email recipient so that it contains the name as well.
+		 *
+		 * @see MailChannel::getRecipients()
+		 */
+		public function routeNotificationForMail(Notification $notification): array|string {
+			return [$this->email => $this->name];
 		}
 
 		public function comments(): HasMany {

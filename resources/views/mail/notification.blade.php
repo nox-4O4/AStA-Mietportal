@@ -3,7 +3,9 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-<span style="display: none">{{config('app.name')}}</span><img src="{{ url('/img/asta_logo.png') }}" style="height: 75px; max-height: 75px;" alt="{{config('app.name')}}">
+<span style="display: none">{{config('app.name')}}</span><img src="{{ empty($message->getHtmlBody()) ? $message->embed(public_path('/img/asta_logo.png')) : '' }}" {{-- Only embed image during rendering of HTML part. Plain text message part gets rendered afterwards. --}}
+     style="height: 75px; max-height: 75px;"
+     alt="{{config('app.name')}}">
 </x-mail::header>
 </x-slot:header>
 
@@ -47,7 +49,7 @@ Viele Grüße<br>
 @isset($actionText)
 <x-slot:subcopy>
 <x-mail::subcopy>
-Falls du die "{{$actionText}}"-Schaltfläche nicht anklicken kannst, kopiere folgende URL in deinen Browser um sie manuell aufzurufen:
+Falls du die „{{$actionText}}“-Schaltfläche nicht anklicken kannst, kopiere folgende URL in deinen Browser um sie manuell aufzurufen:
 <span class="break-all"><a href="{{  $displayableActionUrl }}">{{ $actionUrl }}</a></span>
 </x-mail::subcopy>
 </x-slot:subcopy>

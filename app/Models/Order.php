@@ -4,11 +4,13 @@
 
 	use App\Enums\OrderStatus;
 	use Carbon\CarbonImmutable;
+	use Dompdf\Dompdf;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\DB;
 
 	/**
@@ -155,6 +157,24 @@
 				return $originalPrice - $currentPrice  // absolute discount (disount on a per item basis)
 				       + $currentPrice * (1 - $this->rate); // relative discount
 			})->shouldCache();
+		}
+
+		protected function renderPDFTemplate(string $template): string {
+			$dompdf = new Dompdf(['isPdfAEnabled' => true, 'chroot' => public_path()]);
+
+			// remap sans-serif font to an embeddable font for PDF/A compatibility
+			$font_metrics = $dompdf->getFontMetrics();
+			$font_metrics->setFontFamily('sans-serif', $font_metrics->getFamily('DejaVu Sans'));
+
+			$dompdf->setPaper('a4');
+			$dompdf->loadHtml(Blade::render($template, ['order' => $this]));
+			$dompdf->render();
+
+			return $dompdf->output();
+		}
+
+		public function buildOrderSummaryPDF(): string {
+			return $this->renderPDFTemplate('pdfs.order-summary');
 		}
 
 		/**
