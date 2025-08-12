@@ -119,7 +119,7 @@
         </div>
     </div>
     <div class="row mb-3">
-        <label for="note" class="col-sm-4 col-form-label">Bemerkung</label>
+        <label for="note" class="col-sm-4 col-form-label">Anmerkung</label>
         <div class="col">
             <div class="autogrow-textarea @error('editOrderForm.note')is-invalid @enderror" data-replicated-value="{{$editOrderForm->note}}">
                 <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="editOrderForm.note" rows="2" id="note" class="form-control @error('editOrderForm.note')is-invalid @enderror"></textarea>

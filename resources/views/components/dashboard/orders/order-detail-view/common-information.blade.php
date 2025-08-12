@@ -37,7 +37,7 @@
     @endif
     @if($order->note)
         <div class="row mt-2 mt-sm-1">
-            <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Bemerkung</div>
+            <div class="col-xl-3 col-sm-3 col-md-2 fw-semibold">Anmerkung</div>
             <div class="col ws-pre-wrap">{{$order->note}}</div>
         </div>
     @endif

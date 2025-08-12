@@ -49,7 +49,7 @@
             <p class="mb-0">{{$this->checkoutData->eventName}}</p>
 
             @if($this->checkoutData->note)
-                <h6 class="mb-0 mt-3">Bemerkung</h6>
+                <h6 class="mb-0 mt-3">Anmerkung</h6>
                 <p class="mb-0">{{$this->checkoutData->note}}</p>
             @endif
         </div>
