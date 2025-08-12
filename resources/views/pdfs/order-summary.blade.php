@@ -89,6 +89,8 @@
         #address-block {
             width: 8.5cm; /* DIN 5008 */
             height: 4.5cm; /* DIN 5008 */
+            max-width: 8.5cm;
+            word-break: break-word;
         }
 
         #meta-information {
@@ -112,6 +114,8 @@
 
         #customer-address {
             min-height: 2cm;
+            max-height: 10cm;
+            overflow: hidden;
         }
 
         #order-items-table {
