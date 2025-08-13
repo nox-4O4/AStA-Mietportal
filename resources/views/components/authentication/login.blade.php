@@ -32,5 +32,9 @@
 
         <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
         <a href="{{route('password.forgot')}}" class="btn btn-outline-danger w-100" wire:navigate>Passwort vergessen?</a>
+
+        <p class="text-center mt-3 mb-0">
+            <a class="text-body-secondary" href="{{route('shop')}}" wire:navigate>Zurück zum Shop</a>
+        </p>
     </form>
 </div>

@@ -23,15 +23,25 @@
         </div>
         <div class="mt-5 bg-body-tertiary shadow-sm border-top footer">
             <div class="shop-content mx-auto p-3 p-lg-4 text-body-secondary">
-                <div class="row text-center mx-auto max-w-sm">
-                    <div class="col-sm">
+                <div class="row text-center mx-auto max-w-md">
+                    <div class="col-md my-1 my-md-0">
+                        <a href="https://asta-hka.de/" target="_blank">Homepage</a>
+                    </div>
+                    <div class="col-md my-1 my-md-0">
                         <a href="https://asta-hka.de/kontakt/" target="_blank">Kontakt</a>
                     </div>
-                    <div class="col-sm">
-                        <a href="https://asta-hka.de/datenschutzrichtlinien" target="_blank">Datenschutzerklärung</a>
+                    <div class="col-md my-1 my-md-0">
+                        <a href="https://asta-hka.de/datenschutzrichtlinien/" target="_blank">Datenschutzerklärung</a>
                     </div>
-                    <div class="col-sm">
-                        <a href="https://asta-hka.de/impressum" target="_blank">Impressum</a>
+                    <div class="col-md my-1 my-md-0">
+                        <a href="https://asta-hka.de/impressum/" target="_blank">Impressum</a>
+                    </div>
+                    <div class="col-md my-1 my-md-0">
+                        @if(auth()->check())
+                            <a href="{{route(config('shop.dashboard.defaultRoute'))}}" wire:navigate>Dashboard</a>
+                        @else
+                            <a href="{{route('login')}}" wire:navigate>Login</a>
+                        @endif
                     </div>
                 </div>
             </div>
