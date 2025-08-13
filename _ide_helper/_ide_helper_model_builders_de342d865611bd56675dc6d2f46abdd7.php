@@ -1,4 +1,4 @@
-<?php //c5de377fa6145bc503cddd77bc0328cf
+<?php //40ddc97944c3231a37af11a7a412d6cb
 /** @noinspection all */
 
 namespace LaravelIdea\Helper {
@@ -215,7 +215,7 @@ namespace LaravelIdea\Helper {
      * @see \Illuminate\Database\Query\Builder::groupByRaw
      * @method $this groupByRaw(string $sql, array $bindings = [])
      * @see \Illuminate\Database\Eloquent\Builder::restoreOrCreate
-     * @method $this restoreOrCreate(array $attributes = [], array $values = [])
+     * @method $this restoreOrCreate($attributes = [], $values = [])
      * @see \Illuminate\Database\Eloquent\Concerns\QueriesRelationships::whereMorphedTo
      * @method $this whereMorphedTo($relation, Model|Model[]|null|string $model, $boolean = 'and')
      * @see \Illuminate\Database\Concerns\BuildsQueries::chunkByIdDesc
@@ -389,7 +389,7 @@ namespace LaravelIdea\Helper {
      * @see \Illuminate\Database\Query\Builder::whereDay
      * @method $this whereDay(Expression|string $column, \DateTimeInterface|int|null|string $operator, \DateTimeInterface|int|null|string $value = null, string $boolean = 'and')
      * @see \Illuminate\Database\Eloquent\Builder::createOrRestore
-     * @method $this createOrRestore(array $attributes = [], array $values = [])
+     * @method $this createOrRestore($attributes = [], $values = [])
      * @see \Illuminate\Database\Query\Builder::forNestedWhere
      * @method $this forNestedWhere()
      * @see \Illuminate\Database\Query\Builder::insertOrIgnoreUsing

@@ -31,11 +31,13 @@
 </x-mail::button>
 @endisset
 
+@section('outro-lines')
 {{-- Outro Lines --}}
 @foreach ($outroLines as $line)
 {{ $line }}
 
 @endforeach
+@show
 
 {{-- Salutation --}}
 @if (! empty($salutation))
@@ -50,7 +52,7 @@ Viele Grüße<br>
 <x-slot:subcopy>
 <x-mail::subcopy>
 Falls du die „{{$actionText}}“-Schaltfläche nicht anklicken kannst, kopiere folgende URL in deinen Browser um sie manuell aufzurufen:
-<span class="break-all"><a href="{{  $displayableActionUrl }}">{{ $actionUrl }}</a></span>
+<span class="break-all"><a href="{{ $displayableActionUrl }}">{{ $actionUrl }}</a></span>
 </x-mail::subcopy>
 </x-slot:subcopy>
 @endisset

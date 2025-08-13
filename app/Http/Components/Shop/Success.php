@@ -17,6 +17,9 @@
 				return '<div></div>';
 			}
 
-			return view('components.shop.success', ['order_id' => session()->pull('order_success')]);
+			return view('components.shop.success', [
+				'order_id' => session()->pull('order_success'),
+				'mailSent' => session()->pull('order_mail_success'),
+			]);
 		}
 	}

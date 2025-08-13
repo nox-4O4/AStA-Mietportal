@@ -24,6 +24,8 @@
 	 * @property float            $deposit
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
+	 *
+	 * @property-read string      $orderSummaryPDF See {@see Order::orderSummaryPDF()} for getter.
 	 */
 	class Order extends Model {
 
@@ -173,8 +175,9 @@
 			return $dompdf->output();
 		}
 
-		public function buildOrderSummaryPDF(): string {
-			return $this->renderPDFTemplate('pdfs.order-summary');
+		public function orderSummaryPDF(): Attribute {
+			return Attribute::get(fn(): string => $this->renderPDFTemplate('pdfs.order-summary'))
+			                ->shouldCache();
 		}
 
 		/**

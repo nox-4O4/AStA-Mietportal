@@ -1,4 +1,4 @@
-<?php //3a789549a82228523c1f977ea10fc45f
+<?php //4ab495eab18986c6480c4a8f34b53206
 /** @noinspection all */
 
 namespace App\Models {
@@ -95,9 +95,18 @@ namespace App\Models {
      * @property CarbonImmutable|null $created_at
      * @property CarbonImmutable|null $updated_at
      * @property-read string $name attribute
+     * @property DatabaseNotificationCollection|DatabaseNotification[] $notifications
+     * @property-read int $notifications_count
+     * @method MorphToMany|_IH_DatabaseNotification_QB notifications()
      * @property _IH_Order_C|Order[] $orders
      * @property-read int $orders_count
      * @method HasMany|_IH_Order_QB orders()
+     * @property DatabaseNotificationCollection|DatabaseNotification[] $readNotifications
+     * @property-read int $read_notifications_count
+     * @method MorphToMany|_IH_DatabaseNotification_QB readNotifications()
+     * @property DatabaseNotificationCollection|DatabaseNotification[] $unreadNotifications
+     * @property-read int $unread_notifications_count
+     * @method MorphToMany|_IH_DatabaseNotification_QB unreadNotifications()
      * @method static _IH_Customer_QB onWriteConnection()
      * @method _IH_Customer_QB newQuery()
      * @method static _IH_Customer_QB on(null|string $connection = null)
@@ -244,6 +253,7 @@ namespace App\Models {
      * @property-read bool $has_single_period attribute
      * @property-read float $item_discount attribute
      * @property-read CarbonImmutable|null $last_end attribute
+     * @property-read string $order_summary_p_d_f attribute
      * @property-read float $total attribute
      * @property-read float $total_discount attribute
      * @property _IH_Comment_C|Comment[] $comments

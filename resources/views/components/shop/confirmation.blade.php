@@ -136,6 +136,7 @@
             @enderror
         </div>
         <button type="submit" class="btn btn-primary">Bestellung abschicken</button>
+        <i class="fas fa-spinner fa-pulse align-middle" wire:loading.delay.longer></i>
     </form>
     <small>Dadurch kommt noch kein Mietvertrag zustande.</small>
 </div>

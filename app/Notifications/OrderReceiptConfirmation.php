@@ -30,6 +30,6 @@
 				->subject("Eingangsbestätigung zu deiner Bestellung #{$this->order->id}")
 				->greeting('Hallo ' . Helper::EscapeMarkdown($customer->forename) . '!')
 				->line(new HtmlString($this->mailContent->render()))
-				->attachData($this->order->buildOrderSummaryPDF(), "Eingangsbestätigung #{$this->order->id}.pdf", ['mime' => 'application/pdf']);
+				->attachData($this->order->orderSummaryPDF, "Eingangsbestätigung #{$this->order->id}.pdf", ['mime' => 'application/pdf']);
 		}
 	}

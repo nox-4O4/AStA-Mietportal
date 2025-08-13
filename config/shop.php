@@ -1,6 +1,8 @@
 <?php
 
 	return [
+		'notification_address' => env('NOTIFICATION_ADDRESS'), // where notification mails about new orders should be send to
+
 		'booking_ahead_days_min' => 3, // how many days must lie between today and booking start day
 		'booking_ahead_days_max' => 180, // latest end date, 180 = approx. 6 months. Set to zero for unconstrained range.
 		'price_calculation'      => 'asymptotic', // name of one of configured price_calculation_providers below

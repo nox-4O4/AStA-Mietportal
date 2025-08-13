@@ -10,17 +10,20 @@
 	use App\Models\DTOs\CheckoutData;
 	use App\Models\Order;
 	use App\Models\OrderItem;
+	use App\Notifications\NewOrderNotification;
 	use App\Notifications\OrderReceiptConfirmation;
 	use App\Repositories\CartRepository;
 	use App\Traits\HasCartItems;
 	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Facades\DB;
+	use Illuminate\Support\Facades\Notification;
 	use Illuminate\Validation\ValidationException;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
+	use Throwable;
 
 	/**
 	 * @property-read CheckoutData|null $checkoutData    See {@see Confirmation::checkoutData()} for getter.
@@ -160,10 +163,21 @@
 				$this->cartRepository->clearAllData();
 				$this->dispatch('cart-changed');
 
-				$order->customer->notify(new OrderReceiptConfirmation($order));
-				// TODO send notification email
+				try {
+					$order->customer->notify(new OrderReceiptConfirmation($order));
+					if(config('shop.notification_address')) {
+						Notification::route('mail', config('shop.notification_address'))
+						            ->notify(new NewOrderNotification($order));
+					}
+
+					$mailSuccess = true;
+				} catch(Throwable $t) {
+					report($t);
+					$mailSuccess = false;
+				}
 
 				session()->put('order_success', $order->id); // using put and forget manually (instead of flash) as subcomponents might refresh prior to displaying success page, which leads to flash data being cleared prematurely.
+				session()->put('order_mail_success', $mailSuccess);
 
 				$this->redirectRoute('shop.success', navigate: true);
 			}

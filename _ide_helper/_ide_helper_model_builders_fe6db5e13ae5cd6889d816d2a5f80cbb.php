@@ -1,4 +1,4 @@
-<?php //9cf58dcf1330fdcbd965b64b80152c07
+<?php //1d88b35b5bb8d35f00796aea9bbb07d0
 /** @noinspection all */
 
 namespace LaravelIdea\Helper\Illuminate\Notifications {
@@ -14,7 +14,7 @@ namespace LaravelIdea\Helper\Illuminate\Notifications {
     /**
      * @method DatabaseNotification create(array $attributes = [])
      * @method DatabaseNotification createOrFirst(array $attributes = [], array $values = [])
-     * @method DatabaseNotification createOrRestore(array $attributes = [], array $values = [])
+     * @method DatabaseNotification createOrRestore($attributes = [], $values = [])
      * @method DatabaseNotification createQuietly(array $attributes = [])
      * @method DatabaseNotificationCollection|DatabaseNotification[] cursor()
      * @method DatabaseNotification[] eagerLoadRelations(array $models)
@@ -43,7 +43,7 @@ namespace LaravelIdea\Helper\Illuminate\Notifications {
      * @method DatabaseNotification make(array $attributes = [])
      * @method DatabaseNotification newModelInstance(array $attributes = [])
      * @method LengthAwarePaginator|DatabaseNotification[]|DatabaseNotificationCollection paginate(\Closure|int|null $perPage = null, array|string $columns = ['*'], string $pageName = 'page', int|null $page = null, \Closure|int|null $total = null)
-     * @method DatabaseNotification restoreOrCreate(array $attributes = [], array $values = [])
+     * @method DatabaseNotification restoreOrCreate($attributes = [], $values = [])
      * @method Paginator|DatabaseNotification[]|DatabaseNotificationCollection simplePaginate(int|null $perPage = null, array|string $columns = ['*'], string $pageName = 'page', int|null $page = null)
      * @method DatabaseNotification sole(array|string $columns = ['*'])
      * @method DatabaseNotification updateOrCreate(array $attributes, array $values = [])
