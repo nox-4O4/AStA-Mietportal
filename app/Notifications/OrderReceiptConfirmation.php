@@ -5,6 +5,7 @@
 	use App\Models\Content;
 	use App\Models\Customer;
 	use App\Models\Order;
+	use App\Util\Helper;
 	use Illuminate\Notifications\Messages\MailMessage;
 	use Illuminate\Notifications\Notification;
 	use Illuminate\Support\HtmlString;
@@ -27,7 +28,7 @@
 			return (new MailMessage)
 				->markdown('mail.notification')
 				->subject("Eingangsbestätigung zu deiner Bestellung #{$this->order->id}")
-				->greeting("Hallo $customer->forename!")
+				->greeting('Hallo ' . Helper::EscapeMarkdown($customer->forename) . '!')
 				->line(new HtmlString($this->mailContent->render()))
 				->attachData($this->order->buildOrderSummaryPDF(), "Eingangsbestätigung #{$this->order->id}.pdf", ['mime' => 'application/pdf']);
 		}

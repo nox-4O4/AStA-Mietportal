@@ -13,4 +13,8 @@
 		public static function HashCollection(Collection $collection, string $attribute = 'id'): string {
 			return sha1(implode("\0", $collection->pluck($attribute)->all()));
 		}
+
+		public static function EscapeMarkdown(string $text): string {
+			return addcslashes($text, '\\`*_{}[]()#+-.!|');
+		}
 	}
