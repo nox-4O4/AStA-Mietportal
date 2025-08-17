@@ -23,7 +23,7 @@
                     <li><a href="{{route('dashboard.groups.list')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-object-group"></i>&nbsp;Artikelgruppen</a></li>
                 @endcan
                 @can('manage-orders')
-                    {{-- reports are only usefull when user can also view orders --}}
+                    {{-- reports are only useful when user can also view orders --}}
                     <li>
                         <a href="{{route('dashboard.reports')}}" class="px-4 py-2 d-block" data-bs-toggle="collapse" data-bs-target="#reportsMenu" aria-expanded="false" aria-controls="reportsMenu">
                             <i class="fa-solid fa-chart-simple"></i>&nbsp;Berichte
@@ -49,7 +49,7 @@
                     </li>
                 @endcan
             </ul>
-            <ul class="side-nav nav flex-column">
+            <ul class="side-nav nav flex-column mt-3">
                 <li><a href="{{route('dashboard.profile')}}" class="px-4 py-2 d-block" wire:navigate wire:current="active"><i class="fa-solid fa-user"></i>&nbsp;Profil</a></li>
                 <li><a href="{{route('logout')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-right-from-bracket"></i>&nbsp;Abmelden</a></li>
             </ul>
