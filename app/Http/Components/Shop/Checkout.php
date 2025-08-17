@@ -128,15 +128,7 @@
 			if($this->revenue || $this->rentalType != 'personal' || $this->studying != 'hka') {
 				$rate = 1;
 			} else {
-				$totalAmount      = $this->cartRepository->totalAmount();
-				$currentMaxAmount = 0;
-				$rate             = 1;
-				foreach(config('shop.hka_student_discount') as $maxAmount => $discount) { // use discount of maximum applicable amount
-					if($totalAmount <= $maxAmount && ($currentMaxAmount > $maxAmount || !$currentMaxAmount)) {
-						$currentMaxAmount = $maxAmount;
-						$rate             = max(0, min(1, 1 - $discount)); // clamp rate to values between 0 and 1
-					}
-				}
+				$rate = $this->cartRepository->discountRate();
 			}
 
 			$checkoutData = CheckoutData::from([...$this->all(), 'rate' => $rate, 'cartHash' => $cartHash]);

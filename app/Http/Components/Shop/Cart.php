@@ -53,6 +53,11 @@
 			return $this->cartRepository->getCartItemsSorted();
 		}
 
+		#[Computed]
+		public function possibleDiscountRate(): float {
+			return $this->cartRepository->discountRate();
+		}
+
 		public function updatedItems($amount, ?string $key, CartRepository $repository): void {
 			if($key === null || !is_int($amount))
 				return;

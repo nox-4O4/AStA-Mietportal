@@ -103,7 +103,7 @@
         </table>
         <div class="ps-0 mb-3">
             <legend class="mb-0 float-none">Summe: @money($this->totalAmount)</legend>
-            @if($this->totalAmount > 0)
+            @if($this->totalAmount > 0 && $this->possibleDiscountRate != 1)
                 <p class="small text-muted mb-0">Ein etwaiger Studi-Rabatt kann im nächsten Schritt berechnet werden.</p>
             @endif
         </div>

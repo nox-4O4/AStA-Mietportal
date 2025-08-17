@@ -164,6 +164,20 @@
 			return $total;
 		}
 
+		public function discountRate(): float {
+			$total            = $this->totalAmount();
+			$currentMaxAmount = 0;
+			$rate             = 1;
+			foreach(config('shop.hka_student_discount') as $maxAmount => $discount) { // use discount of maximum applicable amount
+				if($total <= $maxAmount && ($currentMaxAmount > $maxAmount || !$currentMaxAmount)) {
+					$currentMaxAmount = $maxAmount;
+					$rate             = max(0, min(1, 1 - $discount)); // clamp rate to values between 0 and 1
+				}
+			}
+
+			return $rate;
+		}
+
 		public function getHash(): string {
 			$itemHash = '';
 			foreach($this->getCartItems() as $cartItem)
