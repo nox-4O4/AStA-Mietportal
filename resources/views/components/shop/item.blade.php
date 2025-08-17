@@ -1,12 +1,18 @@
 <div>
     <div class="d-flex justify-content-between align-items-baseline column-gap-3 flex-wrap flex-sm-nowrap">
-        <h1>
+        <h1 class="d-flex align-items-center gap-2">
+            <span class="d-flex">
+                <a href="{{route('shop')}}" title="Zurück zur Artikelliste" wire:navigate class="btn btn-outline-secondary"><i class="fa-solid fa-chevron-left"></i></a>
+            </span>
+
+            <span>
             {{$element->name}}
-            @if($item && !$item->visible)
-                <span class="badge text-secondary bg-secondary-subtle fs-6" title="Artikel nicht sichtbar">
-                    <i class="fa-regular fa-eye-slash"></i>
-                </span>
-            @endif
+                @if($item && !$item->visible)
+                    <span class="badge text-secondary bg-secondary-subtle fs-6 d-inline-flex align-middle" title="Artikel nicht sichtbar">
+                        <i class="fa-regular fa-eye-slash"></i>
+                    </span>
+                @endif
+            </span>
         </h1>
         @can('manage-items')
             @if($item)
@@ -82,7 +88,7 @@
         </div>
     </div>
     @if($element->description || $item?->itemGroup?->description || $item?->deposit)
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">
                 @if(
                     isset($item->itemGroup->description) && !$item->itemGroup->description->isEmpty() ||
@@ -102,4 +108,9 @@
             </div>
         </div>
     @endif
+    <div class="row">
+        <div class="col">
+            <a href="{{route('shop')}}" wire:navigate class="btn btn-outline-primary"><i class="fa-solid fa-arrow-left"></i> Zurück zu den Artikeln</a>
+        </div>
+    </div>
 </div>

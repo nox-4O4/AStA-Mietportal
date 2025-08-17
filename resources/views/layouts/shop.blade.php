@@ -21,7 +21,7 @@
             @endisset
             @yield('main', $slot ?? '')
         </div>
-        <div class="mt-5 bg-body-tertiary shadow-sm border-top footer">
+        <div class="mt-3 mt-md-5 bg-body-tertiary shadow-sm border-top footer">
             <div class="shop-content mx-auto p-3 p-lg-4 text-body-secondary">
                 <div class="row text-center mx-auto max-w-md">
                     <div class="col-md my-1 my-md-0">
