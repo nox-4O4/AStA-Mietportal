@@ -129,25 +129,27 @@
             @enderror
         </div>
     </div>
-    <div class="row mb-3">
-        <label for="start_ordermeta" class="col-sm-4 col-form-label">Zeitraum</label>
-        <div class="col">
-            <x-linked-date-range class="mb-1" model-prefix="editOrderForm." id-suffix="_ordermeta" />
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="recalculatePrice" wire:model="editOrderForm.recalculatePrice">
-                <label class="form-check-label" for="recalculatePrice">Betrag neu berechnen</label>
-                <span data-bs-title="Dadurch werden alle Artikelbeträge bei einer Anpassung des Zeitraums anhand des geänderten Zeitraums neu berechnet. Dies überschreibt einen ggf. gewährten Artikelrabatt."
-                      data-bs-toggle="tooltip"
-                      tabindex="0" {{-- makes tooltip keyboard-accessible --}}
-                      class="px-1">
-                    <i class="fa-regular fa-circle-question"></i>
-                </span>
+    @isset($order)
+        <div class="row mb-3">
+            <label for="start_ordermeta" class="col-sm-4 col-form-label">Zeitraum</label>
+            <div class="col">
+                <x-linked-date-range class="mb-1" model-prefix="editOrderForm." id-suffix="_ordermeta" />
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="recalculatePrice" wire:model="editOrderForm.recalculatePrice">
+                    <label class="form-check-label" for="recalculatePrice">Betrag neu berechnen</label>
+                    <span data-bs-title="Dadurch werden alle Artikelbeträge bei einer Anpassung des Zeitraums anhand des geänderten Zeitraums neu berechnet. Dies überschreibt einen ggf. gewährten Artikelrabatt."
+                          data-bs-toggle="tooltip"
+                          tabindex="0" {{-- makes tooltip keyboard-accessible --}}
+                          class="px-1">
+                        <i class="fa-regular fa-circle-question"></i>
+                    </span>
+                </div>
+                @if(!$order->hasSinglePeriod)
+                    <div class="form-text">Die Artikel verfügen über unterschiedliche Zeiträume. Durch Festlegen eines Zeitraums hier wird der Zeitraum aller Artikel überschrieben.</div>
+                @endif
             </div>
-            @if(!$order->hasSinglePeriod)
-                <div class="form-text">Die Artikel verfügen über unterschiedliche Zeiträume. Durch Festlegen eines Zeitraums hier wird der Zeitraum aller Artikel überschrieben.</div>
-            @endif
         </div>
-    </div>
+    @endisset
     <div class="row mb-3">
         <label for="deposit" class="col-sm-4 col-form-label">Kaution</label>
         <div class="col">

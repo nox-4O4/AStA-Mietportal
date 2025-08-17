@@ -10,6 +10,7 @@
 	use App\Http\Components\Dashboard\Items\ItemGroupDetail;
 	use App\Http\Components\Dashboard\Items\ItemGroupList;
 	use App\Http\Components\Dashboard\Items\ItemList;
+	use App\Http\Components\Dashboard\Orders\OrderCreate;
 	use App\Http\Components\Dashboard\Orders\OrderDetailView;
 	use App\Http\Components\Dashboard\Orders\OrderList;
 	use App\Http\Components\Dashboard\Profile;
@@ -47,7 +48,7 @@
 		Route::group(['middleware' => 'can:manage-orders'], function () {
 			Route::group(['prefix' => '/orders', 'as' => '.orders'], function () {
 				Route::get('/', OrderList::class)->name('.list');
-				Route::get('/create', Dummy::class)->name('.create');
+				Route::get('/create', OrderCreate::class)->name('.create');
 				Route::get('/view/{order}', OrderDetailView::class)->name('.view');
 			});
 

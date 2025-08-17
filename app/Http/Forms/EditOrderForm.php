@@ -11,46 +11,46 @@
 	class EditOrderForm extends Form {
 
 		#[Validate('required|string')]
-		public string $forename;
+		public string $forename = '';
 
 		#[Validate('required|string')]
-		public string $surname;
+		public string $surname = '';
 
 		#[Validate('nullable|string')]
-		public ?string $legalname;
+		public ?string $legalname = null;
 
 		#[Validate('nullable|required_with:city|required_with:number|string')]
-		public ?string $street;
+		public ?string $street = null;
 
 		#[Validate('nullable|string')]
-		public ?string $number;
+		public ?string $number = null;
 
 		#[Validate('nullable|required_with:city|string')]
-		public ?string $zipcode;
+		public ?string $zipcode = null;
 
 		#[Validate('nullable|required_with:zipcode|required_with:street|string')]
-		public ?string $city;
+		public ?string $city = null;
 
 		#[Validate('required|string|email:strict')]
-		public string $email;
+		public string $email = '';
 
 		#[Validate('nullable|string')]
-		public ?string $mobile;
+		public ?string $mobile = null;
 
 		#[Validate]
-		public string $status;
+		public string $status = OrderStatus::PENDING->value;
 
 		#[Validate('required|int|between:0,100')]
-		public int $discount;
+		public int $discount = 0;
 
 		#[Validate('required|string')]
-		public string $eventName;
+		public string $eventName = '';
 
 		#[Validate('nullable|string')]
-		public ?string $note;
+		public string $note = '';
 
 		#[Validate('required|int|gte:0')]
-		public float $deposit;
+		public float $deposit = 0;
 
 		#[Validate('nullable|required_with:end|date')]
 		public ?string $start = null;
