@@ -12,6 +12,10 @@
   // hide while not loaded
   display: none;
 
+  &.fixedHeader-floating {
+    display: table; // Header row for fixed header should always be visible. Element can only exist after table was loaded.
+  }
+
   // make hover rows darker
   &.table-hover tr:hover,
   &.table-hover tr.parent:hover + tr.child {
@@ -147,5 +151,12 @@
     height: var(--fixed-table-header-offset);
     content: '';
     display: block;
+  }
+}
+
+// hide fixed table header when viewport heigh is very low to not consume too much space with fixed elements
+@media(max-height: 360px) {
+  .dtfh-floatingparent-head {
+    display: none;
   }
 }
