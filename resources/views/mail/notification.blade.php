@@ -3,7 +3,7 @@
 {{-- Header --}}
 <x-slot:header>
 <x-mail::header :url="config('app.url')">
-<span style="display: none">{{config('app.name')}}</span><img src="{{ empty($message->getHtmlBody()) ? $message->embed(public_path('/img/asta_logo.png')) : '' }}" {{-- Only embed image during rendering of HTML part. Plain text message part gets rendered afterwards. --}}
+<span style="display: none">{{config('app.name')}}</span><img src="{{ empty($message->getHtmlBody()) ? $message->embed(resource_path('/img/logo-asta.png')) : '' }}" {{-- Only embed image during rendering of HTML part. Plain text message part gets rendered afterwards. --}}
      style="height: 75px; max-height: 75px;"
      alt="{{config('app.name')}}">
 </x-mail::header>

@@ -37,14 +37,6 @@ img[alt]::before {
   }
 }
 
-.brand-small {
-  background-image: url('../../public/img/asta_logo.png');
-  background-size: contain;
-  background-origin: content-box;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 // constrain height for item image slider
 .item-image-container {
   height: min(500px, 80vh);

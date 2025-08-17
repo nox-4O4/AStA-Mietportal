@@ -95,5 +95,13 @@
 
 				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
 			});
+
+			// TODO when on Laravel 12+ test and use this to automatically remove cached font files:
+			/*
+			\Illuminate\Support\Facades\Event::listen(function (Illuminate\Cache\Events\CacheFlushing $event) {
+				foreach(glob(storage_path('framework/cache/fonts/')) as $file)
+					unlink($file);
+			});
+			*/
 		}
 	}

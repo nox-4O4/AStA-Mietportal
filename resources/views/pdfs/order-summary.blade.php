@@ -172,7 +172,7 @@
 </head>
 <body>
 <div id="header">
-    <img id="logo" src="{{public_path('/img/asta_logo.png')}}" alt="AStA-Logo">
+    <img id="logo" src="data:image/svg+xml;base64,{{base64_encode(File::get(resource_path('img/logo-asta.svg')))}}" alt="AStA-Logo">
 </div>
 <div id="footer">
     <table id="footer-table">

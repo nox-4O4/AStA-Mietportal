@@ -167,7 +167,12 @@
 		}
 
 		protected function renderPDFTemplate(string $template): string {
-			$dompdf = new Dompdf(['isPdfAEnabled' => true, 'chroot' => public_path()]);
+			$dompdf = new Dompdf(
+				[
+					'isPdfAEnabled' => true,
+					'fontCache'     => storage_path('framework/cache/fonts/'),
+				]
+			);
 
 			// remap sans-serif font to an embeddable font for PDF/A compatibility
 			$font_metrics = $dompdf->getFontMetrics();

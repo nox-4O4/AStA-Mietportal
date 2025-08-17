@@ -19,10 +19,15 @@
     }
   }
 
-  .brand-small {
-    background-position: left;
-    min-width: 10rem; // logo is auto-sized, make sure it has enough space to expand
+  .logo-small {
     margin: -0.5rem 0; // make logo larger than content margins
+    max-width: min(9rem, 25%); // this also constraints height
+    display: flex;
+    width: 100%;
+
+    svg {
+      width: 100%;
+    }
   }
 
   .search-bar {
@@ -49,6 +54,17 @@
   }
 
   --bs-breadcrumb-divider: '—';
+}
+
+// hide logo on small screens when search input is not empty
+@media (max-width: 360px) {
+  .shop .logo-small {
+    transition: width 0.5s ease-out;
+
+    &:has(+ .search-bar input:not(:placeholder-shown)), &:has(+ .search-bar input:not(.initialEmpty)) {
+      width: 0;
+    }
+  }
 }
 
 // Hide divider on small screens and add some spacing between items

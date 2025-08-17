@@ -41,7 +41,7 @@
         </tbody>
     </table>
 
-    <div class="loading-indicator text-center">
+    <div class="loading-indicator text-center mt-3">
         <p><i class="fa-4x fas fa-spinner fa-pulse"></i></p>
         <p>Liste wird geladen...</p>
     </div>

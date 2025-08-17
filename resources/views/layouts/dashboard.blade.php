@@ -3,10 +3,11 @@
 @section('content')
     <div class="container-fluid dashboard p-0 d-flex">
         <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto sticky-lg-top vh-100">
-            <div class="d-flex mb-3">
-                <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
-                <a href="{{route('shop')}}" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
-                <a href="{{route('shop')}}" class="navbar-brand brand-small flex-fill p-2 d-lg-none" wire:navigate></a>
+            <div class="d-flex align-items-center mb-3">
+                <a href="#" class="text-body d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
+                <a href="{{route('shop')}}" class="text-body px-4 py-2 pt-lg-4 w-100" wire:navigate>
+                    {!! File::get(resource_path('img/logo-asta.svg')) !!}
+                </a>
             </div>
             <ul class="side-nav nav flex-column mb-auto">
                 <li><a href="{{route('shop')}}" class="px-4 py-2 d-block" wire:navigate><i class="fa-solid fa-reply"></i>&nbsp;Zum Shop</a></li>
@@ -58,7 +59,7 @@
         <div class="flex-fill d-flex flex-column min-w-0">
             <nav class="sticky-top ps-0 pe-4 py-0 px-lg-5 py-lg-4 bg-light-subtle shadow topbar @empty($breadcrumbs)d-lg-none @endempty">
                 <div class="d-flex align-items-center mx-auto dashboard-content">
-                    <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-bars"></i></a>
+                    <a href="#" class="text-body d-lg-none p-4 sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-bars"></i></a>
                     @isset($breadcrumbs)
                         <ol class="breadcrumb m-0">
                             {{$breadcrumbs}}

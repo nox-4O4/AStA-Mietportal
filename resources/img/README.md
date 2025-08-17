@@ -26,3 +26,13 @@ Die `*_master.svg`-Dateien sind die ursprünglichen Inkscape-Dateien. Diese werd
     * `width` und `height` entfernen
     * `fill="currentColor"` hinzufügen (vgl. Produktplatzhalter)
 * `Hey August.otf`: Font für den Schriftzug. Nur erforderlich, wenn man die Vorlage bearbeiten möchte.
+
+## Logos
+
+`logo-asta.svg` wird in der Webanwendung und in den generierten PDFs verwendet. Es ist aus der Vorlage im Drive erstellt, dazu:
+
+* als optimiertes SVG exportieren
+* `width` und `height` entfernen
+* `fill="currentColor"` hinzufügen (vgl. Produktplatzhalter)
+
+Die `png`-Version wird für die E-Mails verwendet, da SVG-Support in E-Mail-Clients traurig schlecht ist.
