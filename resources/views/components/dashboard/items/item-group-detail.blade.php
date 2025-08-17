@@ -5,7 +5,12 @@
 </x-slot:breadcrumbs>
 
 <div>
-    <h1 class="mb-4">Gruppe „{{$group->name}}“ bearbeiten</h1>
+    <div class="mb-4 d-flex justify-content-between align-items-baseline column-gap-3 flex-wrap flex-sm-nowrap">
+        <h1>Gruppe „{{$group->name}}“ bearbeiten</h1>
+        <a href="{{route('shop.itemGroup.view', $group->id)}}" class="btn btn-sm btn-outline-primary text-nowrap" wire:navigate title="Artikelgruppe im Shop betrachten">
+            <i class="fa-solid fa-eye me-1"></i><span class="d-sm-none d-md-inline d-lg-none d-xl-inline">Im Shop betrachten</span><span class="d-none d-sm-inline d-md-none d-lg-inline d-xl-none">Betrachten</span>
+        </a>
+    </div>
 
     <x-status-message />
 

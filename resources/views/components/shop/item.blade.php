@@ -1,12 +1,26 @@
 <div>
-    <h1>
-        {{$element->name}}
-        @if($item && !$item->visible)
-            <span class="badge text-secondary bg-secondary-subtle fs-6" title="Artikel nicht sichtbar">
-                <i class="fa-regular fa-eye-slash"></i>
-            </span>
-        @endif
-    </h1>
+    <div class="d-flex justify-content-between align-items-baseline column-gap-3 flex-wrap flex-sm-nowrap">
+        <h1>
+            {{$element->name}}
+            @if($item && !$item->visible)
+                <span class="badge text-secondary bg-secondary-subtle fs-6" title="Artikel nicht sichtbar">
+                    <i class="fa-regular fa-eye-slash"></i>
+                </span>
+            @endif
+        </h1>
+        @can('manage-items')
+            @if($item)
+                <a href="{{route('dashboard.items.edit', $item->id)}}" class="btn btn-sm btn-outline-primary text-nowrap mb-2" wire:navigate title="Artikel bearbeiten">
+                    <i class="fa-solid me-1 fa-pen-to-square"></i>Artikel bearbeiten
+                </a>
+            @elseif($group)
+                <a href="{{route('dashboard.groups.edit', $group->id)}}" class="btn btn-sm btn-outline-primary text-nowrap mb-2" wire:navigate title="Artikelgruppe bearbeiten">
+                    <i class="fa-solid me-1 fa-pen-to-square"></i>Artikelgruppe bearbeiten
+                </a>
+            @endif
+        @endcan
+    </div>
+
     <div class="row">
         <div class="col-md-6 mb-3">
             @if($group?->image || $item?->images->isNotEmpty())

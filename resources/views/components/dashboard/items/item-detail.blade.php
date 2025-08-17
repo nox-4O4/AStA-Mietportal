@@ -11,13 +11,16 @@
 </x-slot:breadcrumbs>
 
 <div>
-    <h1 class="mb-4">
+    <div class="mb-3 d-flex justify-content-between align-items-baseline column-gap-3 flex-wrap flex-sm-nowrap">
         @isset($item)
-            Artikel „{{$item->name}}“ bearbeiten
+            <h1>Artikel „{{$item->name}}“ bearbeiten</h1>
+            <a href="{{route('shop.item.view', $item->id)}}" class="btn btn-sm btn-outline-primary text-nowrap" wire:navigate title="Artikel im Shop betrachten">
+                <i class="fa-solid fa-eye me-1"></i><span class="d-sm-none d-md-inline d-lg-none d-xl-inline">Im Shop betrachten</span><span class="d-none d-sm-inline d-md-none d-lg-inline d-xl-none">Betrachten</span>
+            </a>
         @else
-            Artikel anlegen
+            <h1>Artikel anlegen</h1>
         @endisset
-    </h1>
+    </div>
 
     <x-status-message />
 
