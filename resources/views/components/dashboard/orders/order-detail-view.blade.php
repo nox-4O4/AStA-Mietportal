@@ -4,7 +4,7 @@
     <li class="breadcrumb-item">Bestellung #{{$order->id}}</li>
 </x-slot:breadcrumbs>
 
-<div x-data="{edit: false}">
+<div x-data="{edit: false, addComment: false}">
     <form wire:submit="updateOrder">
         <h1 class="mb-4 d-flex justify-content-between flex-wrap gap-3">
             <div>
@@ -39,37 +39,75 @@
         </div>
     </form>
 
-    @if($order->comments->isNotEmpty())
-        <div class="row mb-3">
-            <div class="col-auto">
-                <h5>Kommentare</h5>
-                @foreach($order->comments as $comment)
-                    <div class="alert alert-secondary bg-gradient px-2 py-1 mb-2">
-                        <p class="small fw-semibold mb-1 text-italic text-right text-muted">
-                            {{$comment->user?->name ?? 'Gelöschter Benutzer'}}
-                            @if($comment->created_at)
-                                am&nbsp;{{$comment->created_at}}
-                                um&nbsp;{{$comment->created_at->format('H:i:s')}}&nbsp;Uhr
+    <div class="row mb-1">
+        <div class="col-auto">
+            <h5>Kommentare</h5>
+            @if($order->comments->isNotEmpty())
+                @if(!$allComments)
+                    @php($limitComments = $order->comments->count() > 4 ? 3 : 4)
+                    @php($hidden = $order->comments->count() - $limitComments)
+                    @if($hidden > 0)
+                        <button class="btn btn-link px-0 pt-0" wire:click="showAllComments">
+                            <i class="fas fa-spinner fa-pulse me-1 fa-fw" wire:loading wire:target="showAllComments"></i><i class="fa-solid fa-caret-down me-1 fa-fw" wire:loading.remove wire:target="showAllComments"></i>{{$hidden}} ältere Kommentare anzeigen...
+                        </button>
+                    @endif
+                @endif
+                @foreach($order->recentComments($limitComments ?? null) as $comment)
+                    <div class="alert alert-secondary bg-gradient py-1 px-2 mb-2">
+                        <div class="d-flex align-items-start gap-3">
+                            @if($comment->user->id == auth()->user()->id)
+                                <button class="btn btn-sm btn-outline-danger text-nowrap my-1" title="Kommentar entfernen" wire:confirm="Möchtest du diesen Kommentar wirklich entfernen?" wire:click="deleteComment({{$comment->id}})">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
                             @endif
-                        </p>
+                            <p class="small fw-semibold mb-1 text-italic text-right text-muted ms-auto">
+                                {{$comment->user?->name ?? 'Gelöschter Benutzer'}}
+                                @if($comment->created_at)
+                                    am&nbsp;{{$comment->created_at}}
+                                    um&nbsp;{{$comment->created_at->format('H:i:s')}}&nbsp;Uhr
+                                @endif
+                            </p>
+                        </div>
                         <p class="m-0">
                             {{$comment->comment}}
                         </p>
                     </div>
                 @endforeach
-            </div>
+            @else
+                <p class="mb-0">Noch keine Kommentare.</p>
+            @endif
         </div>
-    @endif
+    </div>
+    <div class="row mb-3">
+        <div class="col-12 col-md-6">
+            <form x-cloak x-show="addComment" wire:submit="addComment">
+                <div class="autogrow-textarea @error('newComment')is-invalid @enderror" data-replicated-value="{{$newComment}}">
+                    <textarea onInput="this.parentNode.dataset.replicatedValue=this.value" wire:model="newComment" rows="3" id="newComment" placeholder="Kommentar eingeben..." class="form-control @error('newComment')is-invalid @enderror"></textarea>
+                </div>
+                @error('newComment')
+                <div class="invalid-feedback">{{$message}}</div>
+                @enderror
+                <div class="mt-2">
+                    <button type="button" class="btn btn-danger" @click="addComment=false" wire:click="cancelComment">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Kommentar hinzufügen</button>
+                </div>
+            </form>
+            <button class="btn btn-outline-primary btn-sm" @click="addComment=true" x-show="!addComment">
+                <i class="fa-solid fa-pencil"></i>
+                Kommentar hinzufügen
+            </button>
+        </div>
+    </div>
     <div class="row mb-3">
         <div class="col">
             <h5>Artikel</h5>
             @if($order->orderItems->isNotEmpty())
                 <div class="d-flex justify-content-between flex-wrap gap-2">
-                    <button type="button" class="btn btn-outline-primary"
+                    <button type="button" class="btn btn-outline-primary btn-sm"
                             data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="">
                         <i class="fa-solid fa-plus"></i>&nbsp;Artikel hinzufügen
                     </button>
-                    <button type="button" class="btn btn-outline-primary" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
+                    <button type="button" class="btn btn-outline-primary btn-sm" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
                         <i class="fa-solid fa-calculator"></i>&nbsp;Alle Preise erneut berechnen
                     </button>
                 </div>

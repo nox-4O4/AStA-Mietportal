@@ -3,8 +3,10 @@
 	namespace App\Http\Components\Dashboard\Orders;
 
 	use App\Http\Forms\EditOrderForm;
+	use App\Models\Comment;
 	use App\Models\Order;
 	use App\Traits\TrimWhitespaces;
+	use Auth;
 	use Illuminate\Contracts\View\View;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Locked;
@@ -20,6 +22,9 @@
 		public Order $order;
 
 		public EditOrderForm $editOrderForm;
+
+		public ?string $newComment  = null;
+		public bool    $allComments = false;
 
 		public function mount(): void {
 			$this->loadInitialData();
@@ -70,6 +75,35 @@
 
 			// hide update form on success
 			$this->js('edit=false');
+		}
+
+		public function cancelComment(): void {
+			$this->newComment = null;
+			$this->resetValidation('newComment');
+		}
+
+		public function addComment(): void {
+			$this->validate(['newComment' => ['required', 'string']]);
+
+			$comment           = new Comment();
+			$comment->comment  = $this->newComment;
+			$comment->order_id = $this->order->id;
+			$comment->user()->associate(Auth::user());
+			$comment->save();
+
+			$this->newComment = null;
+
+			$this->js('addComment=false');
+		}
+
+		public function showAllComments(): void {
+			$this->allComments = true;
+		}
+
+		public function deleteComment(int $id): void {
+			$comment = Comment::find($id);
+			if($comment->user->id == Auth::user()->id && $comment->order->id == $this->order->id)
+				$comment->delete();
 		}
 
 		private function loadInitialData(): void {

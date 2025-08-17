@@ -10,6 +10,7 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
+	use Illuminate\Support\Collection;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\DB;
 
@@ -56,6 +57,10 @@
 
 		public function comments(): HasMany {
 			return $this->hasMany(Comment::class)->orderBy('created_at')->chaperone();
+		}
+
+		public function recentComments(?int $n): Collection {
+			return $this->hasMany(Comment::class)->orderBy('created_at', 'DESC')->limit($n)->chaperone()->get()->reverse();
 		}
 
 		public function hasSinglePeriod(): Attribute {

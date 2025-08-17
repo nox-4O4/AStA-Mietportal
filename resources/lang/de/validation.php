@@ -211,6 +211,7 @@
 			'legalname'               => 'Juristischer Name',
 			'mobile'                  => 'Handynummer',
 			'name'                    => 'Name',
+			'newComment'              => 'Kommentar',
 			'newItem'                 => 'Neuer Artikel',
 			'newPassword'             => 'Neues Passwort',
 			'newPasswordConfirmation' => 'Neues Passwort (Wiederholung)',
