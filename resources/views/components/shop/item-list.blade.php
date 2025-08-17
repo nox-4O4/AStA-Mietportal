@@ -47,24 +47,29 @@
                             {!! File::get(resource_path('img/product-placeholder.svg')) !!}
                         @endif
 
-                        <span @if($item->grouped && !$item->visible)
-                                  title="Unterschiedliche Varianten vorhanden; Artikel nicht sichtbar"
-                              @elseif($item->grouped)
-                                  title="Unterschiedliche Varianten vorhanden"
-                              @elseif(!$item->visible)
-                                  title="Artikel nicht sichtbar"
-                              @endif
-                              class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body">
+                        @php($titleText = implode('; ', array_filter([
+                            $item->grouped ? 'Unterschiedliche Varianten vorhanden' : null,
+                            !$item->visible ? 'Artikel nicht sichtbar' : null,
+                            !$item->available ? 'Artikel nicht verfügbar' : null,
+                        ])))
 
-                        {{$item->name}}
+                        <span @if($titleText)title="{{$titleText}}" @endif class="position-absolute bottom-0 start-0 end-0 text-body-emphasis bg-body bg-opacity-50 p-1 fw-bold background-blur text-shadow-body">
+                            {{$item->name}}
 
-                            @if($item->grouped)
-                                <i class="fa-solid fa-grip" title="Unterschiedliche Varianten vorhanden"></i>
+                            @if($titleText)
+                                <span class="text-nowrap">
+                                    @if($item->grouped)
+                                        <i class="fa-solid fa-grip" title="Unterschiedliche Varianten vorhanden"></i>
+                                    @endif
+                                    @if(!$item->visible)
+                                        <i class="fa-regular fa-eye-slash" title="Artikel nicht sichtbar"></i>
+                                    @endif
+                                    @if(!$item->available)
+                                        <i class="fa-solid fa-ban" title="Artikel nicht verfügbar"></i>
+                                    @endif
+                                </span>
                             @endif
-                            @if(!$item->visible)
-                                <i class="fa-regular fa-eye-slash" title="Artikel nicht sichtbar"></i>
-                            @endif
-                    </span>
+                        </span>
                     </a>
                 </div>
             @endforeach

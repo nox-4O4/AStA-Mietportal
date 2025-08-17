@@ -46,7 +46,7 @@
 				// If it is specific enough we redirect the user directly to that item. Otherwise, redirect user to item group.
 				if($item->grouped) {
 					$items  = array_map(
-						fn(Item $item) => new ItemListEntry($item->id, $item->name, null, false, 0, $item->visible), // only 'id', 'name' and 'grouped' are used
+						fn(Item $item) => new ItemListEntry($item->id, $item->name, null, false, 0, $item->visible, $item->available), // only 'id', 'name' and 'grouped' are used, see filterValues() below
 						ItemGroup::find($item->id)->items->all()
 					);
 					$result = self::filterValues($items);

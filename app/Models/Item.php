@@ -121,7 +121,8 @@
 				                                      JOIN order_item ON orders.id = order_item.order_id
 				                                      WHERE orders.status != 'cancelled' AND
 				                                            order_item.item_id = items.id)                                   orders,
-				                                     visible
+				                                     visible,
+				                                     available
 				                     FROM items
 				                     LEFT JOIN images ON items.id = images.item_id
 				                     WHERE item_group_id IS NULL),
@@ -135,7 +136,8 @@
 				                              JOIN items innerItems ON order_item.item_id = innerItems.id
 				                              WHERE orders.status != 'cancelled' AND
 				                                    innerItems.item_group_id = item_groups.id) orders,
-				                             SUM(visible) > 0
+				                             SUM(visible) > 0,
+				                             SUM(available) > 0
 				                      FROM item_groups
 				                      JOIN items ON item_groups.id = items.item_group_id
 				                      LEFT JOIN images ON item_groups.image_id = images.id

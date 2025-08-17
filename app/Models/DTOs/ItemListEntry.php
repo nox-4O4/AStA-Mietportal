@@ -12,6 +12,7 @@
 			public bool    $grouped,
 			public int     $orders,
 			public bool    $visible,
+			public bool    $available,
 		) {
 		}
 	}
