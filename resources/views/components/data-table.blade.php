@@ -1,6 +1,6 @@
 @assets
-<link rel="stylesheet" href="/static/datatables/datatables.min.css" integrity="sha384-da66bu6P8r0okiL41GigAdrH0vl8Q4dzVMWiMjj50mjIDUh8KIB4UOVKaxieAosy" crossorigin="anonymous">
 <script src="/static/datatables/datatables.min.js" integrity="sha384-A4d9of2hRmPrBlPk1pQZLQMSG7/Uo3H0cZ1X0gMzIPON+P5/usUt1fK7oA9SU/8J" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/static/datatables/datatables.min.css" integrity="sha384-da66bu6P8r0okiL41GigAdrH0vl8Q4dzVMWiMjj50mjIDUh8KIB4UOVKaxieAosy" crossorigin="anonymous">
 @endassets
 
 <div>
