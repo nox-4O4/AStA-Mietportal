@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="d-flex flex-column min-h-100 shop">
+    <div class="d-flex flex-column min-vh-100 shop">
         <div class="sticky-top bg-light-subtle shadow">
             <div class="shop-content mx-auto p-3 p-lg-4 d-flex justify-content-between align-items-stretch">
                 <a class="brand-small d-none d-sm-block" href="{{route('shop')}}" wire:navigate title="Zur Startseite des AStA-Mietportals"></a>

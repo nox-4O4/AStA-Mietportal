@@ -1,8 +1,8 @@
 @extends('layouts.base')
 
 @section('content')
-    <div class="container-fluid dashboard p-0 d-flex h-100">
-        <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto">
+    <div class="container-fluid dashboard p-0 d-flex">
+        <div id="sidebar" class="d-flex flex-column flex-shrink-0 shadow bg-light-subtle offcanvas-lg offcanvas-start sidebar overflow-auto sticky-lg-top vh-100">
             <div class="d-flex mb-3">
                 <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-dismiss="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-angles-left"></i></a>
                 <a href="{{route('shop')}}" class="navbar-brand p-4 pb-2 d-none d-lg-inline" wire:navigate><img src="/img/asta_logo.png" class="w-100" alt="AStA-Logo"></a>
@@ -55,8 +55,8 @@
             </ul>
         </div>
 
-        <div class="flex-fill d-flex flex-column h-100 min-w-0">
-            <nav class="ps-0 pe-4 py-0 px-lg-5 py-lg-4 bg-light-subtle shadow topbar @empty($breadcrumbs)d-lg-none @endempty">
+        <div class="flex-fill d-flex flex-column min-w-0">
+            <nav class="sticky-top ps-0 pe-4 py-0 px-lg-5 py-lg-4 bg-light-subtle shadow topbar @empty($breadcrumbs)d-lg-none @endempty">
                 <div class="d-flex align-items-center mx-auto dashboard-content">
                     <a href="#" class="text-black d-lg-none p-4 sidebar-toggler" data-bs-toggle="offcanvas" data-bs-target="#sidebar"><i class="fa-solid fa-bars"></i></a>
                     @isset($breadcrumbs)
@@ -67,7 +67,7 @@
                 </div>
             </nav>
 
-            <div class="p-3 pt-4 p-lg-5 flex-fill overflow-auto flex-grow-0" id="dashboard-content-container">
+            <div class="p-3 pt-4 p-lg-5 flex-fill flex-grow-0" id="dashboard-content-container">
                 <div class="dashboard-content mx-auto">
                     {{$slot}}
                 </div>
