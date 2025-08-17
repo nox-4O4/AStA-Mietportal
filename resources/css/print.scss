@@ -1,0 +1,17 @@
+@media print {
+  html {
+    zoom: 0.8;
+  }
+
+  #sidebar, button, a.btn, .footer {
+    display: none !important;
+  }
+
+  .sticky-top {
+    position: static !important;
+  }
+
+  td {
+    page-break-inside: avoid;
+  }
+}
