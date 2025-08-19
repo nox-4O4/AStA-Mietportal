@@ -17,4 +17,19 @@
 		public static function EscapeMarkdown(string $text): string {
 			return addcslashes($text, '\\`*_{}[]()#+-.!|');
 		}
+
+		public static function getSteppedDeposit(float $totalDeposit): float {
+			$depositSteps = config('shop.deposit_steps');
+			rsort($depositSteps);
+
+			// use maximum step that is smaller than calculated deposit
+			foreach($depositSteps as $step) {
+				if($step <= $totalDeposit) {
+					$totalDeposit = $step;
+					break;
+				}
+			}
+
+			return $totalDeposit;
+		}
 	}

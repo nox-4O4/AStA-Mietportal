@@ -91,9 +91,9 @@
                     <div class="form-text" wire:loading wire:target="start,end">
                         <i class="fas fa-spinner fa-pulse"></i>&nbsp;Bitte warten...
                     </div>
-                    @if($start && $end && $itemId)
-                        <div wire:loading.remove wire:target="start,end">
-                            <div class="form-text">
+                    <div wire:loading.remove wire:target="start,end">
+                        <div class="form-text">
+                            @if($start && $end && $itemId)
                                 @if($this->available !== null)
                                     @if($this->available === true)
                                         Der Artikel ist
@@ -116,9 +116,11 @@
                                 @else
                                         Artikelverfügbarkeit kann nicht ermittelt werden.
                                 @endif
-                            </div>
+                            @else
+                                        Bitte einen Artikel und Zeitraum wählen.
+                            @endif
                         </div>
-                    @endif
+                    </div>
                 </div>
             </div>
             <div class="row mb-3">
@@ -174,6 +176,23 @@
                     @enderror
                 </div>
             </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-check">
+                        <input class="form-check-input @error('updateDeposit')is-invalid @enderror" type="checkbox" value="1" id="updateDeposit" wire:model="updateDeposit">
+                        <label class="form-check-label" for="updateDeposit">Kaution aktualisieren</label>
+                        @error('updateDeposit')
+                        <div class="invalid-feedback mt-0">{{$message}}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
+            @if($this->singleItemAmount === null)
+                {{-- Add some dummy space to prevent dialog height change after choosing an item. Otherwise, buttons will jump around which is bad for UX as modal vertically centered. --}}
+                <div class="form-text">
+                    &nbsp;
+                </div>
+            @endif
             @if($this->disabledDates->isNotEmpty())
                 <div class="row">
                     <div class="col">

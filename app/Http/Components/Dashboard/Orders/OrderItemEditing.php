@@ -25,12 +25,13 @@
 		#[Locked]
 		public ?int $orderItemId = null;
 
-		public ?int    $itemId  = null;
-		public ?string $start   = null;
-		public ?string $end     = null;
+		public ?int    $itemId        = null;
+		public ?string $start         = null;
+		public ?string $end           = null;
 		public int     $quantity;
 		public float   $price;
-		public string  $comment = "";
+		public string  $comment       = "";
+		public bool    $updateDeposit = true;
 
 		protected PriceCalculation $priceCalculator;
 
@@ -42,6 +43,9 @@
 			if(!$orderItemId || !$orderItem = $this->order->orderItems()->where('id', $orderItemId)->first()) {
 				return false;
 			}
+
+			if($this->orderItemId != $orderItemId)
+				$this->updateDeposit = true; // reset checkbox to default state when a different order item is selected
 
 			$this->orderItemId = $orderItemId;
 			$this->itemId      = $orderItem->item_id;
@@ -69,32 +73,35 @@
 
 		public function rules(): array {
 			return [
-				'itemId'   => [
+				'itemId'        => [
 					'required',
 					'exists:items,id',
 				],
-				'start'    => [
+				'start'         => [
 					'required',
 					'date',
 				],
-				'end'      => [
+				'end'           => [
 					'required',
 					'date',
 					'after_or_equal:start',
 				],
-				'quantity' => [
+				'quantity'      => [
 					'required',
 					'integer',
 					Rule::when(!$this->orderItemId, 'gte:1'),
 				],
-				'price'    => [
+				'price'         => [
 					'required',
 					'numeric',
 				],
-				'comment'  => [
+				'comment'       => [
 					'nullable',
 					'string',
-				]
+				],
+				'updateDeposit' => [
+					'boolean',
+				],
 			];
 		}
 
@@ -103,6 +110,7 @@
 
 			if($this->orderItemId && !$this->quantity) { // remove an existing order item that got its quantity set to zero
 				OrderItem::find($this->orderItemId)?->delete();
+				$this->order->refresh();
 
 			} else {
 				if($this->orderItemId) {
@@ -131,10 +139,14 @@
 				// when creating a new item, reset form after saving so old content won't flash when re-opening form
 				if(isset($resetAfterSave))
 					$this->resetOrderItem();
-
-				$this->dispatch('order-meta-changed');
 			}
 
+			if($this->updateDeposit) {
+				$this->order->deposit = $this->order->calculatedDeposit;
+				$this->order->save();
+			}
+
+			$this->dispatch('order-meta-changed');
 			$this->js('closeModal()');
 		}
 
@@ -165,6 +177,12 @@
 		public function deleteItem(): void {
 			if($this->orderItemId) {
 				OrderItem::find($this->orderItemId)?->delete();
+				$this->order->refresh();
+
+				if($this->updateDeposit) {
+					$this->order->deposit = $this->order->calculatedDeposit;
+					$this->order->save();
+				}
 
 				// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
 				$this->dispatch('order-meta-changed');

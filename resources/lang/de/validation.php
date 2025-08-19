@@ -220,6 +220,7 @@
 			'passwordConfirmation'    => 'Passwortbestätigung',
 			'price'                   => 'Preis',
 			'quantity'                => 'Anzahl',
+			'updateDeposit'           => 'Kaution aktualisieren',
 			'rememberme'              => 'Eingeloggt bleiben',
 			'rentalType'              => 'Art der Mietung',
 			'revenue'                 => 'Ob Einnahmen erzielt werden',

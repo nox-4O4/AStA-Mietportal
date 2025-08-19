@@ -8,6 +8,7 @@
 	use App\Models\DTOs\CartItem;
 	use App\Models\DTOs\ItemAvailability;
 	use App\Models\Item;
+	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
 	use Illuminate\Support\Arr;
 
@@ -176,6 +177,14 @@
 			}
 
 			return $rate;
+		}
+
+		public function calculateDeposit(): float {
+			$deposit = 0;
+			foreach($this->getCartItems() as $cartItem)
+				$deposit += $cartItem->item->deposit * $cartItem->amount;
+
+			return Helper::getSteppedDeposit($deposit);
 		}
 
 		public function getHash(): string {

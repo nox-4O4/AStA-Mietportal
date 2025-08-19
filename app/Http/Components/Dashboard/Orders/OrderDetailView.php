@@ -13,7 +13,6 @@
 	use Livewire\Attributes\On;
 	use Livewire\Component;
 
-	#[On('order-meta-changed')]
 	#[Layout('layouts.dashboard')]
 	class OrderDetailView extends Component {
 		use TrimWhitespaces;
@@ -26,6 +25,7 @@
 		public ?string $newComment  = null;
 		public bool    $allComments = false;
 
+		#[On('order-meta-changed')] // When the event occurs the component gets re-rendered. By having loadInitialData() executed the form fields are also updated.
 		public function mount(): void {
 			$this->loadInitialData();
 		}
@@ -114,7 +114,17 @@
 			if(!$orderItem = $this->order->orderItems()->where('id', $orderItemId)->first())
 				return;
 
+			$autoAdjustDeposit = $this->order->deposit == $this->order->calculatedDeposit;
+
 			$orderItem->delete();
+			$this->order->refresh(); // resets cached orderItems collection as well as cached calculatedDeposit value
+
+			if($autoAdjustDeposit) {
+				$this->order->deposit = $this->order->calculatedDeposit;
+				$this->order->save();
+			}
+
+			$this->loadInitialData(); // updates common start/end prefilled values and deposit in case they changed due to item deletion
 
 			// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
 		}

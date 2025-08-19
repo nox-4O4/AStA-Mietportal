@@ -144,7 +144,7 @@
                         <i class="fa-regular fa-circle-question"></i>
                     </span>
                 </div>
-                @if(!$order->hasSinglePeriod)
+                @if(!$order->hasSinglePeriod && $order->orderItems->isNotEmpty())
                     <div class="form-text">Die Artikel verfügen über unterschiedliche Zeiträume. Durch Festlegen eines Zeitraums hier wird der Zeitraum aller Artikel überschrieben.</div>
                 @endif
             </div>
@@ -156,10 +156,21 @@
             <div class="input-group has-validation">
                 <input class="form-control @error('editOrderForm.deposit')is-invalid @enderror" id="deposit" type="number" min="0" wire:model="editOrderForm.deposit" required>
                 <span class="input-group-text">€</span>
+                @isset($order)
+                    <button type="button" class="btn btn-outline-secondary"
+                            @click="$wire.editOrderForm.deposit = {{$order->calculatedDeposit}}"
+                            title="Automatisch berechneten Betrag übernehmen"
+                            wire:loading.attr="disabled">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                @endisset
                 <div class="invalid-feedback">
                     @error('editOrderForm.deposit'){{$message}}@enderror
                 </div>
             </div>
+            @isset($order)
+                <div class="form-text">Automatisch berechneter Betrag: @money($order->calculatedDeposit)</div>
+            @endisset
         </div>
     </div>
     <div class="row">

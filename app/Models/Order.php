@@ -3,6 +3,7 @@
 	namespace App\Models;
 
 	use App\Enums\OrderStatus;
+	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
 	use Dompdf\Dompdf;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -52,7 +53,7 @@
 		}
 
 		public function items(): BelongsToMany {
-			return $this->belongsToMany(Item::class)->using(OrderItem::class);
+			return $this->belongsToMany(Item::class, 'order_item')->using(OrderItem::class);
 		}
 
 		public function comments(): HasMany {
@@ -163,6 +164,16 @@
 
 				return $originalPrice - $currentPrice  // absolute discount (disount on a per item basis)
 				       + $currentPrice * (1 - $this->rate); // relative discount
+			})->shouldCache();
+		}
+
+		public function calculatedDeposit(): Attribute {
+			return Attribute::get(function (): float {
+				$deposit = 0;
+				foreach($this->orderItems as $orderItem)
+					$deposit += $orderItem->item->deposit * $orderItem->quantity;
+
+				return Helper::getSteppedDeposit($deposit);
 			})->shouldCache();
 		}
 

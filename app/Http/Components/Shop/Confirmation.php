@@ -101,22 +101,7 @@
 
 		#[Computed]
 		public function deposit(): float {
-			$deposit = 0;
-			foreach($this->items as $cartItem)
-				$deposit += $cartItem->item->deposit * $cartItem->amount;
-
-			$depositSteps = config('shop.deposit_steps');
-			rsort($depositSteps);
-
-			// use maximum step that is smaller than calculated deposit
-			foreach($depositSteps as $step) {
-				if($step <= $deposit) {
-					$deposit = $step;
-					break;
-				}
-			}
-
-			return $deposit;
+			return $this->cartRepository->calculateDeposit();
 		}
 
 		public function checkout(): void {
