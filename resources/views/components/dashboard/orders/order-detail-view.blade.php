@@ -4,7 +4,22 @@
     <li class="breadcrumb-item">Bestellung #{{$order->id}}</li>
 </x-slot:breadcrumbs>
 
-<div x-data="{edit: false, addComment: false}">
+@script
+<script>
+    // When modal is opened and components are refreshed, modal gets reset but backdrop stays. So, we have to clear backdrop manually.
+    clearBackdrop = () => {
+        if (document.getElementsByClassName('modal-backdrop').length) {
+            // using dispose() instead of hide() so we don't have to wait for backdrop-transition to finish
+            bootstrap.Modal.getInstance(document.getElementById('editOrderItem')).dispose()
+
+            document.body.classList.remove('modal-open')
+            document.body.removeAttribute('style')
+        }
+    }
+</script>
+@endscript
+
+<div x-data="{edit: false, addComment: false}" wire:rendered="clearBackdrop()">
     <form wire:submit="updateOrder">
         <h1 class="mb-4 d-flex justify-content-between flex-wrap gap-3">
             <div>
@@ -143,5 +158,4 @@
             </div>
         </div>
     </div>
-
 </div>
