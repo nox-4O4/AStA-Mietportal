@@ -46,10 +46,18 @@
         <div class="row mb-3" x-show="edit" x-cloak>
             @include('components.dashboard.orders.order-detail-view.edit-form')
         </div>
-        <div class="row mb-3" x-show="edit" x-cloak>
+        <div class="row mb-3 row-gap-2" x-show="edit" x-cloak>
             <div class="col">
                 <button type="button" wire:click="cancel()" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
                 <button type="submit" class="btn btn-primary">Speichern</button>
+            </div>
+            <div class="col-sm-auto">
+                {{-- TODO disable deletion for non-admins when invoices exist --}}
+                <button type="button" class="btn btn-danger"
+                        wire:click="deleteOrder()"
+                        wire:confirm="Möchtest du diese Bestellung wirklich endgültig löschen? Sie kann danach nicht wiederhergestellt werden.\nAlternativ kannst du den Status der Bestellung auch auf „Storniert“ setzen.\n\nBestellung endgültig löschen?">
+                    <i class="fa-solid fa-trash-can"></i>&nbsp;Endgültig Löschen
+                </button>
             </div>
         </div>
     </form>

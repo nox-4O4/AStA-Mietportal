@@ -136,4 +136,13 @@
 			}
 			$this->dispatch('order-items-changed');
 		}
+
+		public function deleteOrder(): void {
+			// TODO prevent deletion for non-admins when invoices exist
+
+			$this->order->delete();
+			session()->flash('status.success', "Bestellung #{$this->order->id} erfolgreich gelöscht.");
+
+			$this->redirectRoute('dashboard.orders.list', navigate: true);
+		}
 	}
