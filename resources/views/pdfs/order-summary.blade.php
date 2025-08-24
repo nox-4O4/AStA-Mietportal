@@ -168,7 +168,8 @@
             page-break-inside: avoid;
         }
     </style>
-    <title></title>
+    <title>Bestellübersicht #{{$order->id}}</title>
+    <meta name="author" content="AStA HKA">
 </head>
 <body>
 <div id="header">

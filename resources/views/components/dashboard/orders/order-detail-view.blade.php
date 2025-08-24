@@ -54,6 +54,10 @@
         </div>
     </form>
 
+    <p>
+        <a href="{{route('dashboard.orders.confirmation', $order->id)}}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-pdf"></i> Bestellübersicht öffnen</a>
+    </p>
+
     <div class="row mb-1">
         <div class="col-auto">
             <h5>Kommentare</h5>

@@ -180,8 +180,9 @@
 		protected function renderPDFTemplate(string $template): string {
 			$dompdf = new Dompdf(
 				[
-					'isPdfAEnabled' => true,
-					'fontCache'     => storage_path('framework/cache/fonts/'),
+					'isPdfAEnabled'    => true,
+					'fontCache'        => storage_path('framework/cache/fonts/'),
+					'defaultPaperSize' => 'a4',
 				]
 			);
 
@@ -189,8 +190,8 @@
 			$font_metrics = $dompdf->getFontMetrics();
 			$font_metrics->setFontFamily('sans-serif', $font_metrics->getFamily('DejaVu Sans'));
 
-			$dompdf->setPaper('a4');
 			$dompdf->loadHtml(Blade::render($template, ['order' => $this]));
+			$dompdf->addInfo('Creator', 'AStA-Mietportal');
 			$dompdf->render();
 
 			return $dompdf->output();

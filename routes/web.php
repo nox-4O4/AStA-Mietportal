@@ -29,6 +29,7 @@
 	use App\Http\Components\Shop\Success;
 	use App\Http\Controllers\LogoutController;
 	use App\Http\Controllers\MiscController;
+	use App\Http\Controllers\OrderFilesController;
 	use Illuminate\Support\Facades\Route;
 
 	Route::group(['middleware' => 'guest'], function () {
@@ -50,6 +51,7 @@
 				Route::get('/', OrderList::class)->name('.list');
 				Route::get('/create', OrderCreate::class)->name('.create');
 				Route::get('/view/{order}', OrderDetailView::class)->name('.view');
+				Route::get('/confirmation/{order}', [OrderFilesController::class, 'getOrderConfirmation'])->name('.confirmation');
 			});
 
 			Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {
