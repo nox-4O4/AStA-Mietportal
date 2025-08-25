@@ -5,6 +5,7 @@
 	use App\Http\Forms\EditOrderForm;
 	use App\Models\Comment;
 	use App\Models\Order;
+	use App\Notifications\OrderSummary;
 	use App\Traits\TrimWhitespaces;
 	use Auth;
 	use Illuminate\Contracts\View\View;
@@ -144,5 +145,11 @@
 			session()->flash('status.success', "Bestellung #{$this->order->id} erfolgreich gelöscht.");
 
 			$this->redirectRoute('dashboard.orders.list', navigate: true);
+		}
+
+		public function sendOrderSummary(): void {
+			$this->order->customer->notify(new OrderSummary($this->order));
+
+			session()->flash('status.success', "Es wurde eine aktuelle Bestellübersicht an {$this->order->customer->email} verschickt.");
 		}
 	}

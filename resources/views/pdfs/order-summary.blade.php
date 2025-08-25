@@ -212,7 +212,7 @@
         </td>
         <td id="meta-information">
             <p>Bestellnummer: #{{$order->id}}</p>
-            <p>Datum: {{$order->created_at}}</p>
+            <p>Datum: {{$order->updated_at}}</p>
         </td>
     </tr>
 </table>

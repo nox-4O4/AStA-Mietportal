@@ -12,6 +12,7 @@
 			'checkout.tos'                  => 'Der Text, dem Benutzer beim Aufgeben der Bestellung zustimmen müssen. Leer lassen, um keine Bestätigung zu erfordern.',
 			'checkout.success'              => 'Wird angezeigt, nachdem eine Bestellung erfolgreich getätigt wurde.',
 			'mail.orderReceiptConfirmation' => 'Der E-Mail-Text in der Eingangsbestätigung für den Kunden. Die Anrede wird automatisch generiert.',
+			'mail.orderSummary'             => 'Der E-Mail-Text in der Bestellübersicht für den Kunden, welche manuell beim Bearbeiten der Bestellung versendet werden kann. Die Anrede wird automatisch generiert.',
 		];
 
 		public function run(): void {

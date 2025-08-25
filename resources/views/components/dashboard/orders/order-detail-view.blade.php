@@ -34,7 +34,7 @@
                 </button>
             </div>
             <div x-show="edit" x-cloak>
-                <button type="button" wire:click="cancel()" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
+                <button type="button" wire:click="cancel" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
                 <button type="submit" class="btn btn-primary">Speichern</button>
             </div>
         </h1>
@@ -50,13 +50,13 @@
         </div>
         <div class="row mb-3 row-gap-2" x-show="edit" x-cloak>
             <div class="col">
-                <button type="button" wire:click="cancel()" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
+                <button type="button" wire:click="cancel" @click="edit=false" class="btn btn-secondary">Abbrechen</button>
                 <button type="submit" class="btn btn-primary">Speichern</button>
             </div>
             <div class="col-sm-auto">
                 {{-- TODO disable deletion for non-admins when invoices exist --}}
                 <button type="button" class="btn btn-danger"
-                        wire:click="deleteOrder()"
+                        wire:click="deleteOrder"
                         wire:confirm="Möchtest du diese Bestellung wirklich endgültig löschen? Sie kann danach nicht wiederhergestellt werden.\nAlternativ kannst du den Status der Bestellung auch auf „Storniert“ setzen.\n\nBestellung endgültig löschen?">
                     <i class="fa-solid fa-trash-can"></i>&nbsp;Endgültig Löschen
                 </button>
@@ -64,9 +64,19 @@
         </div>
     </form>
 
-    <p>
-        <a href="{{route('dashboard.orders.confirmation', $order->id)}}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-pdf"></i> Bestellübersicht öffnen</a>
-    </p>
+    <div class="mb-3">
+        <div class="btn-group me-2">
+            <button class="btn btn-sm btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Bestellübersicht...</button>
+            <ul class="dropdown-menu">
+                <li><a href="{{route('dashboard.orders.confirmation', $order->id)}}" target="_blank" class="dropdown-item small"><i class="fa-solid fa-file-pdf fa-fw"></i> Bestellübersicht öffnen</a></li>
+                <li>
+                    <button class="dropdown-item small" wire:click="sendOrderSummary" wire:confirm="Möchtest du eine aktuelle Bestellübersicht an {{htmlspecialchars($order->customer->email)}} senden?">
+                        <i class="fa-regular fa-envelope fa-fw"></i> Per E-Mail an Kunden senden
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
 
     <div class="row mb-1">
         <div class="col-auto">
