@@ -19,11 +19,13 @@
         <div class="row">
             <div class="col-auto table-responsive">
                 <table class="table table-hover align-middle table-borderless">
-                    @foreach($this->disabledDates as $disabledDate)
+                    @foreach($this->disabledDates as /** @var \App\Models\DisabledDate $disabledDate */ $disabledDate)
                         <tr>
                             <td>
                                 <ul class="m-0 ps-4">
-                                    <li>
+                                    <li @if($disabledDate->end->lt(\Carbon\CarbonImmutable::now()))class="text-muted" title="Liegt in der Vergangenheit"
+                                        @elseif($disabledDate->overlapsWithRange(\Carbon\CarbonImmutable::now()))class="fw-semibold" title="Betrifft den heutigen Tag" @endif
+                                    >
                                         <span class="text-nowrap">{{$disabledDate->start}}</span> &ndash; <span>{{$disabledDate->end}}</span>
                                         @if($disabledDate->comment)
                                             <span class="">({{$disabledDate->comment}})</span>

@@ -58,7 +58,7 @@
                 @error('site_notice')
                 <div class="invalid-feedback">{{$message}}</div>
                 @enderror
-                <div class="form-text">Falls Anwendern beim Buchen während eines gesperrten Zeitraums ein Hinweis angezeigt werden soll, kann dieser hier hinterlegt werden.</div>
+                <div class="form-text">Falls während eines gesperrten Zeitraums ein Hinweis oben im Shop angezeigt werden soll, kann dieser hier hinterlegt werden.</div>
             </div>
         </div>
         <div class="row mb-3">

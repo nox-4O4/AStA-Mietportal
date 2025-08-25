@@ -136,7 +136,7 @@
 				else if($maxDate && $cartItem->end->gt($maxDate))
 					$errors["items.$id.range"][] = "Das Ende darf nicht nach dem {$maxDate->formatLocalDate()} liegen.";
 
-				else if(DisabledDate::overlapsWithRange($cartItem->start, $cartItem->end))
+				else if(DisabledDate::anyOverlapsWithRange($cartItem->start, $cartItem->end))
 					$errors["items.$id.range"][] = 'Der Mietservice steht in diesem Zeitraum nicht zur Verfügung.';
 
 				else if($cartItem->amount === null)

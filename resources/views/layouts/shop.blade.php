@@ -1,3 +1,5 @@
+@use(App\Models\DisabledDate)
+
 @extends('layouts.base')
 
 @section('content')
@@ -15,7 +17,13 @@
                 </div>
             </div>
         </div>
-        <div class="shop-content mx-auto w-100 p-3 pt-4 p-lg-4 @empty($breadcrumbs) pt-lg-5 @endempty flex-grow-1">
+        @php($disabledDate = DisabledDate::getOverlappingRanges(\Carbon\CarbonImmutable::now()) ->first(fn(DisabledDate $d) => trim($d->site_notice) != ''))
+        <div class="shop-content mx-auto w-100 p-3 pt-4 p-lg-4 @if(empty($breadcrumbs) && !$disabledDate) pt-lg-5 @endif flex-grow-1">
+            @if($disabledDate)
+                <div class="alert alert-danger">
+                    {{$disabledDate->site_notice}}
+                </div>
+            @endif
             @isset($breadcrumbs)
                 <ol class="breadcrumb justify-content-center flex-nowrap">
                     {{$breadcrumbs}}

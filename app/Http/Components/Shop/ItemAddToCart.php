@@ -27,7 +27,7 @@
 	 */
 	class ItemAddToCart extends Component {
 		use TrimWhitespaces;
-		
+
 		#[Validate]
 		public ?CarbonImmutable $start = null;
 
@@ -69,7 +69,7 @@
 					'after_or_equal:start',
 					Rule::unless($this->maxDate == null, "before_or_equal:$this->maxDate"),
 					fn(string $attribute, mixed $value, Closure $fail) => $this->start && $this->end &&
-					                                                      DisabledDate::overlapsWithRange($this->start, $this->end) &&
+					                                                      DisabledDate::anyOverlapsWithRange($this->start, $this->end) &&
 					                                                      $fail('Der Mietservice steht in diesem Zeitraum nicht zur Verfügung.')
 				],
 				'amount'  => [

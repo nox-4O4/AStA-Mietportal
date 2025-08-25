@@ -46,7 +46,11 @@
 			];
 		}
 
-		public static function overlapsWithRange(DateTimeInterface $start, DateTimeInterface $end): bool {
+		/**
+		 * Returns true if there is an intersection between any disabled date and the specified range or day. If end is omitted, only the day specified by start is checked.
+		 * Inactive ranges are ignored.
+		 */
+		public static function anyOverlapsWithRange(DateTimeInterface $start, ?DateTimeInterface $end = null): bool {
 			return (bool) DB::select(
 				<<<SQL
 				SELECT 1
@@ -58,17 +62,25 @@
 				SQL,
 				[
 					'start' => $start->format('Y-m-d'),
-					'end'   => $end->format('Y-m-d'),
+					'end'   => ($end ?? $start)->format('Y-m-d'),
 				]
 			);
 		}
 
 		/**
+		 * Returns true if there is an intersection between this disabled date and the specified range or day. If end is omitted, only the day specified by start is checked.
+		 * Inactive ranges are ignored.
+		 */
+		public function overlapsWithRange(DateTimeInterface $start, ?DateTimeInterface $end = null): bool {
+			return $this->active && $this->start->lte($end ?? $start) && $this->end->gte($start);
+		}
+
+		/**
 		 * @return Collection<static>
 		 */
-		public static function getOverlappingRanges(DateTimeInterface $start, DateTimeInterface $end): Collection {
+		public static function getOverlappingRanges(DateTimeInterface $start, ?DateTimeInterface $end = null): Collection {
 			return static::where('active', true)
-			             ->where('start', '<=', $end)
+			             ->where('start', '<=', $end ?? $start)
 			             ->where('end', '>=', $start)
 			             ->orderBy('start')
 			             ->orderBy('end')
