@@ -1,5 +1,6 @@
 @use(App\Models\DisabledDate)
 @use(App\Models\OrderItem)
+@use(App\Enums\OrderStatus)
 @use(Carbon\CarbonImmutable)
 
 @script
@@ -56,6 +57,16 @@
         </div>
 
         <div x-show="itemFound">
+            @if($order->status == OrderStatus::CANCELLED || $order->status == OrderStatus::COMPLETED)
+                <div class="row">
+                    <div class="col">
+                        <div class="alert alert-warning">
+                            Du bearbeitest gerade eine Bestellung, die bereits abgeschlossen oder storniert wurde. Bitte stelle sicher, dass dies deiner Absicht entspricht.
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="row mb-3">
                 <label for="itemId" class="col-sm-4 col-form-label">Artikel</label>
                 <div class="col">

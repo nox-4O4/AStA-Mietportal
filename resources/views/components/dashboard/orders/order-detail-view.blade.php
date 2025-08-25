@@ -1,3 +1,5 @@
+@use(App\Enums\OrderStatus)
+
 <x-slot:breadcrumbs>
     <li class="breadcrumb-item"><i class="fa-solid fa-cart-shopping"></i>&nbsp;Bestellungen</li>
     <li class="breadcrumb-item"><a href="{{route('dashboard.orders.list')}}" wire:navigate>Übersicht</a></li>
@@ -134,7 +136,8 @@
                             data-bs-toggle="modal" data-bs-target="#editOrderItem" data-bs-order-item="">
                         <i class="fa-solid fa-plus"></i>&nbsp;Artikel hinzufügen
                     </button>
-                    <button type="button" class="btn btn-outline-primary btn-sm" wire:click="recalculateItemPrices" wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?">
+                    <button type="button" class="btn btn-outline-primary btn-sm" wire:click="recalculateItemPrices"
+                            wire:confirm="Dadurch werden alle Preise für die Artikel neu berechnet und ein ggf. gewährter Artikelrabatt zurückgesetzt. Fortfahren?@if($order->status == OrderStatus::CANCELLED || $order->status == OrderStatus::COMPLETED)\n\nWarnung: diese Bestellung ist bereits abgeschlossen oder storniert. @endif">
                         <i class="fa-solid fa-calculator"></i>&nbsp;Alle Preise erneut berechnen
                     </button>
                 </div>
