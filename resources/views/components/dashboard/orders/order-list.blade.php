@@ -75,8 +75,6 @@
     </div>
 
     <livewire:data-table :elements="$this->orders" item-component="dashboard.orders.order-list-entry" id="dt-order-list" />
-    {{-- following script cannot be inside @script tags as it depends on jQuery which gets only loaded by data-table component. @script runs before --}}
-    <script>$('#dt-order-list').on('init.dt', () => document.getElementById('filter-pending').dispatchEvent(new Event('change', {bubbles: true})))</script>
 </div>
 
 @script
