@@ -10,6 +10,7 @@
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+	use Illuminate\Support\Facades\Gate;
 
 	/**
 	 * @property int              $id
@@ -47,7 +48,7 @@
 		}
 
 		public function getSearchFilterValues(bool $includeDescription): array {
-			$items      = $this->items()->where('visible', true)->get()->all();
+			$items      = $this->items->filter(fn($x) => Gate::allows('view', $x))->all();
 			$itemValues = array_merge(...array_map(fn(Item $item) => $item->getSearchFilterValues($includeDescription), $items));
 
 			return [
