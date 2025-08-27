@@ -16,8 +16,19 @@
 
     @vite(['resources/css/app.scss', 'resources/js/app.js'])
     @yield('head')
+
+    {{-- We cannot put darkmode switch into app.js as script has to run as soon as possible after body is loaded to prevent flashing of light mode elements.
+         See comments in https://github.com/livewire/livewire/pull/9149 and https://github.com/livewire/livewire/pull/9319 --}}
+    <script>
+        window.UpdateTheme = () => {
+            const colorMode = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+            document.querySelector("html").setAttribute("data-bs-theme", colorMode);
+        }
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', window.UpdateTheme)
+    </script>
 </head>
 <body>
+<script>window.UpdateTheme()</script>
 @yield('content')
 @if(config('app.debug'))
     <div class="position-fixed text-right p-3" style="top:70px;right:0;z-index: 999999">
