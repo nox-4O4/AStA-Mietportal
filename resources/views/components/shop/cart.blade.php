@@ -101,33 +101,35 @@
                 </tr>
             @endforeach
         </table>
+
+        <div class="row">
+            <div class="col-sm-auto mb-3 ms-auto">
+                <button class="btn btn-danger w-100" wire:click="resetCart" wire:confirm="Sollen alle Artikel aus dem Warenkorb entfernt werden?"><i class="fa-solid fa-trash-can"></i>&nbsp;Warenkorb zurücksetzen</button>
+            </div>
+        </div>
+
         <div class="ps-0 mb-3">
             <legend class="mb-0 float-none">Summe: @money($this->totalAmount)</legend>
             @if($this->totalAmount > 0 && $this->possibleDiscountRate != 1)
                 <p class="small text-muted mb-0">Ein etwaiger Studi-Rabatt kann im nächsten Schritt berechnet werden.</p>
             @endif
         </div>
-        <div class="row justify-content-between">
-            <div class="col mb-3">
-                <div class="row">
-                    <div class="col-sm-auto">
-                        @if($errors->hasAny('items.*'))
-                            <button class="btn btn-outline-primary w-100" disabled><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</button>
-                        @else
-                            <a href="{{route('shop.checkout')}}" class="btn btn-primary w-100" wire:navigate><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</a>
-                        @endif
-                    </div>
-                </div>
+
+        <div class="row">
+            <div class="col-sm-auto">
                 @if($errors->hasAny('items.*'))
-                    <p class="text-danger small m-0">
-                        Der Warenkorb enthält ungültige Elemente. Korrigiere oder entferne diese, um mit dem Check-out fortzufahren.
-                    </p>
+                    <button class="btn btn-outline-primary w-100" disabled><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</button>
+                @else
+                    <a href="{{route('shop.checkout')}}" class="btn btn-primary w-100" wire:navigate><i class="fa-solid fa-arrow-right"></i>&nbsp;Zum Check-out</a>
                 @endif
             </div>
-            <div class="col-sm-auto mb-3">
-                <button class="btn btn-danger w-100" wire:click="resetCart" wire:confirm="Sollen alle Artikel aus dem Warenkorb entfernt werden?"><i class="fa-solid fa-trash-can"></i>&nbsp;Warenkorb zurücksetzen</button>
-            </div>
         </div>
+
+        @if($errors->hasAny('items.*'))
+            <p class="text-danger small m-0">
+                Der Warenkorb enthält ungültige Elemente. Korrigiere oder entferne diese, um mit dem Check-out fortzufahren.
+            </p>
+        @endif
     @else
         <div x-show="Object.keys(items).length" x-cloak>
             <i class="fas fa-spinner fa-pulse fa-lg"></i>&nbsp;Wird geladen...
