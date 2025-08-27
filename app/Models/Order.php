@@ -5,7 +5,9 @@
 	use App\Enums\OrderStatus;
 	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
+	use Dompdf\Canvas;
 	use Dompdf\Dompdf;
+	use Dompdf\FontMetrics;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,7 +29,8 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 *
-	 * @property-read string      $orderSummaryPDF See {@see Order::orderSummaryPDF()} for getter.
+	 * @property-read string      $orderSummaryPDF  See {@see Order::orderSummaryPDF()} for getter.
+	 * @property-read string      $orderContractPDF See {@see Order::orderContractPDF()} for getter.
 	 */
 	class Order extends Model {
 
@@ -177,7 +180,7 @@
 			})->shouldCache();
 		}
 
-		protected function renderPDFTemplate(string $template): string {
+		protected function renderPDFTemplate(string $template, ?callable $afterRenderCallback = null): string {
 			$dompdf = new Dompdf(
 				[
 					'isPdfAEnabled'    => true,
@@ -194,12 +197,37 @@
 			$dompdf->addInfo('Creator', 'AStA-Mietportal');
 			$dompdf->render();
 
+			if($afterRenderCallback)
+				$afterRenderCallback($dompdf);
+
 			return $dompdf->output();
 		}
 
 		public function orderSummaryPDF(): Attribute {
 			return Attribute::get(fn(): string => $this->renderPDFTemplate('pdfs.order-summary'))
 			                ->shouldCache();
+		}
+
+		public function orderContractPDF(): Attribute {
+			return Attribute::get(
+				fn(): string => $this->renderPDFTemplate(
+					'pdfs.order-contract',
+
+					// add page counter at bottom center of page
+					fn(Dompdf $dompdf) => $dompdf->getCanvas()->page_script(
+						function (int $pageNumber, int $pageCount, Canvas $canvas, FontMetrics $fontMetrics) {
+							$text       = "Seite $pageNumber von $pageCount";
+							$font       = $fontMetrics->getFont('sans-serif');
+							$pageWidth  = $canvas->get_width();
+							$pageHeight = $canvas->get_height();
+							$size       = 8;
+							$width      = $fontMetrics->getTextWidth($text, $font, $size);
+
+							$canvas->text(($pageWidth - $width) / 2, $pageHeight - 32, $text, $font, $size);
+						}
+					)
+				)
+			)->shouldCache();
 		}
 
 		/**

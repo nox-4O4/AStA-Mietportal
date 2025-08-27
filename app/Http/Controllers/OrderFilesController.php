@@ -15,4 +15,13 @@
 				HeaderUtils::DISPOSITION_INLINE,
 			);
 		}
+
+		public function getOrderContract(Order $order): Response {
+			return response()->streamDownload(
+				fn() => print $order->orderContractPDF,
+				"Mietvertrag #$order->id.pdf",
+				['Content-Type' => 'application/pdf'],
+				HeaderUtils::DISPOSITION_INLINE,
+			);
+		}
 	}

@@ -52,6 +52,7 @@
 				Route::get('/create', OrderCreate::class)->name('.create');
 				Route::get('/view/{order}', OrderDetailView::class)->name('.view');
 				Route::get('/confirmation/{order}', [OrderFilesController::class, 'getOrderConfirmation'])->name('.confirmation');
+				Route::get('/contract/{order}', [OrderFilesController::class, 'getOrderContract'])->name('.contract');
 			});
 
 			Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {

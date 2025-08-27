@@ -68,6 +68,9 @@
 				PHP
 			);
 
+			Blade::directive('trim', fn() => '<?php ob_start(); ?>');
+			Blade::directive('endtrim', fn() => '<?php echo trim(ob_get_clean()); ?>');
+
 			Blade::stringable(fn(CarbonImmutable $dateTime) => $dateTime->formatLocalDate());
 			Blade::stringable(fn(Markdown $markdown) => $markdown->render());
 

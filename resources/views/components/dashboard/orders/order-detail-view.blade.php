@@ -76,6 +76,10 @@
                 </li>
             </ul>
         </div>
+
+        @if($order->orderItems->isNotEmpty())
+            <a href="{{route('dashboard.orders.contract', $order->id)}}" target="_blank" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-file-pdf"></i> Mietvertragsformular öffnen</a>
+        @endif
     </div>
 
     <div class="row mb-1">
