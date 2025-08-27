@@ -66,7 +66,7 @@
 			if($value instanceof Markdown)
 				return $value->markdownContent;
 
-			if($value instanceof Stringable || is_string($value))
+			if($value instanceof Stringable || is_string($value) || $value === null)
 				return $value;
 
 			throw new InvalidArgumentException('The given value is not stringable.');
