@@ -47,7 +47,7 @@
                 <span class="detail-only pe-1">Zum Artikel</span><i class="fa-solid fa-arrow-up-right-from-square fa-fw"></i>
             </a>
             <button type="button" class="btn btn-outline-danger btn-sm w-100" title="Artikel aus der Bestellung entfernen"
-                    wire:confirm="Möchtest du den Artikel „{{$element->item->name}}“ aus dieser Bestellung entfernen?@if($order->status == OrderStatus::CANCELLED || $order->status == OrderStatus::COMPLETED)\n\nWarnung: diese Bestellung ist bereits abgeschlossen oder storniert. @endif"
+                    wire:confirm="Möchtest du den Artikel „{{htmlspecialchars($element->item->name)}}“ aus dieser Bestellung entfernen?@if($order->status == OrderStatus::CANCELLED || $order->status == OrderStatus::COMPLETED)\n\nWarnung: diese Bestellung ist bereits abgeschlossen oder storniert. @endif"
                     wire:click="$parent.removeItem({{$element->id}})">
                 <span class="detail-only pe-1">Entfernen</span><i class="fa-solid fa-trash-can fa-fw"></i>
             </button>

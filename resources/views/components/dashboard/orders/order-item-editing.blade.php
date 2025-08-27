@@ -232,7 +232,7 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-danger me-auto" :disabled="!itemFound" x-show="!newItem"
                 wire:loading.attr="disabled" wire:target="loadOrderItem,updateOrderItem"
-                wire:click="deleteItem" wire:confirm="Möchtest du den Artikel „{{OrderItem::find($orderItemId)?->item->name}}“ aus dieser Bestellung entfernen?">
+                wire:click="deleteItem" wire:confirm="Möchtest du den Artikel „{{htmlspecialchars(OrderItem::find($orderItemId)?->item->name)}}“ aus dieser Bestellung entfernen?">
             <i class="fa-solid fa-trash-can"></i>&nbsp;Löschen
         </button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
