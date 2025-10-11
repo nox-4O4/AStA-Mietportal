@@ -144,16 +144,16 @@
 
 					session()->put('editOrderItem.lastStartDate', $this->start);
 					session()->put('editOrderItem.lastEndDate', $this->end);
-
-					// when creating a new item, reset form after saving so old content won't flash when re-opening form
-					if(isset($resetAfterSave))
-						$this->resetOrderItem();
 				}
 
 				if($this->updateDeposit) {
 					$this->order->deposit = $this->order->calculatedDeposit;
 					$this->order->save();
 				}
+
+				// when creating a new item, reset form after saving so old content won't flash when re-opening form
+				if(isset($resetAfterSave))
+					$this->resetOrderItem();
 
 				$this->order->dispatchQueuedEvents();
 				$this->dispatch('order-meta-changed');
