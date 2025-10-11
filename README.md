@@ -5,11 +5,11 @@ Dies ist das Mietportal für den AStA HKA. Es ist eine auf [Laravel](https://lar
 ## Requirements
 
 - **PHP 8.4** mit den standardmäßig aktiven Extensions sowie den folgenden, nicht-standardmäßig aktiven Extensions:
-  - `ext-intl`
-  - `ext-pdo` und dem entsprechenden Datenbanktreiber (bspw. `pdo_mysql` für MySQL)
-  - `ext-mbstring`
-  - `ext-openssl`
-  - `ext-fileinfo` (nur auf Windows nicht standardmäßig aktiv)
+    - `ext-intl`
+    - `ext-pdo` und dem entsprechenden Datenbanktreiber (bspw. `pdo_mysql` für MySQL)
+    - `ext-mbstring`
+    - `ext-openssl`
+    - `ext-fileinfo` (nur auf Windows nicht standardmäßig aktiv)
 
   Im Zweifelsfall wird bei fehlenden Extensions der Composer-Befehl beim initialen Setup mit einer aussagekräftigen Fehlermeldung fehlschlagen.
 
@@ -43,8 +43,6 @@ Dies ist das Mietportal für den AStA HKA. Es ist eine auf [Laravel](https://lar
 
 Vor einem Update am besten immer ein Backup (Datenbank und Dateisystem) machen.
 
-Zukünftig werden die Befehle zusammengefasst werden. Bis dahin hier die einzelnen Schritte:
-
 * Code-Änderungen laden, sodass Diffs betrachtet werden können, ohne, dass dabei bereits Dateien geändert worden sind:  
   `git remote update`
 * Diff der `.env.example`-Datei betrachten und `.env`-Datei entsprechend anpassen:  
@@ -61,6 +59,11 @@ Zukünftig werden die Befehle zusammengefasst werden. Bis dahin hier die einzeln
 * Wartungsmodus deaktivieren: `artisan up`
 * Testen, dass alles funktioniert.
 
+Bei kleineren Aktualisierungen, bei denen der Update-Vorgang nicht von Composer-Paketaktualisierungen abhängt, kann nach dem Checkout des neuen Codes stattdessen auch folgender Befehl eingesetzt werden, welcher viele der obigen Schritte automatisch ausführt:
+
+```bash
+php artisan update
+```
 
 ### Wartungsmodus
 
@@ -81,7 +84,6 @@ Ohne Docker geht es folgendermaßen:
 * Zum Debuggen sollte [Xdebug](https://xdebug.org/) lokal installiert und konfiguriert sein.
 
 Empfohlene IDE: [PhpStorm](https://www.jetbrains.com/de-de/phpstorm/) zusammen mit dem [Laravel-Idea-Plugin](https://laravel-idea.com/) (beides für Studenten kostenlos).
-
 
 ### Assets generieren
 
