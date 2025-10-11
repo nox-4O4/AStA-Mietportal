@@ -38,7 +38,7 @@
 			],
 		],
 
-		'image_sizing' => 'cover', // 'cover': fill space completly, cropping image borders if required. 'contain': scale image to fit, leaving bars if required.
+		'image_sizing' => 'contain', // 'cover': fill space completly, cropping image borders if required. 'contain': scale image to fit, leaving bars if required.
 
 		'dashboard' => [
 			'defaultRoute' => env('DASHBOARD_DEFAULT_ROUTE', 'dashboard.orders.list'),
