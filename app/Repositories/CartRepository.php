@@ -10,7 +10,6 @@
 	use App\Models\Item;
 	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
-	use Illuminate\Support\Arr;
 
 	class CartRepository {
 		private static bool $fresh = false;
@@ -88,17 +87,28 @@
 			// when date is equal, returning of items must come first
 			usort($amountChanges, fn(ItemAvailability $a, ItemAvailability $b) => [$a->date->timestamp, $a->available] <=> [$b->date->timestamp, $b->available]);
 
-			$availabilities = Arr::mapWithKeys(
-				$newItem->item->getAvailabilitiesInRange(false, from: $newItem->start, to: $newItem->end),
-				fn(ItemAvailability $itemAvailability) => [$itemAvailability->date->format('c'), $itemAvailability->available]
-			);
+			$availabilities = $newItem->item->getAvailabilitiesInRange(from: $newItem->start, to: $newItem->end);
 
-			$booked = 0;
+			$booked    = 0;
+			$available = $newItem->item->amount;
+
 			foreach($amountChanges as $amountChange) {
-				$booked += $amountChange->available;
-				if($booked > ($availabilities[$amountChange->date->format('c')] ?? $newItem->item->amount)) {
-					throw AmountExceededException::forDate($amountChange->date);
+				// check stock when availability changes
+				for($currentAvailability = current($availabilities);
+				    $currentAvailability && $currentAvailability->date->lte($amountChange->date);
+				    $currentAvailability = next($availabilities)
+				) {
+					$available = $currentAvailability->available;
+
+					if($booked > $available)
+						throw AmountExceededException::forDate($currentAvailability->date);
 				}
+
+				$booked += $amountChange->available;
+
+				// check stock when booked amount changes
+				if($booked > $available)
+					throw AmountExceededException::forDate($amountChange->date);
 			}
 		}
 
