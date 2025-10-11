@@ -4,6 +4,8 @@
 
 	use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 	use Illuminate\Database\Eloquent\Model;
+	use Illuminate\Routing\Exceptions\UrlGenerationException;
+	use Illuminate\Support\Facades\Route;
 	use Illuminate\Support\Str;
 	use InvalidArgumentException;
 	use League\CommonMark\Extension\CommonMark\Node\Block\BlockQuote;
@@ -11,7 +13,9 @@
 	use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
 	use League\CommonMark\Extension\Table\Table;
 	use League\CommonMark\Node\Block\Paragraph;
+	use League\CommonMark\Node\Inline\Text;
 	use Stringable;
+	use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 	class Markdown implements CastsAttributes, Stringable {
 		public function __construct(public ?string $markdownContent = null) { }
@@ -41,11 +45,38 @@
 						Paragraph::class  => ['class' => 'md-paragraph'],
 						Link::class       => [
 							'target' => static function (Link $link) {
-								$linkHost = parse_url($link->getUrl(), PHP_URL_HOST);
-								$appHost  = parse_url(config('app.url'), PHP_URL_HOST);
+								$linkParts = parse_url($link->getUrl());
+								$appHost   = parse_url(config('app.url'), PHP_URL_HOST);
 
-								if($linkHost != $appHost)
+								// Adds support for route links. Syntax: route:name_of_route?route_parameter=value#external
+								// Route parameters and #external fragment are optional.
+								if(isset($linkParts['scheme'], $linkParts['path']) && $linkParts['scheme'] == 'route') {
+									if(!Route::has($linkParts['path'])) {
+										report(new RouteNotFoundException("Die via Markdown referenzierte Route '{$linkParts['path']}' existiert nicht."));
+										$link->firstChild()->replaceWith(new Text('(Link konnte nicht geladen werden: Route existiert nicht)'));
+
+										return null;
+									}
+
+									isset($linkParts['query'])
+										? parse_str($linkParts['query'], $routeParameters)
+										: $routeParameters = [];
+
+									try {
+										$link->setUrl(route($linkParts['path'], $routeParameters));
+									} catch(UrlGenerationException $ex) {
+										report($ex);
+										$link->firstChild()->replaceWith(new Text('(Link konnte nicht geladen werden: Parameter fehlt)'));
+
+										return null;
+									}
+
+									if($linkParts['fragment'] ?? '' == 'external')
+										return '_blank';
+
+								} else if(isset($linkParts['host']) && $linkParts['host'] != $appHost) {
 									return '_blank';
+								}
 
 								return null;
 							}
