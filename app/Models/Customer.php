@@ -2,6 +2,7 @@
 
 	namespace App\Models;
 
+	use App\Events\InvoiceDataChanged;
 	use Carbon\CarbonImmutable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
@@ -22,6 +23,8 @@
 	 * @property ?string          $mobile
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
+	 *
+	 * @property-read string      $invoiceHash      See {@see Customer::invoiceHash()} for getter.
 	 */
 	class Customer extends Model {
 		use Notifiable;
@@ -43,6 +46,29 @@
 			'mobile',
 		];
 
+		static array $invoiceRelevantData = [
+			'forename',
+			'surname',
+			'legalname',
+			'street',
+			'number',
+			'zipcode',
+			'city',
+		];
+
+		protected static function booted(): void {
+			static::saving(function (Customer $customer): void {
+				foreach(static::$invoiceRelevantData as $field) {
+					if($customer->$field != $customer->getOriginal($field)) {
+						foreach($customer->orders as $order)
+							$order->queueEvent(InvoiceDataChanged::class);
+
+						break;
+					}
+				}
+			});
+		}
+
 		/**
 		 * Change the email recipient so that it contains the name as well.
 		 *
@@ -56,7 +82,16 @@
 			return $this->hasMany(Order::class)->orderBy('id')->chaperone();
 		}
 
+		public function invoices(): HasMany {
+			return $this->hasMany(Invoice::class)->orderBy('id')->chaperone();
+		}
+
 		public function name(): Attribute {
 			return Attribute::get(fn() => $this->forename . ' ' . $this->surname);
 		}
+
+		public function invoiceHash(): Attribute {
+			return Attribute::get(fn() => sha1(implode("\0", $this->only(static::$invoiceRelevantData))));
+		}
+
 	}

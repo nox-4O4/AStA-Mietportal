@@ -11,11 +11,14 @@
 	use Carbon\CarbonImmutable;
 	use Illuminate\Contracts\View\View;
 	use Illuminate\Support\Collection;
+	use Illuminate\Support\Facades\DB;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Locked;
+	use Livewire\Attributes\On;
 	use Livewire\Component;
 
+	#[On('order-reopened')]
 	class OrderItemEditing extends Component {
 		use TrimWhitespaces;
 
@@ -106,48 +109,56 @@
 		}
 
 		public function saveOrderItem(): void {
-			$this->validate();
+			DB::transaction(function () {
+				$this->order = Order::whereKey($this->order)->lockForUpdate()->first();
 
-			if($this->orderItemId && !$this->quantity) { // remove an existing order item that got its quantity set to zero
-				OrderItem::find($this->orderItemId)?->delete();
-				$this->order->refresh();
+				if($this->order->status->orderClosed())
+					return;
 
-			} else {
-				if($this->orderItemId) {
-					$orderItem = OrderItem::find($this->orderItemId);
+				$this->validate();
 
-					// hash for the datatable component won't change when only editing an item, so manually dispatch refresh event
-					$this->dispatch('order-items-changed');
+				if($this->orderItemId && !$this->quantity) { // remove an existing order item that got its quantity set to zero
+					OrderItem::find($this->orderItemId)?->delete();
+					$this->order->refresh();
 
-				} else { // Create a new order item. This also changes collection hash, leading to datatable refresh.
-					$orderItem = new OrderItem();
-					$orderItem->order()->associate($this->order);
-					$resetAfterSave = true;
+				} else {
+					if($this->orderItemId) {
+						$orderItem = OrderItem::find($this->orderItemId);
+
+						// hash for the datatable component won't change when only editing an item, so manually dispatch refresh event
+						$this->dispatch('order-items-changed');
+
+					} else { // Create a new order item. This also changes collection hash, leading to datatable refresh.
+						$orderItem = new OrderItem();
+						$orderItem->order()->associate($this->order);
+						$resetAfterSave = true;
+					}
+
+					$orderItem->item_id  = $this->itemId;
+					$orderItem->start    = $this->start;
+					$orderItem->end      = $this->end;
+					$orderItem->quantity = $this->quantity;
+					$orderItem->price    = $this->price;
+					$orderItem->comment  = $this->comment;
+					$orderItem->save();
+
+					session()->put('editOrderItem.lastStartDate', $this->start);
+					session()->put('editOrderItem.lastEndDate', $this->end);
+
+					// when creating a new item, reset form after saving so old content won't flash when re-opening form
+					if(isset($resetAfterSave))
+						$this->resetOrderItem();
 				}
 
-				$orderItem->item_id  = $this->itemId;
-				$orderItem->start    = $this->start;
-				$orderItem->end      = $this->end;
-				$orderItem->quantity = $this->quantity;
-				$orderItem->price    = $this->price;
-				$orderItem->comment  = $this->comment;
-				$orderItem->save();
+				if($this->updateDeposit) {
+					$this->order->deposit = $this->order->calculatedDeposit;
+					$this->order->save();
+				}
 
-				session()->put('editOrderItem.lastStartDate', $this->start);
-				session()->put('editOrderItem.lastEndDate', $this->end);
-
-				// when creating a new item, reset form after saving so old content won't flash when re-opening form
-				if(isset($resetAfterSave))
-					$this->resetOrderItem();
-			}
-
-			if($this->updateDeposit) {
-				$this->order->deposit = $this->order->calculatedDeposit;
-				$this->order->save();
-			}
-
-			$this->dispatch('order-meta-changed');
-			$this->js('closeModal()');
+				$this->order->dispatchQueuedEvents();
+				$this->dispatch('order-meta-changed');
+				$this->js('closeModal()');
+			});
 		}
 
 		#[Computed]
@@ -175,20 +186,29 @@
 		}
 
 		public function deleteItem(): void {
-			if($this->orderItemId) {
-				OrderItem::find($this->orderItemId)?->delete();
-				$this->order->refresh();
+			DB::transaction(function () {
+				$this->order = Order::whereKey($this->order)->lockForUpdate()->first();
 
-				if($this->updateDeposit) {
-					$this->order->deposit = $this->order->calculatedDeposit;
-					$this->order->save();
+				if($this->order->status->orderClosed())
+					return;
+
+				if($this->orderItemId) {
+					OrderItem::find($this->orderItemId)?->delete();
+					$this->order->refresh();
+
+					if($this->updateDeposit) {
+						$this->order->deposit = $this->order->calculatedDeposit;
+						$this->order->save();
+					}
+
+					$this->order->dispatchQueuedEvents();
+
+					// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
+					$this->dispatch('order-meta-changed');
 				}
 
-				// no need for order-items-changed event as wire:key of the datatable component will change due to different hash
-				$this->dispatch('order-meta-changed');
-			}
-
-			$this->js('closeModal()');
+				$this->js('closeModal()');
+			});
 		}
 
 		public function render(): View {

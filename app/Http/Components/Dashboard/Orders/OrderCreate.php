@@ -21,6 +21,10 @@
 
 		public EditOrderForm $editOrderForm;
 
+		public function mount() {
+			$this->editOrderForm->includeClosedOrderStatus = false;
+		}
+
 		public function render(): View {
 			return view('components.dashboard.orders.order-create');
 		}

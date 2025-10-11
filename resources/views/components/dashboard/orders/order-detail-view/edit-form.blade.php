@@ -7,14 +7,6 @@
 </script>
 @endscript
 
-@if($editOrderForm->status == OrderStatus::CANCELLED->value || $editOrderForm->status == OrderStatus::COMPLETED->value)
-    <div class="col-12">
-        <div class="alert alert-warning">
-            Du bearbeitest gerade eine Bestellung, die bereits abgeschlossen oder storniert wurde. Bitte stelle sicher, dass dies deiner Absicht entspricht.
-        </div>
-    </div>
-@endif
-
 <div class="col-md-6 col-lg-12 col-xl-6">
     <h5>Besteller</h5>
     <div class="row mb-3">
@@ -104,12 +96,20 @@
         <div class="col">
             <select class="form-select @error('editOrderForm.status')is-invalid @enderror" id="status" wire:model="editOrderForm.status" required>
                 @foreach(OrderStatus::cases() as $case)
-                    <option value="{{$case->value}}">{{$case->getShortName()}}</option>
+                    @if($editOrderForm->includeClosedOrderStatus || !$case->orderClosed())
+                        <option value="{{$case->value}}">{{$case->getShortName()}}</option>
+                    @endif
                 @endforeach
             </select>
             @error('editOrderForm.status')
             <div class="invalid-feedback">{{$message}}</div>
             @enderror
+            @if($editOrderForm->includeClosedOrderStatus)
+                <div class="form-check mt-1" x-show="$wire.editOrderForm.status == '{{OrderStatus::COMPLETED->value}}' || $wire.editOrderForm.status == '{{OrderStatus::CANCELLED->value}}'">
+                    <input class="form-check-input" type="checkbox" id="automaticInvoiceUpdates" wire:model="editOrderForm.automaticInvoiceUpdates">
+                    <label class="form-check-label" for="automaticInvoiceUpdates">Rechnungen bei Bedarf automatisch generieren und versenden</label>
+                </div>
+            @endif
         </div>
     </div>
     <div class="row mb-3">

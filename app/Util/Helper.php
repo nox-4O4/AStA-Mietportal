@@ -2,7 +2,9 @@
 
 	namespace App\Util;
 
+	use Dompdf\Dompdf;
 	use Illuminate\Database\Eloquent\Collection;
+	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Str;
 
 	class Helper {
@@ -31,5 +33,25 @@
 			}
 
 			return $totalDeposit;
+		}
+
+		public static function renderPDFTemplate(string $template, array $templateData = []): Dompdf {
+			$dompdf = new Dompdf(
+				[
+					'isPdfAEnabled'    => true,
+					'fontCache'        => storage_path('framework/cache/fonts/'),
+					'defaultPaperSize' => 'a4',
+				]
+			);
+
+			// remap sans-serif font to an embeddable font for PDF/A compatibility
+			$font_metrics = $dompdf->getFontMetrics();
+			$font_metrics->setFontFamily('sans-serif', $font_metrics->getFamily('DejaVu Sans'));
+
+			$dompdf->loadHtml(Blade::render($template, $templateData));
+			$dompdf->addInfo('Creator', 'AStA-Mietportal');
+			$dompdf->render();
+
+			return $dompdf;
 		}
 	}

@@ -19,4 +19,8 @@
 				self::CANCELLED->value  => 'Storniert',
 			};
 		}
+
+		public function orderClosed(): bool {
+			return $this == self::CANCELLED || $this == self::COMPLETED;
+		}
 	}

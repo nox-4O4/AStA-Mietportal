@@ -5,6 +5,7 @@
 	use App\Enums\OrderStatus;
 	use App\Models\Order;
 	use Illuminate\Validation\Rule;
+	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Validate;
 	use Livewire\Form;
 
@@ -40,6 +41,9 @@
 		#[Validate]
 		public string $status = OrderStatus::PENDING->value;
 
+		#[Validate('sometimes|boolean')]
+		public bool $automaticInvoiceUpdates = true;
+
 		#[Validate('required|int|between:0,100')]
 		public int $discount = 0;
 
@@ -60,11 +64,18 @@
 
 		public bool $recalculatePrice = true;
 
+		#[Locked]
+		public bool $includeClosedOrderStatus;
+
 		public function rules(): array {
 			return [
 				'status' => [
+					'bail', // so our closure does not throw an error in OrderStatus::from(...) when an invalid enum value was set
 					'required',
 					Rule::enum(OrderStatus::class),
+					fn(string $attribute, mixed $value, callable $fail) => !$this->includeClosedOrderStatus
+					                                                       && OrderStatus::from($value)->orderClosed()
+					                                                       && $fail(__('validation.enum'))
 				],
 			];
 		}
@@ -84,7 +95,8 @@
 				$this->end   = null;
 			}
 
-			$this->recalculatePrice = true;
+			$this->recalculatePrice        = true;
+			$this->automaticInvoiceUpdates = true;
 
 			$this->resetValidation();
 		}

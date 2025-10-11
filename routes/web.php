@@ -53,6 +53,9 @@
 				Route::get('/view/{order}', OrderDetailView::class)->name('.view');
 				Route::get('/confirmation/{order}', [OrderFilesController::class, 'getOrderConfirmation'])->name('.confirmation');
 				Route::get('/contract/{order}', [OrderFilesController::class, 'getOrderContract'])->name('.contract');
+				Route::get('/invoice/{order}/{invoice}', [OrderFilesController::class, 'getOrderInvoice'])->name('.invoice');
+				Route::get('/invoice-cancellation/{order}/{invoice}', [OrderFilesController::class, 'getOrderInvoiceCancellation'])->name('.invoiceCancellation');
+				Route::get('/invoice-preview/{order}', [OrderFilesController::class, 'getOrderInvoicePreview'])->name('.invoicePreview');
 			});
 
 			Route::group(['prefix' => '/reports', 'as' => '.reports'], function () {

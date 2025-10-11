@@ -123,3 +123,20 @@ p.md-paragraph:not(:has(+p)) {
 .ws-pre-wrap {
   white-space: pre-wrap;
 }
+
+.break-inside-avoid {
+  page-break-inside: avoid;
+}
+
+// improves handling of line wrapping
+.btn.btn-icon {
+  display: inline-flex;
+  align-items: baseline;
+  text-align: left;
+  gap: .25rem;
+}
+
+// so that icon still takes the same space even when used in flex container with wrapping elements
+.fa-fw {
+  flex-shrink: 0;
+}

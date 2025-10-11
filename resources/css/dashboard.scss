@@ -161,3 +161,8 @@
   max-height: 15rem;
   max-width: 15rem;
 }
+
+#invoice-list {
+  columns: 2 470px; // 470px column width happens to equal XXL breakpoint
+  column-gap: 2rem;
+}

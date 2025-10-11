@@ -47,6 +47,13 @@
 				'report'     => false,
 			],
 
+			'invoices' => [
+				'driver' => 'local',
+				'root'   => storage_path('app/invoices'),
+				'serve'  => false,
+				'throw'  => true,
+				'report' => false,
+			],
 		],
 
 		/*
