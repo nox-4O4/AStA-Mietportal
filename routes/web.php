@@ -41,6 +41,8 @@
 	// logout route is outside of auth middleware to prevent users from being redirected to logout route on login when they called /logout while not authenticated
 	Route::get('logout', [LogoutController::class, 'action'])->name('logout');
 
+	Route::get('mietordnung', [MiscController::class, 'termsOfService'])->name('tos');
+
 	Route::group(['middleware' => 'auth', 'prefix' => 'dashboard', 'as' => 'dashboard'], function () {
 		Route::get('/', fn() => redirect()->route(config('shop.dashboard.defaultRoute')));
 

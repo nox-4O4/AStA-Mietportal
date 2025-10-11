@@ -11,8 +11,8 @@
 	 * @property string          $name
 	 * @property string          $description
 	 * @property Markdown        $content
-	 * @property CarbonImmutable $created_at
-	 * @property CarbonImmutable $updated_at
+	 * @property ?CarbonImmutable $created_at
+	 * @property ?CarbonImmutable $updated_at
 	 */
 	class Content extends Model {
 		/**
