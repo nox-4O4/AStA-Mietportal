@@ -112,7 +112,7 @@
 
 			$order = DB::transaction(function (): ?Order {
 				// prevent data races during checkout by locking orders
-				DB::table('orders')->where('status', OrderStatus::PENDING)->lockForUpdate()->get();
+				DB::table('orders')->where('status', OrderStatus::PENDING)->lockForUpdate()->get(); // TODO check if deadlock is prevented when no orders with status pending exist
 
 				if(!$this->validateCheckoutData(confirmed: true)) // redirects on error
 					return null;
