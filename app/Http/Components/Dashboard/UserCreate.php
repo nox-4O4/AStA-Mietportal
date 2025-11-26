@@ -6,12 +6,15 @@
 	use App\Models\User;
 	use App\Traits\TrimWhitespaces;
 	use Illuminate\Contracts\View\View;
+	use Illuminate\Support\Facades\DB;
 	use Illuminate\Support\Facades\Password;
 	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rule;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
+	use Symfony\Component\Mailer\Exception\TransportException;
+	use Symfony\Component\Mailer\Exception\UnexpectedResponseException;
 
 	#[Title('Benutzer erstellen')]
 	#[Layout('layouts.dashboard')]
@@ -28,32 +31,39 @@
 		public function createUser() {
 			$this->validate();
 
-			$autoname = false;
-			if(!$this->username) {
-				$autoname       = true;
-				$this->username = Str::slug($this->forename) . '.' . Str::slug($this->surname);
-				$increment      = '';
-				while(User::where('username', $this->username . $increment)->exists()) {
-					$increment = $increment ? $increment + 1 : 1;
+			DB::transaction(function () {
+				$autoname = false;
+				if(!$this->username) {
+					$autoname       = true;
+					$this->username = Str::slug($this->forename) . '.' . Str::slug($this->surname);
+					$increment      = '';
+					while(User::where('username', $this->username . $increment)->exists()) {
+						$increment = $increment ? $increment + 1 : 1;
+					}
+					$this->username .= $increment;
 				}
-				$this->username .= $increment;
-			}
 
-			new User($this->all())->save();
+				new User($this->all())->save();
 
-			if($this->enabled) {
-				$status = Password::sendResetLink($this->only('email'));
+				if($this->enabled) {
+					try {
+						$status = Password::sendResetLink($this->only('email'));
+					} catch(TransportException|UnexpectedResponseException $ex) {
+						report($ex);
+						$status = 'passwords.notification_failed';
+					}
 
-				switch($status) {
-					case Password::RESET_LINK_SENT:
-						session()->flash('status.success', 'Der Benutzer wurde angelegt und sollte eine E-Mail zum Festlegen des Passworts erhalten haben.' . ($autoname ? " Benutzername: $this->username" : ''));
-						break;
-					default:
-						session()->flash('status.error', 'Der Benutzer wurde angelegt, es konnte jedoch keine E-Mail zum Festlegen des Passworts gesendet werden: ' . __($status));
+					switch($status) {
+						case Password::RESET_LINK_SENT:
+							session()->flash('status.success', 'Der Benutzer wurde angelegt und sollte eine E-Mail zum Festlegen des Passworts erhalten haben.' . ($autoname ? " Benutzername: $this->username" : ''));
+							break;
+						default:
+							session()->flash('status.error', 'Der Benutzer wurde angelegt, es konnte jedoch keine E-Mail zum Festlegen des Passworts gesendet werden: ' . __($status));
+					}
+				} else {
+					session()->flash('status.success', 'Der Benutzer wurde angelegt.' . ($autoname ? " Benutzername: $this->username" : ''));
 				}
-			} else {
-				session()->flash('status.success', 'Der Benutzer wurde angelegt.' . ($autoname ? " Benutzername: $this->username" : ''));
-			}
+			});
 
 			$this->redirect(route('dashboard.users.list'), true);
 		}

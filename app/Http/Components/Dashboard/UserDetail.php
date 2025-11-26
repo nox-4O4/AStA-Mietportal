@@ -12,6 +12,8 @@
 	use Livewire\Attributes\Locked;
 	use Livewire\Attributes\Title;
 	use Livewire\Component;
+	use Symfony\Component\Mailer\Exception\TransportException;
+	use Symfony\Component\Mailer\Exception\UnexpectedResponseException;
 
 	#[Title('Benutzerverwaltung')]
 	#[Layout('layouts.dashboard')]
@@ -89,7 +91,12 @@
 		}
 
 		public function sendPasswordMail(): void {
-			$status = Password::sendResetLink($this->only('email'));
+			try {
+				$status = Password::sendResetLink($this->only('email'));
+			} catch(TransportException|UnexpectedResponseException $ex) {
+				report($ex);
+				$status = 'passwords.notification_failed';
+			}
 
 			if($status == Password::RESET_LINK_SENT) {
 				session()->flash('status.success', "Es wurde eine E-Mail zum Zurücksetzen des Passworts an „{$this->email}“ gesendet.");

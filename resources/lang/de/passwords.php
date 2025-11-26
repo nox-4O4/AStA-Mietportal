@@ -18,5 +18,5 @@ return [
     'throttled' => 'Bitte warte etwas, bevor du es erneut versuchst.',
     'token' => 'Das Token zum Zurücksetzen des Passworts ist ungültig.',
     'user' => 'Diese E-Mail-Adresse ist keinem Benutzer zugewiesen.',
-
+    'notification_failed' => 'Der E-Mail-Versand ist fehlgeschlagen.',
 ];

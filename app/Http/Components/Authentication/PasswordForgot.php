@@ -8,6 +8,8 @@
 	use Livewire\Attributes\Title;
 	use Livewire\Attributes\Validate;
 	use Livewire\Component;
+	use Symfony\Component\Mailer\Exception\TransportException;
+	use Symfony\Component\Mailer\Exception\UnexpectedResponseException;
 
 	#[Title('Passwort vergessen')]
 	#[Layout('layouts.login')]
@@ -21,7 +23,12 @@
 		public function sendPasswordResetLink(): void {
 			$this->validate();
 
-			$status = Password::sendResetLink($this->only('email'));
+			try {
+				$status = Password::sendResetLink($this->only('email'));
+			} catch(TransportException|UnexpectedResponseException $ex) {
+				report($ex);
+				$status = 'passwords.notification_failed';
+			}
 
 			switch($status) {
 				case Password::RESET_LINK_SENT:
