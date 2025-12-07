@@ -57,3 +57,10 @@ img[alt]::before {
 #livewire-error iframe {
   background-color: var(--bs-light) !important;
 }
+
+.error-image {
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  min-height: 6em;
+}
