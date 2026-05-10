@@ -28,47 +28,49 @@ Dies ist das Mietportal für den AStA HKA. Es ist eine auf [Laravel](https://lar
 ### Initiales Produktiv-Deployment
 
 * Source auschecken
+    * Wenn das Repo per Git auf Unix-basierten Systemen ausgecheckt wird, kann im Folgenden der `artisan`-Befehl direkt genutzt werden, da das `+x`-Flag gesetzt ist.
+    * Anderenfalls (bspw. beim Dateitransfer via (S)FTP oder unter Windows) muss das Artisan-Script mit der lokalen PHP-Executable ausgeführt werden, also bspw. via `/pfad/zu/php artisan ...`
 * `.env.example-prod` zu `.env` kopieren und Konfiguration anpassen. Die `.env`-Datei enthält die lokale Konfiguration.
 * Composer-Pakete installieren: `composer install`
 * Frontend-Assets generieren: `npm ci && npm run build`
-* Datenbank initialisieren `php artisan migrate --seed --force`
-* Verzeichnis für Bilduploads verknüpfen: `php artisan storage:link`  
+* Datenbank initialisieren `artisan migrate --seed --force`
+* Verzeichnis für Bilduploads verknüpfen: `artisan storage:link`
   In `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Systemen, kann es sein, dass der Link nicht korrekt gesetzt wird. In diesem Fall kann auch ein relativer Link manuell hinterlegt werden: dazu muss `public/storage` auf `../storage/app/public` zeigen.
-* Cronjob einrichten: `* * * * * php artisan schedule:run`
-* Konfiguration u. Ä. cachen: `php artisan optimize --except config`  
-  (Die Konfiguration wird vom Cache ausgeschlossen, da dies in `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Setups, zu Problemen bei absoluten Pfaden führen kann. Bei Problemen kann der Konfigurations-Cache mit `php artisan config:clear` wieder gelöscht werden.)
-* Initialen Benutzer anlegen: `php artisan user:create`
+* Cronjob einrichten: `* * * * * /DATEIPFAD/ZUM/MIETPORTAL/artisan schedule:run`
+* Konfiguration u. Ä. cachen: `artisan optimize --except config`
+  (Die Konfiguration wird vom Cache ausgeschlossen, da dies in `chroot`ed-Umgebungen, etwa bei Shared-Hosting-Setups, zu Problemen bei absoluten Pfaden führen kann. Bei Problemen kann der Konfigurations-Cache mit `artisan config:clear` wieder gelöscht werden.)
+* Initialen Benutzer anlegen: `artisan user:create`
 
 ### Aktualisierung
 
 Vor einem Update am besten immer ein Backup (Datenbank und Dateisystem) machen.
 
-* Code-Änderungen laden, sodass Diffs betrachtet werden können, ohne, dass dabei bereits Dateien geändert worden sind:  
+* Code-Änderungen laden, sodass Diffs betrachtet werden können, ohne, dass dabei bereits Dateien geändert worden sind:
   `git remote update`
-* Diff der `.env.example`-Datei betrachten und `.env`-Datei entsprechend anpassen:  
+* Diff der `.env.example`-Datei betrachten und `.env`-Datei entsprechend anpassen:
   `git diff HEAD..origin/master -- .env.example-prod`
 * Wartungsmodus aktivieren: `artisan down`
 * Neuen Code auschecken: `git pull`
 * Composer-Pakete installieren: `composer install`
 * npm-Pakete installieren: `npm install`
 * Statische Assets generieren: `npm run build`
-* Datenbankmigrationen vornehmen und Seeder ausführen: `php artisan migrate --seed --force`
-* Anwendungscache löschen: `php artisan cache:clear`
-* Durch den `optimize`-Befehl gecachte Daten löschen: `php artisan optimize:clear`
-* Konfiguration u. Ä. cachen: `php artisan optimize --except config`
+* Datenbankmigrationen vornehmen und Seeder ausführen: `artisan migrate --seed --force`
+* Anwendungscache löschen: `artisan cache:clear`
+* Durch den `optimize`-Befehl gecachte Daten löschen: `artisan optimize:clear`
+* Konfiguration u. Ä. cachen: `artisan optimize --except config`
 * Wartungsmodus deaktivieren: `artisan up`
 * Testen, dass alles funktioniert.
 
 Bei kleineren Aktualisierungen, bei denen der Update-Vorgang nicht von Composer-Paketaktualisierungen abhängt, kann nach dem Checkout des neuen Codes stattdessen auch folgender Befehl eingesetzt werden, welcher viele der obigen Schritte automatisch ausführt:
 
 ```bash
-php artisan update
+artisan update
 ```
 
 ### Wartungsmodus
 
-* Zum Aktivieren: `php artisan down`
-* Zum Deaktivieren: `php artisan up`
+* Zum Aktivieren: `artisan down`
+* Zum Deaktivieren: `artisan up`
 
 Weitere Optionen sind hier beschrieben: https://laravel.com/docs/11.x/configuration#maintenance-mode
 
@@ -79,8 +81,8 @@ Zukünftig wird eine Docker-Umgebung zur Entwicklung bereitgestellt werden.
 Ohne Docker geht es folgendermaßen:
 
 * Lokale Datenbank (MariaDB oder MySQL) muss vorhanden sein
-* Anleitung fürs initiale Deployment befolgen, dabei Cache für Konfiguration u. Ä. weglassen oder danach `php artisan optimize:clear` ausführen
-* Zum Ausführen und Debuggen bevorzugt einen lokalen Apache-Webserver nutzen. Quick & Dirty-Alternative: `php artisan serve` (nutzt den PHP-Build-In-Webserver)
+* Anleitung fürs initiale Deployment befolgen, dabei Cache für Konfiguration u. Ä. weglassen oder danach `artisan optimize:clear` ausführen
+* Zum Ausführen und Debuggen bevorzugt einen lokalen Apache-Webserver nutzen. Quick & Dirty-Alternative: `artisan serve` (nutzt den PHP-Build-In-Webserver)
 * Zum Debuggen sollte [Xdebug](https://xdebug.org/) lokal installiert und konfiguriert sein.
 
 Empfohlene IDE: [PhpStorm](https://www.jetbrains.com/de-de/phpstorm/) zusammen mit dem [Laravel-Idea-Plugin](https://laravel-idea.com/) (beides für Studenten kostenlos).
