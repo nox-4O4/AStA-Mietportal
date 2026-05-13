@@ -10,58 +10,47 @@
 	use App\Models\Item;
 	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Container\Attributes\Singleton;
 
+	#[Singleton]
 	class CartRepository {
-		private static bool $fresh = false;
+
+		/** @var array<CartItem> */
+		public array $cartItems {
+			get => $this->cartItems ??= CartItem::collect(session()->get('cart.items', []));
+			set => session()->put('cart.items', $value) ?? $value; // session()->put returns void, so we always return the $value from the closure
+		}
 
 		public function __construct(private readonly PriceCalculation $priceCalculator) { }
 
-		/**
-		 * @return array<CartItem>
-		 * @noinspection PhpDocMissingThrowsInspection this won't throw; PHPStorm is confused about the implementation
-		 */
-		public function getCartItems(): array {
-			/** @var array<CartItem> $items */
-			$items = session()->get('cart.items', []);
-
-			if(!self::$fresh) {
-				foreach($items as $cartItem)
-					$cartItem->item->refresh();
-
-				self::$fresh = true;
-			}
-
-			return $items;
-		}
-
 		public function addCartItem(CartItem $cartItem): void {
-			$items = $this->getCartItems();
+			$items = $this->cartItems;
 
 			do {
 				$key = bin2hex(random_bytes(8));
 			} while(isset($items[$key]));
 			$items[$key] = $cartItem;
 
-			$this->setCartItems($items);
-		}
-
-		public function setCartItems(array $cartItems): void {
-			session()->put('cart.items', $cartItems);
+			$this->cartItems = $items;
 		}
 
 		public function clearCartItems(): void {
-			$this->setCartItems([]);
+			$this->cartItems = [];
 		}
 
 		public function updateCartItem(string $id, ?CartItem $cartItem): void {
-			if($cartItem !== null)
-				session()->put("cart.items.$id", $cartItem);
+			$items = $this->cartItems;
+
+			if($cartItem === null)
+				unset($items[$id]);
 			else
-				session()->forget("cart.items.$id");
+				$items[$id] = $cartItem;
+
+			$this->cartItems = $items;
 		}
 
 		public function containsItem(Item $item): bool {
-			return array_any($this->getCartItems(), fn($cartItem) => $cartItem->item->id == $item->id);
+			return array_any($this->cartItems, fn($cartItem) => $cartItem->item->id == $item->id);
 		}
 
 		/**
@@ -71,7 +60,7 @@
 			if(!$newItem->item->amount)
 				return;
 
-			$existingItems = array_filter($existingItemsToConsider ?? $this->getCartItems(), fn(CartItem $cartItem) => $cartItem->item->id == $newItem->item->id && $cartItem->amount !== null);
+			$existingItems = array_filter($existingItemsToConsider ?? $this->cartItems, fn(CartItem $cartItem) => $cartItem->item->id == $newItem->item->id && $cartItem->amount !== null);
 			if(!$existingItems)
 				return;
 
@@ -118,7 +107,7 @@
 		public function getCartItemsSorted(): array {
 			$itemBuckets = [];
 
-			foreach($this->getCartItems() as $id => $item)
+			foreach($this->cartItems as $id => $item)
 				$itemBuckets[$item->item->id][$id] = $item;
 
 			foreach($itemBuckets as &$items)
@@ -169,7 +158,7 @@
 
 		public function totalAmount(): float {
 			$total = 0;
-			foreach($this->getCartItems() as $cartItem)
+			foreach($this->cartItems as $cartItem)
 				$total += $this->priceCalculator->calculatePrice($cartItem->item, $cartItem->start, $cartItem->end) * $cartItem->amount;
 
 			return $total;
@@ -191,7 +180,7 @@
 
 		public function calculateDeposit(): float {
 			$deposit = 0;
-			foreach($this->getCartItems() as $cartItem)
+			foreach($this->cartItems as $cartItem)
 				$deposit += $cartItem->item->deposit * $cartItem->amount;
 
 			return Helper::getSteppedDeposit($deposit);
@@ -199,7 +188,7 @@
 
 		public function getHash(): string {
 			$itemHash = '';
-			foreach($this->getCartItems() as $cartItem)
+			foreach($this->cartItems as $cartItem)
 				$itemHash .= $cartItem->getHash();
 
 			return sha1($itemHash);

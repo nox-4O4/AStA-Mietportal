@@ -3,6 +3,7 @@
 	namespace App\Models;
 
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Support\Facades\Storage;
@@ -15,11 +16,8 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('path', 'item_id')]
 	class Image extends Model {
-		protected $fillable = [
-			'path',
-			'item_id'
-		];
 
 		protected static function booted(): void {
 			static::created(function (Image $image) {

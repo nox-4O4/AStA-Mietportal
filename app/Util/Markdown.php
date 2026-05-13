@@ -89,7 +89,7 @@
 			);
 		}
 
-		public function get(Model $model, string $key, mixed $value, array $attributes) {
+		public function get(Model $model, string $key, mixed $value, array $attributes): static {
 			return new static($value);
 		}
 

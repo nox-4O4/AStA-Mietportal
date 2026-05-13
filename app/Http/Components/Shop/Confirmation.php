@@ -86,7 +86,7 @@
 
 		#[Computed]
 		public function checkoutData(): ?CheckoutData {
-			return session('cart.checkout.data');
+			return CheckoutData::optional(session('cart.checkout.data'));
 		}
 
 		#[Computed]

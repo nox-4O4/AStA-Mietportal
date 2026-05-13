@@ -9,7 +9,7 @@
 		 * @param string $name
 		 * @param mixed  $value
 		 */
-		public function updatedTrimWhitespaces(string $name, $value): void {
+		public function updatedTrimWhitespaces(string $name, mixed $value): void {
 			if(!is_string($value) || in_array($name, $this->trimWhitespacesExcept ?? [])) {
 				return;
 			}

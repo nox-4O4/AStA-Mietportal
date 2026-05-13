@@ -5,6 +5,7 @@
 	use App\Events\InvoiceDataChanged;
 	use App\Util\Helper;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,22 +35,8 @@
 	 * @property-read ?string     $cancellationFileName See {@see Invoice::cancellationFileName()} for getter.
 	 * @property-read ?string     $cancellationFilePath See {@see Invoice::cancellationFilePath()} for getter.
 	 */
+	#[Fillable('number', 'version', 'notified', 'cancelled', 'cancellation_notified', 'content_hash', 'total_amount')]
 	class Invoice extends Model implements Stringable {
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'number',
-			'version',
-			'notified',
-			'cancelled',
-			'cancellation_notified',
-			'content_hash',
-			'total_amount',
-		];
 
 		public static function GeneratePreviewFor(Order $order): string {
 			$tmpInvoice               = new Invoice();

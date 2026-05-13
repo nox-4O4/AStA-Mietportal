@@ -17,10 +17,10 @@
 		public string $cartId;
 
 		public function bootHasCartItems(CartRepository $repository): void {
-			$sessionItems      = $repository->getCartItems();
+			$sessionItems      = $repository->cartItems;
 			$validSessionItems = $this->removeInvalidItems($sessionItems);
 			if(count($sessionItems) != count($validSessionItems))
-				$repository->setCartItems($validSessionItems);
+				$repository->cartItems = $validSessionItems;
 
 			$this->items = $validSessionItems;
 		}
@@ -71,7 +71,7 @@
 			$newItems   = CartItem::collect($value);
 			$validItems = $this->removeInvalidItems($newItems);
 
-			$this->items = $validItems;
-			$repository->setCartItems($validItems);
+			$this->items           = $validItems;
+			$repository->cartItems = $validItems;
 		}
 	}

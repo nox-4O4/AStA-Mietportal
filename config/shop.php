@@ -1,5 +1,9 @@
 <?php
 
+	use App\Providers\PriceCalculation\AsymptoticPriceCalculation;
+	use App\Providers\PriceCalculation\ConstantPriceCalculation;
+	use App\Providers\PriceCalculation\MultiplicativePriceCalculation;
+
 	return [
 		'notification_address' => env('NOTIFICATION_ADDRESS'), // where notification mails about new orders should be send to
 
@@ -11,7 +15,7 @@
 			// Price is calculated by base price (start_value factor) plus a reduced amount for any additional day (increment factor).
 			// When calculating resulting discount in terms of price per day, discount will converge asymptotically to increment value (when increment != start_value).
 			'asymptotic'     => [
-				'class'         => \App\Providers\PriceCalculation\AsymptoticPriceCalculation::class,
+				'class'         => AsymptoticPriceCalculation::class,
 				'configuration' => [
 					'start_value' => 1,
 					'increment'   => 1 / 2,
@@ -20,7 +24,7 @@
 
 			// assign a fixed multiplicative discount to the item price per day, depending on the booking duration
 			'multiplicative' => [
-				'class'         => \App\Providers\PriceCalculation\MultiplicativePriceCalculation::class,
+				'class'         => MultiplicativePriceCalculation::class,
 				'configuration' => [
 					// Keys are days, values are price multipliers. Omitted days will be treated as range starting from previous entry. Day 1 defaults to factor 1.
 					'multipliers' => [
@@ -34,7 +38,7 @@
 
 			// duration does not affect price
 			'constant'       => [
-				'class' => \App\Providers\PriceCalculation\ConstantPriceCalculation::class,
+				'class' => ConstantPriceCalculation::class,
 			],
 		],
 

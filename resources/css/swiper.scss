@@ -51,11 +51,10 @@
   }
 
   .swiper-button-prev, .swiper-button-next {
-    outline: none;
-
-    // white border around navigation button arrows
-    &:after {
-      text-shadow: -1px 0px var(--bs-body-bg), 1px 0px var(--bs-body-bg), 0px 1px var(--bs-body-bg), 0px -1px var(--bs-body-bg);
+    path {
+      // white border around navigation button arrows
+      stroke: var(--bs-body-bg);
+      stroke-width: 0.5px;
     }
   }
 }

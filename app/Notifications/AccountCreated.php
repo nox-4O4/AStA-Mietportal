@@ -6,10 +6,11 @@
 	use App\Util\Helper;
 	use Illuminate\Auth\Notifications\ResetPassword as ResetPasswordNotification;
 	use Illuminate\Notifications\Messages\MailMessage;
+	use SensitiveParameter;
 
 	class AccountCreated extends ResetPasswordNotification {
 
-		public function __construct(#[\SensitiveParameter] $token, private readonly User $user) { parent::__construct($token); }
+		public function __construct(#[SensitiveParameter] $token, private readonly User $user) { parent::__construct($token); }
 
 		protected function buildMailMessage($url): MailMessage {
 			return (new MailMessage)

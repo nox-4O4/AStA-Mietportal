@@ -32,7 +32,7 @@
 
 			if($this->invoices && $this->cancellations) { // cancellation(s) and invoice(s) exist
 				$subject = 'Rechnung';
-				$lines = [
+				$lines   = [
 					"Deine Bestellung #$anyInvoice->number im AStA-Mietportal wurde aktualisiert.",
 
 					'Anbei erhältst du die ' .
@@ -45,7 +45,7 @@
 
 			} else if($this->invoices) { // only invoice(s) exist
 				$subject = 'Rechnung';
-				$lines = [
+				$lines   = [
 					'Anbei erhältst du die ' .
 					(count($this->invoices) > 1 ? 'Rechnungen ' : 'Rechnung ') .
 					Arr::join(array_map(fn(Invoice $invoice) => $invoice->name, $this->invoices), ', ', ' und ') .
@@ -54,7 +54,7 @@
 
 			} else { // only cancellation(s) exist
 				$subject = 'Rechnungsstornierung';
-				$lines = [
+				$lines   = [
 					"Deine Bestellung #$anyInvoice->number im AStA-Mietportal wurde aktualisiert.",
 
 					(count($this->cancellations) > 1 ? 'Die Rechnungen ' : 'Die Rechnung ') .

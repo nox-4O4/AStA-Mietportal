@@ -6,6 +6,8 @@
 	use App\Notifications\AccountCreated;
 	use App\Notifications\ResetPassword;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
+	use Illuminate\Database\Eloquent\Attributes\Hidden;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
 	use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -28,33 +30,10 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('username', 'forename', 'surname', 'email', 'password', 'role', 'enabled')]
+	#[Hidden('password', 'remember_token')]
 	class User extends Authenticatable {
 		use Notifiable;
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'username',
-			'forename',
-			'surname',
-			'email',
-			'password',
-			'role',
-			'enabled',
-		];
-
-		/**
-		 * The attributes that should be hidden for serialization.
-		 *
-		 * @var array<string>
-		 */
-		protected $hidden = [
-			'password',
-			'remember_token',
-		];
 
 		public function updateLastLogin(): void {
 			$this->last_login = CarbonImmutable::now();

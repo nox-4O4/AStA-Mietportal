@@ -13,3 +13,9 @@ window.bootstrap = bootstrap
 window.Swiper = Swiper
 AirDatepicker.DefaultLocale = LocaleDE
 window.AirDatepicker = AirDatepicker
+
+// adjust darkmode theme when browser proferences change
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', window.UpdateTheme)
+
+// re-apply darkmode style after livewire navigated
+document.addEventListener('livewire:navigating', e => e.detail.onSwap(window.UpdateTheme))

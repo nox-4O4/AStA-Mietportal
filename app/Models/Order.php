@@ -10,6 +10,7 @@
 	use Carbon\CarbonImmutable;
 	use Dompdf\Canvas;
 	use Dompdf\FontMetrics;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,20 +36,8 @@
 	 * @property-read string      $orderContractPDF    See {@see Order::orderContractPDF()} for getter.
 	 * @property-read ?Invoice    $currentInvoice      See {@see Order::currentInvoice()} for getter.
 	 */
+	#[Fillable('status', 'rate', 'event_name', 'note', 'deposit')]
 	class Order extends Model {
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'status',
-			'rate',
-			'event_name',
-			'note',
-			'deposit',
-		];
 
 		static array $invoiceRelevantData = [
 			'rate',

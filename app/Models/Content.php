@@ -4,27 +4,19 @@
 
 	use App\Util\Markdown;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Model;
 
 	/**
-	 * @property int             $id
-	 * @property string          $name
-	 * @property string          $description
-	 * @property Markdown        $content
+	 * @property int              $id
+	 * @property string           $name
+	 * @property string           $description
+	 * @property Markdown         $content
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('name', 'description', 'content')]
 	class Content extends Model {
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'name',
-			'description',
-			'content',
-		];
 
 		public function render(): string {
 			return $this->content->render();

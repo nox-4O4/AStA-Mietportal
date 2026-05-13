@@ -8,6 +8,7 @@
 	use App\Util\Markdown;
 	use Carbon\CarbonImmutable;
 	use Carbon\CarbonInterface;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -29,16 +30,8 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('name', 'description', 'amount', 'available', 'visible', 'price', 'deposit')]
 	class Item extends Model {
-		protected $fillable = [
-			'name',
-			'description',
-			'amount',
-			'available',
-			'visible',
-			'price',
-			'deposit',
-		];
 
 		protected static function booted(): void {
 			static::updating(function (Item $item) {

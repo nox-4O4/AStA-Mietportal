@@ -27,7 +27,6 @@
 
 		/**
 		 * @return Uncastable|T|null
-		 * @noinspection PhpDocSignatureInspection signature matches; T can only be Model. Probably PHPStorm bug.
 		 */
 		public function cast(DataProperty $property, mixed $value, array $properties, CreationContext $context): Uncastable|Model|null {
 			if(!is_string($value) && !is_int($value))
@@ -38,7 +37,6 @@
 
 		/**
 		 * @return Uncastable|T|null
-		 * @noinspection PhpDocSignatureInspection signature matches; T can only be Model. Probably PHPStorm bug.
 		 */
 		public function castIterableItem(DataProperty $property, mixed $value, array $properties, CreationContext $context): Uncastable|Model|null {
 			return $this->cast($property, $value, $properties, $context);

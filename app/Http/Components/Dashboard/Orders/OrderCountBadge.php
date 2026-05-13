@@ -11,7 +11,7 @@
 	class OrderCountBadge extends Component {
 
 		#[Computed]
-		public function count() {
+		public function count(): int {
 			return Order::where('status', OrderStatus::PENDING)->count();
 		}
 

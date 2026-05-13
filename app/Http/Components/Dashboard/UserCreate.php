@@ -28,7 +28,7 @@
 		public int     $role;
 		public bool    $enabled  = true;
 
-		public function createUser() {
+		public function createUser(): void {
 			$this->validate();
 
 			DB::transaction(function () {

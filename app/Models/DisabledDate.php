@@ -4,6 +4,7 @@
 
 	use Carbon\CarbonImmutable;
 	use DateTimeInterface;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Support\Facades\DB;
@@ -18,20 +19,8 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('start', 'end', 'site_notice', 'comment', 'active')]
 	class DisabledDate extends Model {
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'start',
-			'end',
-			'site_notice',
-			'comment',
-			'active',
-		];
 
 		/**
 		 * Get the attributes that should be cast.

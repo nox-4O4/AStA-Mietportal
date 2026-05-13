@@ -4,6 +4,7 @@
 
 	use App\Events\InvoiceDataChanged;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,25 +27,9 @@
 	 *
 	 * @property-read string      $invoiceHash      See {@see Customer::invoiceHash()} for getter.
 	 */
+	#[Fillable('forename', 'surname', 'legalname', 'street', 'number', 'zipcode', 'city', 'email', 'mobile')]
 	class Customer extends Model {
 		use Notifiable;
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'forename',
-			'surname',
-			'legalname',
-			'street',
-			'number',
-			'zipcode',
-			'city',
-			'email',
-			'mobile',
-		];
 
 		static array $invoiceRelevantData = [
 			'forename',

@@ -29,10 +29,14 @@
 		use TrimWhitespaces;
 
 		#[Validate]
-		public ?CarbonImmutable $start = null;
+		public ?CarbonImmutable $start = null {
+			set(CarbonImmutable|string|null $value) => $this->start = is_string($value) ? new CarbonImmutable($value) : $value;
+		}
 
 		#[Validate]
-		public ?CarbonImmutable $end = null;
+		public ?CarbonImmutable $end = null {
+			set(CarbonImmutable|string|null $value) => $this->end = is_string($value) ? new CarbonImmutable($value) : $value;
+		}
 
 		// no validate attribute for amount as we only want to validate amount when adding items to cart, not during update. Otherwise, validation message for amount might appear when changing date.
 		public int $amount;
@@ -121,8 +125,9 @@
 			$cartItem = new CartItem($this->item, $this->start, $this->end, $this->amount, $this->comment);
 			$repository->addCartItem($cartItem);
 
-			session()->put('cart.lastStartDate', $this->start);
-			session()->put('cart.lastEndDate', $this->end);
+			// using toDateString() so timezone does not get stored, as otherwise the day would change when DST changes
+			session()->put('cart.lastStartDate', $this->start->toDateString());
+			session()->put('cart.lastEndDate', $this->end->toDateString());
 
 			$this->reset('start', 'end', 'amount', 'comment');
 

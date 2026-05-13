@@ -10,5 +10,11 @@ export default defineConfig({
     ],
     build: {
         sourcemap: true,
+        cssMinify: 'esbuild',
+    },
+    server: {
+        watch: {
+            ignored: ['**/storage/framework/views/**'],
+        },
     },
 });

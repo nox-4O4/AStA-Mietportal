@@ -89,7 +89,7 @@
 
 		#[Computed]
 		public function items(): array {
-			return $this->cartRepository->getCartItems();
+			return $this->cartRepository->cartItems;
 		}
 
 		public function updatedPrefill(): void { // called when Alpine's entagle updates prefill from local storage

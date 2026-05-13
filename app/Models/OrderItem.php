@@ -5,6 +5,7 @@
 	use App\Contracts\PriceCalculation;
 	use App\Events\InvoiceDataChanged;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 	use Illuminate\Database\Eloquent\Relations\Pivot;
@@ -27,6 +28,7 @@
 	 *
 	 * @property-read string      $invoiceHash {@see OrderItem::invoiceHash()} for getter.
 	 */
+	#[Fillable('quantity', 'start', 'end', 'original_price', 'price', 'comment')]
 	class OrderItem extends Pivot {
 		/**
 		 * Indicates if the IDs are auto-incrementing.
@@ -34,20 +36,6 @@
 		 * @var bool
 		 */
 		public $incrementing = true;
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'quantity',
-			'start',
-			'end',
-			'original_price',
-			'price',
-			'comment',
-		];
 
 		static array $invoiceRelevantData = [
 			'quantity',

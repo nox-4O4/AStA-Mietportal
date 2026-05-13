@@ -54,7 +54,7 @@
 
 			'stack' => [
 				'driver'            => 'stack',
-				'channels'          => explode(',', env('LOG_STACK', 'single')),
+				'channels'          => explode(',', (string) env('LOG_STACK', 'single')),
 				'ignore_exceptions' => false,
 			],
 
@@ -83,7 +83,7 @@
 			'slack' => [
 				'driver'               => 'slack',
 				'url'                  => env('LOG_SLACK_WEBHOOK_URL'),
-				'username'             => env('LOG_SLACK_USERNAME', 'Laravel Log'),
+				'username'             => env('LOG_SLACK_USERNAME', env('APP_NAME', 'Laravel')),
 				'emoji'                => env('LOG_SLACK_EMOJI', ':boom:'),
 				'level'                => env('LOG_LEVEL', 'critical'),
 				'replace_placeholders' => true,
@@ -102,14 +102,14 @@
 			],
 
 			'stderr' => [
-				'driver'     => 'monolog',
-				'level'      => env('LOG_LEVEL', 'debug'),
-				'handler'    => StreamHandler::class,
-				'formatter'  => env('LOG_STDERR_FORMATTER'),
-				'with'       => [
+				'driver'       => 'monolog',
+				'level'        => env('LOG_LEVEL', 'debug'),
+				'handler'      => StreamHandler::class,
+				'handler_with' => [
 					'stream' => 'php://stderr',
 				],
-				'processors' => [PsrLogMessageProcessor::class],
+				'formatter'    => env('LOG_STDERR_FORMATTER'),
+				'processors'   => [PsrLogMessageProcessor::class],
 			],
 
 			'syslog' => [

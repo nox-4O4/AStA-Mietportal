@@ -21,7 +21,7 @@
 
 		public EditOrderForm $editOrderForm;
 
-		public function mount() {
+		public function mount(): void {
 			$this->editOrderForm->includeClosedOrderStatus = false;
 		}
 

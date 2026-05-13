@@ -3,6 +3,7 @@
 	namespace App\Models;
 
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,15 +17,8 @@
 	 * @property ?CarbonImmutable $created_at // cannot be non-null due to database behaviour. See https://github.com/laravel/framework/issues/12060 and https://github.com/laravel/ideas/issues/874#issuecomment-343639163
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('comment')]
 	class Comment extends Model {
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'comment',
-		];
 
 		public function user(): BelongsTo {
 			return $this->belongsTo(User::class);

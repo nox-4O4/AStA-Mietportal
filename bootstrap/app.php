@@ -11,10 +11,10 @@
 		                  commands: __DIR__ . '/../routes/console.php',
 		                  health:   '/up',
 	                  )
-	                  ->withMiddleware(function (Middleware $middleware) {
+	                  ->withMiddleware(function (Middleware $middleware): void {
 		                  $middleware->trustHosts(fn() => config('app.trusted_hosts')); // defaults to trusting host specified in app.url config
 		                  $middleware->web(append: [CommonHeaders::class]);
 	                  })
-	                  ->withExceptions(function (Exceptions $exceptions) {
+	                  ->withExceptions(function (Exceptions $exceptions): void {
 		                  //
 	                  })->create();

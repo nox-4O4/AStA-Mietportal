@@ -12,6 +12,7 @@
 	use Illuminate\Foundation\Application;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\Date;
+	use Illuminate\Support\Facades\Event;
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
@@ -99,12 +100,9 @@
 				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
 			});
 
-			// TODO when on Laravel 12+ test and use this to automatically remove cached font files:
-			/*
-			\Illuminate\Support\Facades\Event::listen(function (Illuminate\Cache\Events\CacheFlushing $event) {
-				foreach(glob(storage_path('framework/cache/fonts/')) as $file)
+			Event::listen('cache:clearing', function (string|null $storeName, array $tags) {
+				foreach(glob(storage_path('framework/cache/fonts/*')) as $file)
 					unlink($file);
 			});
-			*/
 		}
 	}

@@ -31,12 +31,12 @@
 		public bool     $enabled;
 		public bool|int $confirmation;
 
-		public function mount() {
+		public function mount(): void {
 			$this->fill($this->user->only(['forename', 'surname', 'email', 'username', 'enabled']));
 			$this->role = $this->user->role->value;
 		}
 
-		public function updateUser() {
+		public function updateUser(): void {
 			$values = $this->validate(
 				[
 					'forename'     => ['required', 'string'],

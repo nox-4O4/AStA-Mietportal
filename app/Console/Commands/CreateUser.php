@@ -29,7 +29,7 @@
 		/**
 		 * Execute the console command.
 		 */
-		public function handle() {
+		public function handle(): void {
 			$forename = $this->askAndValidate(
 				'What is your first name?',
 				fn($value): bool => strlen(Str::slug($value, '')),

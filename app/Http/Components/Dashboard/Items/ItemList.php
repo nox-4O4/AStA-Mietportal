@@ -4,6 +4,7 @@
 
 	use App\Models\Item;
 	use Illuminate\Contracts\View\View;
+	use Illuminate\Database\Eloquent\Collection;
 	use Livewire\Attributes\Computed;
 	use Livewire\Attributes\Layout;
 	use Livewire\Attributes\Title;
@@ -13,8 +14,11 @@
 	#[Layout('layouts.dashboard')]
 	class ItemList extends Component {
 
+		/**
+		 * @return Collection<Item>
+		 */
 		#[Computed]
-		public function items() {
+		public function items(): Collection {
 			return Item::all()->sortBy('name', SORT_NATURAL); // not using database for sorting as we want to get mutated name (containing optional group name) and use natural sort
 		}
 

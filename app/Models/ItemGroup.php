@@ -5,6 +5,7 @@
 	use App\Util\Helper;
 	use App\Util\Markdown;
 	use Carbon\CarbonImmutable;
+	use Illuminate\Database\Eloquent\Attributes\Fillable;
 	use Illuminate\Database\Eloquent\Casts\Attribute;
 	use Illuminate\Database\Eloquent\Model;
 	use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,17 +20,8 @@
 	 * @property ?CarbonImmutable $created_at
 	 * @property ?CarbonImmutable $updated_at
 	 */
+	#[Fillable('name', 'description')]
 	class ItemGroup extends Model {
-
-		/**
-		 * The attributes that are mass assignable.
-		 *
-		 * @var array<string>
-		 */
-		protected $fillable = [
-			'name',
-			'description',
-		];
 
 		protected function slug(): Attribute {
 			return Attribute::get(fn() => Helper::GetItemSlug($this->name));
