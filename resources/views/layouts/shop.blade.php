@@ -12,9 +12,14 @@
                 <div class="flex-grow-1 px-3 search-bar">
                     <livewire:shop.search-form />
                 </div>
-                <div>
-                    <livewire:shop.cart-badge />
-                </div>
+                {{-- Persisting the cart-badge component between navigation prevents a race condition during checkout.
+                     If the success page loads prior to the (old) card bage being updated, the local storage cart items are not yet cleared as this happens only when the old cart bage is updated.
+                     The success page then renders it's own (new) cart bage component, which leads to $wire.persist updating the cart repository with the (old) local storage data.
+                     By having the cart badge component persisted between page loads, the success page won't render a new cart bage component. It will instead use the existing one,
+                     where the update will lead to the local storage cart items being cleared. --}}
+                @persist('cart-badge')
+                <livewire:shop.cart-badge />
+                @endpersist
             </div>
         </div>
         @php($disabledDate = DisabledDate::getOverlappingRanges(\Carbon\CarbonImmutable::now()) ->first(fn(DisabledDate $d) => trim($d->site_notice) != ''))
