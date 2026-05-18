@@ -5,6 +5,7 @@
 	use App\Contracts\PriceCalculation;
 	use App\Models\User;
 	use App\Util\DTOSynth;
+	use App\Util\Helper;
 	use App\Util\Markdown;
 	use Auth;
 	use Carbon\CarbonImmutable;
@@ -16,8 +17,6 @@
 	use Illuminate\Support\Facades\Gate;
 	use Illuminate\Support\ServiceProvider;
 	use Illuminate\Validation\Rules\Password;
-	use IntlDateFormatter;
-	use IntlDatePatternGenerator;
 	use League\Config\Exception\InvalidConfigurationException;
 	use Livewire\Livewire;
 
@@ -81,11 +80,8 @@
 				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
 				 * @var CarbonImmutable $date
 				 */
-				$date    = self::this();
-				$locale  = config('app.locale');
-				$pattern = IntlDatePatternGenerator::create($locale)->getBestPattern('ddMMyyyy');
-
-				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
+				$date = self::this();
+				return Helper::getDateFormatter('ddMMyyyy')->format($date);
 			});
 
 			CarbonImmutable::macro('formatLocalTime', static function (bool $seconds = true): string {
@@ -93,11 +89,8 @@
 				 * @noinspection PhpUndefinedMethodInspection it's defined in carbon macro context
 				 * @var CarbonImmutable $date
 				 */
-				$date    = self::this();
-				$locale  = config('app.locale');
-				$pattern = IntlDatePatternGenerator::create($locale)->getBestPattern('jjmm' . ($seconds ? 'ss' : ''));
-
-				return IntlDateFormatter::create($locale, pattern: $pattern)->format($date);
+				$date = self::this();
+				return Helper::getDateFormatter('jjmm' . ($seconds ? 'ss' : ''))->format($date);
 			});
 
 			Event::listen('cache:clearing', function (string|null $storeName, array $tags) {

@@ -206,12 +206,12 @@
 		}
 
 		public function firstStart(): Attribute {
-			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems()->reorder('start')->first()?->start)
+			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems->min(fn(OrderItem $item) => $item->start))
 			                ->shouldCache();
 		}
 
 		public function lastEnd(): Attribute {
-			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems()->reorder('end', 'desc')->first()?->end)
+			return Attribute::get(fn(): ?CarbonImmutable => $this->orderItems->max(fn(OrderItem $item) => $item->end))
 			                ->shouldCache();
 		}
 

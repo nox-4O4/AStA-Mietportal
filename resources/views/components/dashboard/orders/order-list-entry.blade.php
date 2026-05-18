@@ -15,13 +15,13 @@
     <th data-responsive-priority="40" data-orderable="false" data-searchable="false" data-width="0px">&nbsp;</th>
 @else
     <td data-sort="{{$element->id}}" class="text-left">#{{$element->id}}</td>
-    <td data-sort="{{$element->created_at?->format('c')}}">{{$element->created_at}}</td>
+    <td data-sort="{{$element->created_at?->timestamp}}">{{$element->created_at}}</td>
     <td>{{$element->customer->name}}</td>
     <td>{{$element->event_name}}</td>
-    <td data-sort="{{$element->firstStart?->format('c')}}">{{$element->firstStart}}</td>
-    <td data-sort="{{$element->lastEnd?->format('c')}}">{{$element->lastEnd}}</td>
+    <td data-sort="{{$element->firstStart?->timestamp}}">{{$element->firstStart}}</td>
+    <td data-sort="{{$element->lastEnd?->timestamp}}">{{$element->lastEnd}}</td>
     <td data-sort="{{(int)(($total = $element->orderItems->sum('price'))*100)}}">@money($total)</td>
-    <td data-sort="{{array_search($element->status, OrderStatus::cases())}}" data-search="{{$element->status->value}} {{$element->status->getShortName()}}">
+    <td data-sort="{{$element->status->getSortIndex()}}" data-search="{{$element->status->value}} {{$element->status->getShortName()}}">
         <x-dashboard.orders.status-badge :status="$element->status" />
     </td>
     <td>

@@ -6,6 +6,8 @@
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Str;
+	use IntlDateFormatter;
+	use IntlDatePatternGenerator;
 
 	class Helper {
 		public static function GetItemSlug(string $name): string {
@@ -53,5 +55,25 @@
 			$dompdf->render();
 
 			return $dompdf;
+		}
+
+		/**
+		 * Returns a localized date formatter for the corresponding ICU pattern skeleton.
+		 * See https://unicode.org/reports/tr35/tr35-dates.html#Date_Field_Symbol_Table for possible skeleton pattern values.
+		 *
+		 * @param string $skeleton A pattern skeleton according to ICU
+		 *
+		 * @return IntlDateFormatter Returns a (possibly cached) date formatter instance.
+		 */
+		public static function getDateFormatter(string $skeleton): IntlDateFormatter {
+			static $formatters;
+
+			if(!isset($formatters[$skeleton])) {
+				$locale                = config('app.locale');
+				$pattern               = IntlDatePatternGenerator::create($locale)->getBestPattern($skeleton);
+				$formatters[$skeleton] = IntlDateFormatter::create($locale, pattern: $pattern);
+			}
+
+			return $formatters[$skeleton];
 		}
 	}
