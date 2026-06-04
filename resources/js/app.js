@@ -11,7 +11,7 @@ export * from './LivewireExtensions'
 window.CreateDataTable = CreateDataTable
 window.bootstrap = bootstrap
 window.Swiper = Swiper
-AirDatepicker.DefaultLocale = LocaleDE
+AirDatepicker.DefaultLocale = LocaleDE.default
 window.AirDatepicker = AirDatepicker
 
 // adjust darkmode theme when browser proferences change
