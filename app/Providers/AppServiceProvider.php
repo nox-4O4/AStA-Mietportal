@@ -7,10 +7,10 @@
 	use App\Util\DTOSynth;
 	use App\Util\Helper;
 	use App\Util\Markdown;
-	use Auth;
 	use Carbon\CarbonImmutable;
 	use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 	use Illuminate\Foundation\Application;
+	use Illuminate\Support\Facades\Auth;
 	use Illuminate\Support\Facades\Blade;
 	use Illuminate\Support\Facades\Date;
 	use Illuminate\Support\Facades\Event;

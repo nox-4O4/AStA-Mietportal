@@ -6,10 +6,10 @@
 	use App\Models\User;
 	use Illuminate\Console\Command;
 	use Illuminate\Support\Facades\Hash;
+	use Illuminate\Support\Facades\Validator;
 	use Illuminate\Support\Str;
 	use Illuminate\Validation\Rule;
 	use Illuminate\Validation\Rules\Password;
-	use Validator;
 
 	class CreateUser extends Command {
 		/**
