@@ -14,7 +14,7 @@
     <li class="breadcrumb-item">Übersicht</li>
 </x-slot:breadcrumbs>
 
-<div>
+<div x-data="orderlist_handler">
     <h1 class="mb-4">Bestellungen</h1>
 
     <x-status-message />
@@ -79,60 +79,61 @@
 
 @script
 <script>
-    (() => {
-        const defaultTarget = 'pending' // default filter to check when all options got unchecked. Only relevant when buttons are checkboxes instead of radio buttons
-        const container = document.getElementsByClassName('filter-button-container')[0]
-
-        if (!container)
-            return;
-
-        container.addEventListener('change', event => {
-            const target = event.target
-
-            // check datatable initialisation
-            const table = $('#dt-order-list').DataTable()
-            if (!table.ready()) { // revert changes
-                target.checked = !target.checked
-                event.stopPropagation()
-                event.preventDefault()
-
+    Alpine.data('orderlist_handler', () => ({
+        init() {
+            const defaultTarget = 'pending' // default filter to check when all options got unchecked. Only relevant when buttons are checkboxes instead of radio buttons
+            const container = document.getElementsByClassName('filter-button-container')[0]
+            if (!container)
                 return;
-            }
 
-            // synchronize state of small buttons (mobile) and large buttons
-            container.querySelectorAll(`[data-filter-target="${target.dataset.filterTarget}"]`).forEach(e => e.checked = target.checked)
+            container.addEventListener('change', event => {
+                const target = event.target
 
-            // when we got checkboxes instead of radio boxes additional constraints have to be checked
-            if (container.querySelector('[data-filter-target][type="checkbox"]')) {
-                // if none are checked, check default one
-                if (!container.querySelector('input:checked'))
-                    container.querySelectorAll(`[data-filter-target="${defaultTarget}"]`).forEach(e => e.checked = true)
+                // check datatable initialisation
+                const table = $('#dt-order-list').DataTable()
+                if (!table.ready()) { // revert changes
+                    target.checked = !target.checked
+                    event.stopPropagation()
+                    event.preventDefault()
 
-                // if "all" got checked, check the other ones
-                else if (target.checked && target.dataset.filterTarget === 'all')
-                    container.querySelectorAll('input').forEach(e => e.checked = true)
+                    return;
+                }
 
-                // if any single category got unchecked, uncheck "all"
-                else if (!target.checked && target.dataset.filterTarget !== 'all')
-                    container.querySelectorAll('[data-filter-target="all"]').forEach(e => e.checked = false)
+                // synchronize state of small buttons (mobile) and large buttons
+                container.querySelectorAll(`[data-filter-target="${target.dataset.filterTarget}"]`).forEach(e => e.checked = target.checked)
 
-                // if "all" got unchecked, make sure only default one remains checked
-                else if (!target.checked && target.dataset.filterTarget === 'all')
-                    container.querySelectorAll('input').forEach(e => e.checked = e.dataset.filterTarget === defaultTarget)
+                // when we got checkboxes instead of radio boxes additional constraints have to be checked
+                if (container.querySelector('[data-filter-target][type="checkbox"]')) {
+                    // if none are checked, check default one
+                    if (!container.querySelector('input:checked'))
+                        container.querySelectorAll(`[data-filter-target="${defaultTarget}"]`).forEach(e => e.checked = true)
 
-                // if the last single category got checked, make sure "all" gets checked as well
-                else if (!container.querySelector('input:not([data-filter-target="all"]):not(:checked)'))
-                    container.querySelectorAll('[data-filter-target="all"]').forEach(e => e.checked = true)
-            }
+                    // if "all" got checked, check the other ones
+                    else if (target.checked && target.dataset.filterTarget === 'all')
+                        container.querySelectorAll('input').forEach(e => e.checked = true)
 
-            // Now we got a consistent set of filter input elements. Generate filter and perform search
-            const expressions = {}
-            container.querySelectorAll('input:checked').forEach(e => expressions[e.dataset.filterTarget] = true)
+                    // if any single category got unchecked, uncheck "all"
+                    else if (!target.checked && target.dataset.filterTarget !== 'all')
+                        container.querySelectorAll('[data-filter-target="all"]').forEach(e => e.checked = false)
 
-            table.column('.status')
-                .search.fixed('statusFilter', Object.hasOwn(expressions, 'all') ? null : new RegExp(Object.keys(expressions).join('|')))
-                .draw()
-        });
-    })()
+                    // if "all" got unchecked, make sure only default one remains checked
+                    else if (!target.checked && target.dataset.filterTarget === 'all')
+                        container.querySelectorAll('input').forEach(e => e.checked = e.dataset.filterTarget === defaultTarget)
+
+                    // if the last single category got checked, make sure "all" gets checked as well
+                    else if (!container.querySelector('input:not([data-filter-target="all"]):not(:checked)'))
+                        container.querySelectorAll('[data-filter-target="all"]').forEach(e => e.checked = true)
+                }
+
+                // Now we got a consistent set of filter input elements. Generate filter and perform search
+                const expressions = {}
+                container.querySelectorAll('input:checked').forEach(e => expressions[e.dataset.filterTarget] = true)
+
+                table.column('.status')
+                    .search.fixed('statusFilter', Object.hasOwn(expressions, 'all') ? null : new RegExp(Object.keys(expressions).join('|')))
+                    .draw()
+            });
+        }
+    }))
 </script>
 @endscript
