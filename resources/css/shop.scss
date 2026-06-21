@@ -56,13 +56,38 @@
   --bs-breadcrumb-divider: '—';
 }
 
-// hide logo on small screens when search input is not empty
-@media (max-width: 360px) {
-  .shop .logo-small {
-    transition: width 0.5s ease-out;
+// hide logo and dashboard icon on small screens when search input is not empty
+@media (max-width: 380px) {
+  .shop-topbar {
+    .logo-small {
+      // need to change max-width to be visually in sync with dashboard button, as that's the constraining property for the logo
+      transition: max-width 0.25s ease-out;
+    }
 
-    &:has(+ .search-bar input:not(:placeholder-shown)), &:has(+ .search-bar input:not(.initialEmpty)) {
-      width: 0;
+    .dashboard-button span {
+      transition: width 0.25s ease-out;
+    }
+
+    .dashboard-button i {
+      transition: font-size 0.25s ease-out;
+    }
+
+    &:has(.search-bar input:not(:placeholder-shown)), &:has(.search-bar input:not(.initialEmpty)) {
+      .logo-small {
+        max-width: 0;
+      }
+
+      .dashboard-button span {
+        width: 0;
+      }
+
+      .dashboard-button i {
+        font-size: 0;
+      }
+
+      .search-bar + div {
+        gap: 0 !important;
+      }
     }
   }
 }
