@@ -16,7 +16,7 @@
                     @auth
                         <a class="h-100 d-flex align-items-center dashboard-button" href="{{route(config('shop.dashboard.defaultRoute'))}}" title="Dashboard" wire:navigate>
                             <span class="me-1 d-none d-md-inline">Dashboard</span>
-                            <span class="fa-stack fa-lg h-100 text-body">{{-- fa-stack is only used to ensure same look and sizing as cart badge icon --}}
+                            <span class="fa-stack fa-lg h-100 text-secondary-emphasis">{{-- fa-stack is only used to ensure same look and sizing as cart badge icon --}}
                                 <i class="fa-solid fa-table-list fa-stack-1x fa-xl"></i>
                             </span>
                         </a>
